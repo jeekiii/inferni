@@ -1,0 +1,4 @@
+resolutionyaxis=768
+resolutionxaxis=1366
+fullscreen=0
+speed=3
