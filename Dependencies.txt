@@ -1,3 +1,11 @@
+
+main.cpp: main function, call it to start the game
+	depends:
+	-SDL.h
+	-Core/global.hpp
+	-Core/game.hpp
+
+
 Config: contains user preferences.
 Core: Core of the game engine
 	-display_manager.cpp: Core function to deal with displaying things. Classes inherited by the specific states.
@@ -70,4 +78,3 @@ Util: contains all the function and objects that may be needed in various part o
 		depends:
 		-image_func.hpp
 		-../Core/global.hpp
-		
