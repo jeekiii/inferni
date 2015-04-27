@@ -1,0 +1,73 @@
+Config: contains user preferences.
+Core: Core of the game engine
+	-display_manager.cpp: Core function to deal with displaying things. Classes inherited by the specific states.
+		depends:
+		-SDL.h
+		-global.hpp
+		-display_manager.hpp
+		-intro_state.hpp
+	-game.cpp: Main loop of the game.
+		depends:
+		-game.hpp
+		-display_manager.hpp
+	-game_state.cpp: State of the game class, only there to be inherited by other classes
+		depends:
+		-game_state.hpp
+	-global.cpp
+		depends:
+		-global.hpp
+		-SDL.h
+	-intro_state.cpp: Intro screen.
+		depends:
+		-SDL.h
+		-global.hpp
+		-../Util/image_func.hpp
+		-../Util/fps_counter.hpp
+		-intro_state.hpp
+		-play_state.hpp
+	-menu_state.cpp: Menu screen
+		depends:
+		-menu_state.hpp
+		-global.hpp
+		-../Util/image_func.hpp
+		-../Util/fps_counter.hpp
+	-game_state.cpp: Deals with the real gameplay, etc..
+		depends:
+		-global.hpp
+		-play_state.hpp
+		-menu_state.hpp
+		-../Util/image_func.hpp
+		-../Util/fps_counter.hpp
+		-../Objects/wall.hpp
+		-../Objects/creature.hpp
+		-../Objects/object.hpp
+		-../Objects/collision_object.hpp
+Fonts: what the name says
+Images: what the name says
+Objects: contains the elements of the game such as items, pnj, and the main player.
+	-collision_object.cpp: currently empty, probably to delete?
+	-creature.cpp: creature objects, player inherits from that.
+		depends:
+		-object.hpp
+		-movable_object.hpp
+		-creature.hpp
+		-../Util/image_func.hpp
+		-../Core/global.hpp
+	-movable_object.cpp: currently empty, probably to delete?
+	-wall.cpp: wall objects.
+		depends:
+		-object.hpp
+		-collision_object.hpp
+		-wall.hpp
+		-../Util/image_func.hpp
+		-../Core/global.hpp
+Util: contains all the function and objects that may be needed in various part of the game, but don't really define an aspect of the game.
+	-fps_counter.cpp what the name says
+		depends:
+		-fps_counter.hpp
+		-SDL.h
+	-image_func.cpp: deals with images, load them, apply transparency, etc...
+		depends:
+		-image_func.hpp
+		-../Core/global.hpp
+		
