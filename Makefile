@@ -12,7 +12,6 @@ EXEC = InferniGame
 
 MKDIR = mkdir -p
 BUILDDEST = build
-BINDEST = bin
 
 
 rebuild: clean game
@@ -31,16 +30,15 @@ Objects/%.o: Objects/%.cpp folders
 
 
 game: $(OBJ) folders
-	$(CC) $(ARG) $(addprefix build/,$(OBJ)) -o bin/$(EXEC) $(LSDL)
+	$(CC) $(ARG) $(addprefix build/,$(OBJ)) -o $(EXEC) $(LSDL)
 
 folders:
 	$(MKDIR) build
-	$(MKDIR) bin
 	$(MKDIR) build/Core
 	$(MKDIR) build/Util
 	$(MKDIR) build/Objects
 
 clean:
-	rm -rf $(BUILDDEST) $(BINDEST)
+	rm -rf $(BUILDDEST)
 
 .PHONY: rebuild clean folders
