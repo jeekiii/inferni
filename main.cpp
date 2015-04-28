@@ -4,7 +4,7 @@ Unless otherwise required, normally you will never modify this file
 */
 
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "Core/global.hpp"
 #include "Core/game.hpp"
 

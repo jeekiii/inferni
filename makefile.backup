@@ -1,0 +1,13 @@
+ARG = -Wall -Werror -MD
+CC = g++
+LIBS = -lSDL2
+
+rebuild: clean game
+
+game: main.o
+	$(CC) $(ARG) main.o -o programme $(LIBS)
+
+
+
+clean:
+	rm -rf *.o *.c~

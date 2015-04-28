@@ -1,6 +1,6 @@
 
 #include "fps_counter.hpp"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 
 void cFPSCounter::StartCount()

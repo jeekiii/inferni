@@ -6,7 +6,7 @@
 #ifndef _DISPLAY_MANAGER_HPP_
     #define _DISPLAY_MANAGER_HPP_
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include <vector>
 #include "global.hpp"
 #include "game_state.hpp"

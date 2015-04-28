@@ -4,7 +4,7 @@
 #include "display_manager.hpp"
 #include "global.hpp"
 #include "intro_state.hpp"
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 cDisplayManager::cDisplayManager()
 {

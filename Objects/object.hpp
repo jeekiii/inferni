@@ -6,7 +6,7 @@ for example, human, wall, flower....
 
 #ifndef _OBJECT_HPP_
     #define _OBJECT_HPP_
-#include <SDL.h>
+#include <SDL2/SDL.h>
 
 class cObject
 {

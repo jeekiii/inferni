@@ -8,7 +8,7 @@ included into other cpp files
 
 #include "game_state.hpp"
 #include <vector>
-#include <SDL.h>
+#include <SDL2/SDL.h>
 namespace Global
 {
 extern SDL_Window *screen;

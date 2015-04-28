@@ -1,7 +1,7 @@
 /// *********************16/02/2013***********************///
 
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 #include "global.hpp"
 #include "../Util/image_func.hpp"
 #include "../Util/fps_counter.hpp"

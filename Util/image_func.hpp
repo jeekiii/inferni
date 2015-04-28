@@ -7,7 +7,7 @@ used for ease of processing images
 #ifndef _IMAGE_FUNC_HPP_
     #define _IMAGE_FUNC_HPP_
 
-#include <SDL.h>
+#include <SDL2/SDL.h>
 namespace ImageFunc
 {
 
