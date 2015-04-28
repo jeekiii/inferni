@@ -39,6 +39,6 @@ folders:
 	$(MKDIR) build/Objects
 
 clean:
-	rm -rf $(BUILDDEST)
+	rm -rf $(BUILDDEST) $(EXEC)
 
-.PHONY: rebuild clean folders
+.PHONY: rebuild clean folders game
