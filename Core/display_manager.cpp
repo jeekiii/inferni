@@ -8,8 +8,8 @@
 
 cDisplayManager::cDisplayManager()
 {
-    Global::screen= SDL_CreateWindow("Our Game",100,100,Global::screen_width, Global::screen_height,SDL_WINDOW_OPENGL);
-    Global::renderer=SDL_CreateRenderer(Global::screen,-1,SDL_RENDERER_SOFTWARE);
+    Global::screen= SDL_CreateWindow("Our Game",100,100,Global::screen_width, Global::screen_height,0);
+    Global::renderer=SDL_CreateRenderer(Global::screen,-1,0);
     
     cIntroState *p_intro=new cIntroState;
     p_intro->OnInit();

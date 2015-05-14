@@ -53,9 +53,9 @@ void cMenuState::OnEvent()
 
 void cMenuState::OnRender()
 {
-    SDL_RenderClear(Global::renderer);
-        ImageFunc::RenderTexture(0,0,m_tex_bg,Global::renderer);
-    SDL_RenderPresent(Global::renderer);
+    //SDL_RenderClear(Global::renderer);
+    //    ImageFunc::RenderTexture(0,0,m_tex_bg,Global::renderer);
+    //SDL_RenderPresent(Global::renderer);
 }
 
 

@@ -21,7 +21,7 @@ cWall::~cWall()
 
 void cWall::Draw()
 {
-        for(int j=3;j<7;j++)
+/*        for(int j=3;j<7;j++)
         {
             ImageFunc::RenderTexture(j*XSCALE,8*YSCALE,img,Global::renderer);
         }
@@ -43,5 +43,5 @@ void cWall::Draw()
             ImageFunc::RenderTexture(j*XSCALE,(18+i)*YSCALE,img,Global::renderer);
         }
 
-    }
+    }*/
 }

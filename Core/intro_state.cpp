@@ -1,20 +1,19 @@
 /// *********************16/02/2013***********************///
 
 
-#include <SDL2/SDL.h>
-#include "global.hpp"
-#include "../Util/image_func.hpp"
-#include "../Util/fps_counter.hpp"
-
 #include "intro_state.hpp"
-#include "play_state.hpp"
 
 
 int cIntroState::OnInit()
 {
+    coord position = {0, 0, 100, 100};
     m_tex_bg=ImageFunc::LoadSprites("Images/IntroPage.bmp");
     mp_fps=new cFPSCounter(25);
     mp_fps->StartCount();
+    button.Init(position, "Images/Button.bmp");
+    positionBg.x = 0;
+    positionBg.y = 0;
+    SDL_QueryTexture(m_tex_bg, NULL, NULL, &positionBg.w, &positionBg.h);
 
 return 0;
 }
@@ -65,7 +64,9 @@ void cIntroState::OnEvent()
 
 void cIntroState::OnRender()
 {
-    ImageFunc::RenderTexture(0,0,m_tex_bg,Global::renderer);
+    SDL_RenderClear(Global::renderer);
+    ImageFunc::RenderTexture(m_tex_bg,Global::renderer, false, positionBg, positionBg);
+    //button.OnRender();
     SDL_RenderPresent(Global::renderer);
 }
 

@@ -21,5 +21,5 @@ cCreature::~cCreature()
 
 void cCreature::Draw()
 {
-     ImageFunc::RenderTexture(3*XSCALE,15*YSCALE,img,Global::renderer);
+     //ImageFunc::RenderTexture(3*XSCALE,15*YSCALE,img,Global::renderer);
 }

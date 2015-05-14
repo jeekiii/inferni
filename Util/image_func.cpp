@@ -1,7 +1,7 @@
 
 //#include <SDL_image.h>
 #include "image_func.hpp"
-#include "../Core/global.hpp"
+
 
 // load images from file to the SDL_surface memory
 SDL_Texture* ImageFunc::LoadSprites(const char* filemame,bool alpha,int r, int g, int b)
@@ -24,25 +24,22 @@ SDL_Texture* ImageFunc::LoadSprites(const char* filemame,bool alpha,int r, int g
 
 
 
-int ImageFunc::RenderTexture(int dx, int dy, SDL_Texture*src, SDL_Renderer*des, bool clip,int cx, int cy,int cw, int ch)
+int ImageFunc::RenderTexture(SDL_Texture*src, SDL_Renderer*des, bool clip, coord position, coord toClip)//where does clip comes from?? why is it here?
 {
-        SDL_Rect rc_d;
-        rc_d.x=dx;
-        rc_d.y=dy;
-
+        SDL_Rect rectPosition = Tools::coordToRect(position);
         if(clip)
         {
-            SDL_Rect rc_s;
-            rc_s.x=cx;
-            rc_s.y=cy;
-            rc_s.w=cw;
-            rc_s.h=ch;
-            SDL_RenderCopy(des,src,NULL,&rc_d);
+            SDL_Rect rectToClip = Tools::coordToRect(toClip);
+
+
+            SDL_RenderCopy(des,src, &rectToClip, &rectPosition);
         }
 
         else
-           SDL_RenderCopy(des,src,NULL,&rc_d);
-
+        {
+            SDL_RenderCopy(des,src,NULL, &rectPosition);
+        }
+        
         return 0;
 }
 

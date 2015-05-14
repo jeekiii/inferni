@@ -73,12 +73,12 @@ void cPlayState::OnEvent()
 
 void cPlayState::OnRender()
 {
-    SDL_RenderClear(Global::renderer);
+    /*SDL_RenderClear(Global::renderer);
         ImageFunc::RenderTexture(0,0,m_tex_bg,Global::renderer);
                 m_creature->Draw();
                 m_wall->Draw();
         
-    SDL_RenderPresent(Global::renderer);
+    SDL_RenderPresent(Global::renderer);*/
 }
 
 
