@@ -26,10 +26,10 @@ SDL_Texture* ImageFunc::LoadSprites(const char* filemame,bool alpha,int r, int g
 
 int ImageFunc::RenderTexture(SDL_Texture*src, SDL_Renderer*des, bool clip, coord position, coord toClip)//where does clip comes from?? why is it here?
 {
-        SDL_Rect rectPosition = Tools::coordToRect(position);
+        SDL_Rect rectPosition = Tools::CoordToRect(position);
         if(clip)
         {
-            SDL_Rect rectToClip = Tools::coordToRect(toClip);
+            SDL_Rect rectToClip = Tools::CoordToRect(toClip);
 
 
             SDL_RenderCopy(des,src, &rectToClip, &rectPosition);

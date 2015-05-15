@@ -19,7 +19,8 @@ class cIntroState:public cGameState
 {
     private:
         SDL_Texture* m_tex_bg;      //abbrev: member-surface-background
-        cButton button;
+        cButton buttonPlay;
+        coord positionBg;
     public:
         cIntroState(){;}
         ~cIntroState(){;};

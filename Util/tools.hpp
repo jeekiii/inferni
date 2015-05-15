@@ -12,9 +12,9 @@ typedef struct coord
 
 namespace Tools
 {
-	bool collision(coord coord1,coord coord2);
-	SDL_Rect coordToRect(coord c);
-	coord rectToCoord(SDL_Rect c);
+	bool Collision(coord coord1,coord coord2);
+	SDL_Rect CoordToRect(coord c);
+	coord RectToCoord(SDL_Rect c);
 }
 
 

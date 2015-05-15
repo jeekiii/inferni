@@ -6,11 +6,11 @@
 
 int cIntroState::OnInit()
 {
-    coord position = {0, 0, 100, 100};
+    coord positionPlay = {0, 0, 100, 100};
     m_tex_bg=ImageFunc::LoadSprites("Images/IntroPage.bmp");
     mp_fps=new cFPSCounter(25);
     mp_fps->StartCount();
-    button.Init(position, "Images/Button.bmp");
+    buttonPlay.Init(positionPlay, "Images/ButtonPlay.bmp");
     positionBg.x = 0;
     positionBg.y = 0;
     SDL_QueryTexture(m_tex_bg, NULL, NULL, &positionBg.w, &positionBg.h);
@@ -35,25 +35,40 @@ void cIntroState::OnEvent()
             switch (event.type)
             {
                 case SDL_QUIT:
-                        Global::state.clear();   /// need cleanup !!!
-                    break;
+                    Global::state.clear();   /// need cleanup !!!
+                break;
                 case SDL_KEYDOWN:
+                {
+                    if(event.key.keysym.sym==SDLK_y)
                     {
-                        if(event.key.keysym.sym==SDLK_y)
-                        {
-                            cPlayState *p_play=new cPlayState;
-                            p_play->OnInit();
-                            Global::state.push_back(p_play);
-                        }
-
-                       if(event.key.keysym.sym==SDLK_q)
-                        {
-                                Global::state.back()->OnCleanUp();
-                                delete Global::state.back();
-                                Global::state.pop_back();
-                        }
+                        cPlayState *p_play=new cPlayState;
+                        p_play->OnInit();
+                        Global::state.push_back(p_play);
                     }
-                    break;
+
+                   if(event.key.keysym.sym==SDLK_q)
+                    {
+                            Global::state.back()->OnCleanUp();
+                            delete Global::state.back();
+                            Global::state.pop_back();
+                    }
+                }
+                break;
+                case SDL_MOUSEBUTTONDOWN:
+                {
+                    coord mousePosition;
+                    mousePosition.h = 1;
+                    mousePosition.w = 1;
+                    mousePosition.x = event.motion.x;
+                    mousePosition.y = event.motion.y;
+                    if(buttonPlay.IsClicked(mousePosition))
+                    {
+                        cPlayState *p_play=new cPlayState;
+                        p_play->OnInit();
+                        Global::state.push_back(p_play);
+                    }
+                }   
+                break;
             } //end of switch
 
         } //end of event
@@ -66,7 +81,7 @@ void cIntroState::OnRender()
 {
     SDL_RenderClear(Global::renderer);
     ImageFunc::RenderTexture(m_tex_bg,Global::renderer, false, positionBg, positionBg);
-    //button.OnRender();
+    buttonPlay.OnRender();
     SDL_RenderPresent(Global::renderer);
 }
 

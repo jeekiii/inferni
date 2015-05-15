@@ -10,6 +10,7 @@
 #include <vector>
 #include "global.hpp"
 #include "game_state.hpp"
+#include "intro_state.hpp"
 
 
 class cDisplayManager
