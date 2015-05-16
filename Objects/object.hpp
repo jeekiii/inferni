@@ -7,21 +7,16 @@ for example, human, wall, flower....
 #ifndef _OBJECT_HPP_
     #define _OBJECT_HPP_
 #include <SDL2/SDL.h>
-
+#include "../Util/tools.hpp"
 class cObject
 {
-  protected:
-    //grid position of the object
-        int xGrid;
-        int yGrid;
-    //x position= xGrid*xScale;
-        static const int XSCALE=40;
-        static const int YSCALE=30;
-
+    protected:
         SDL_Texture *img;
-
+        coord position;
     public:
-
+        void OnRender();
+        void OnMove();
+        void Reaction(cObject object);
 };
 
 #endif

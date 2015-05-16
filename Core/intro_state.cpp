@@ -63,7 +63,6 @@ void cIntroState::OnEvent()
                     mousePosition.y = event.motion.y;
                     if(buttonPlay.IsClicked(mousePosition))
                     {
-                        printf("here");
                         cPlayState *p_play=new cPlayState;
                         p_play->OnInit();
                         Global::state.push_back(p_play);

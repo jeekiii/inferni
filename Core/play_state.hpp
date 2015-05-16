@@ -6,6 +6,17 @@ cGameState->cPlayState
 
 #ifndef _PLAYSTATE_HPP_
     #define _PLAYSTATE_HPP_
+#include "menu_state.hpp"
+#include "../Util/image_func.hpp"
+#include "../Util/fps_counter.hpp"
+#include "../Util/tools.hpp"
+
+#include "../Objects/wall.hpp"
+#include "../Objects/creature.hpp"
+
+#include "../Objects/object.hpp"
+#include "global.hpp"
+
 class cCreature;
 class cGameState;
 class cWall;
@@ -18,8 +29,8 @@ class cPlayState:public cGameState
 
     //other members
     private:
-        cWall *m_wall;
-        cCreature *m_creature;
+        std::vector<cObject> objects;
+        coord positionBg;
 
     public:
       //  cPlayState();

@@ -1,10 +1,8 @@
 /// *********************16/02/2013***********************///
 
-
-#include "object.hpp"
-#include "collision_object.hpp"
 #include "wall.hpp"
 
+#include "object.hpp"
 #include "../Util/image_func.hpp"
 #include "../Core/global.hpp"
 

@@ -5,7 +5,7 @@ LSDL = -lSDL2
 
 COREOBJ = Core/display_manager.o Core/game.o Core/game_state.o Core/global.o Core/intro_state.o Core/menu_state.o Core/play_state.o
 UTILOBJ = Util/fps_counter.o Util/image_func.o Util/tools.o Util/button.o
-OBJECTOBJ = Objects/collision_object.o Objects/creature.o Objects/movable_object.o Objects/wall.o
+OBJECTOBJ = Objects/creature.o Objects/wall.o
 MAINOBJ = main.o
 OBJ = $(COREOBJ) $(MAINOBJ) $(UTILOBJ) $(OBJECTOBJ)
 EXEC = InferniGame

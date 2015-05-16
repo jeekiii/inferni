@@ -6,12 +6,9 @@ cObject->cCollisionObject->cWall
 
 #ifndef _WALL_HPP_
     #define _WALL_HPP_
-#include "collision_object.hpp"
-
-class cObject;
-class cCollisionObject;
-
-class cWall:public cCollisionObject
+#include "../Objects/object.hpp"
+#include "../Util/tools.hpp"
+class cWall: public cObject
 {
     public:
         cWall();

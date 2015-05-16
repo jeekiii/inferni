@@ -1,43 +1,31 @@
 /// *********************16/02/2013***********************///
 
 
-#include "global.hpp"
 #include "play_state.hpp"
-#include "menu_state.hpp"
-#include "../Util/image_func.hpp"
-#include "../Util/fps_counter.hpp"
 
-#include "../Objects/wall.hpp"
-#include "../Objects/creature.hpp"
-
-#include "../Objects/object.hpp"
-#include "../Objects/collision_object.hpp"
 
 
 int cPlayState::OnInit()
 {
-m_tex_bg=NULL;
-m_tex_bg=ImageFunc::LoadSprites("Images/Map1.bmp");
-
-//init other members
-m_wall=new cWall;
-m_creature=new cCreature;
+    m_tex_bg=NULL;
+    m_tex_bg=ImageFunc::LoadSprites("Images/Map1.bmp");
 
     mp_fps=new cFPSCounter(25);
     mp_fps->StartCount();
-return 0;
+    positionBg.x = 0;
+    positionBg.y = 0;
+    SDL_QueryTexture(m_tex_bg, NULL, NULL, &positionBg.w, &positionBg.h);
+    return 0;
 }
 
 
 int cPlayState::OnCleanUp()
 {
-    delete m_wall;
-    delete m_creature;
 
+    objects.clear();
     delete mp_fps;
-
     SDL_DestroyTexture(m_tex_bg);
-return 0;
+    return 0;
 }
 
 
@@ -73,19 +61,15 @@ void cPlayState::OnEvent()
 
 void cPlayState::OnRender()
 {
-    /*SDL_RenderClear(Global::renderer);
-        ImageFunc::RenderTexture(0,0,m_tex_bg,Global::renderer);
-                m_creature->Draw();
-                m_wall->Draw();
-        
-    SDL_RenderPresent(Global::renderer);*/
+    SDL_RenderClear(Global::renderer);
+    ImageFunc::RenderTexture(m_tex_bg,Global::renderer, false, positionBg, positionBg);        
+    SDL_RenderPresent(Global::renderer);
 }
 
 
 void cPlayState::OnUpdate()
 {
     mp_fps->CheckFPS();
-
     mp_fps->GetNewTick();
 return;
 }

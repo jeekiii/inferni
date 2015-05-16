@@ -7,18 +7,18 @@ cObject->cMovableObject->cCreature
 
 #ifndef _CREATURE_HPP_
     #define _CREATURE_HPP_
-#include "movable_object.hpp"
+#include "../Util/image_func.hpp"
+#include "../Core/global.hpp"
+#include "../Objects/object.hpp"
 
-class cObject;
-class cMovableObject;
-
-class cCreature: public cMovableObject
+class cCreature:public cObject
 {
+	private:
+		SDL_Texture* image
+		; 
     public:
         cCreature();
         ~cCreature();
-
-    public:
         void Draw();
 };
 
