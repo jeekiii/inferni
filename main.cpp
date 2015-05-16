@@ -11,5 +11,6 @@ Unless otherwise required, normally you will never modify this file
 int main ( int argc, char** argv )
 {
 cGame theGame;
-return theGame.Run();
+theGame.Run();
+return 0;
 }

@@ -5,43 +5,43 @@
 
 cGame::cGame()
 {
-    SDL_Init( SDL_INIT_VIDEO );
+    OnInit();
 }
 
 cGame::~cGame()
 {
+    delete displayManager;
     SDL_Quit();
-    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR,
-                         "GOOD",
-                         "EXIT CLEARLY",
-                         NULL);}
-
-
-int cGame::OnInitCmd()
-{
-return 0;
+    SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "GOOD", "EXIT CLEARLY", NULL);
 }
 
 
-int cGame::OnInitGlobal()
+void cGame::OnInit()
 {
-return 0;
+    SDL_Init( SDL_INIT_VIDEO );
+    displayManager = new cDisplayManager;
+
 }
 
 
 int cGame::Run()
 {
-    //init, cmd_line stuff
 
-//init other global vari
+    cIntroState *p_intro=new cIntroState;
+    p_intro->OnInit();
+    Global::state.push_back(p_intro);
+	
+    while (!Global::state.empty())
+    {
+            Global::state.back()->OnEvent();
+        if (!Global::state.empty())
+            Global::state.back()->OnRender();
+        if (!Global::state.empty())
+            Global::state.back()->OnUpdate();
+    }
 
 
-    //display code
-	cDisplayManager display_manager;
-	display_manager.Display();
-
-
-return 0;
+    return 0;
 }
 
 

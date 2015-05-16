@@ -17,3 +17,8 @@ void cButton::OnRender()
 {
     ImageFunc::RenderTexture(image, Global::renderer, false, position, position);
 }
+
+cButton::~cButton()
+{
+	SDL_DestroyTexture(image);
+}

@@ -18,6 +18,7 @@ class cButton
 		coord position;
 		SDL_Texture *image;
     public:
+    	~cButton();
     	cButton(){;}
     	void Init(coord position, string imagePath);
     	bool IsClicked(coord position);

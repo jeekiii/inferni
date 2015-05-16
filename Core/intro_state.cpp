@@ -6,16 +6,16 @@
 
 int cIntroState::OnInit()
 {
-    coord positionPlay = {0, 0, 100, 100};
+    coord positionPlay = {100, 100, 0, 0}; //position.h and w are automatically calculated!
     m_tex_bg=ImageFunc::LoadSprites("Images/IntroPage.bmp");
     mp_fps=new cFPSCounter(25);
     mp_fps->StartCount();
-    buttonPlay.Init(positionPlay, "Images/ButtonPlay.bmp");
+    buttonPlay.Init(positionPlay, "Images/ButtonPlay.bmp");//must free memory
     positionBg.x = 0;
     positionBg.y = 0;
     SDL_QueryTexture(m_tex_bg, NULL, NULL, &positionBg.w, &positionBg.h);
 
-return 0;
+    return 0;
 }
 
 
@@ -23,7 +23,7 @@ int cIntroState::OnCleanUp()
 {
     delete mp_fps;
     SDL_DestroyTexture(m_tex_bg);
-return 0;
+    return 0;
 }
 
 
@@ -35,6 +35,7 @@ void cIntroState::OnEvent()
             switch (event.type)
             {
                 case SDL_QUIT:
+                    Global::state.back()->OnCleanUp();
                     Global::state.clear();   /// need cleanup !!!
                 break;
                 case SDL_KEYDOWN:
@@ -49,8 +50,7 @@ void cIntroState::OnEvent()
                    if(event.key.keysym.sym==SDLK_q)
                     {
                             Global::state.back()->OnCleanUp();
-                            delete Global::state.back();
-                            Global::state.pop_back();
+                            Global::state.clear();
                     }
                 }
                 break;
@@ -63,6 +63,7 @@ void cIntroState::OnEvent()
                     mousePosition.y = event.motion.y;
                     if(buttonPlay.IsClicked(mousePosition))
                     {
+                        printf("here");
                         cPlayState *p_play=new cPlayState;
                         p_play->OnInit();
                         Global::state.push_back(p_play);
