@@ -14,7 +14,7 @@ MKDIR = mkdir -p
 BUILDDEST = build
 
 
-rebuild: clean game
+rebuild: game clean
 
 Core/%.o: Core/%.cpp folders
 	$(CC) -c -o build/$@ $< $(CFLAGS) $(LSDL)
