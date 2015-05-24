@@ -3,7 +3,7 @@ CFLAGS = -Wall -Werror
 LDFLAGS = -Wall -Werror -MD
 LSDL = -lSDL2
 
-COREOBJ = Core/display_manager.o Core/game.o Core/game_state.o Core/global.o Core/intro_state.o Core/menu_state.o Core/play_state.o
+COREOBJ = Core/display_manager.o Core/game.o Core/game_state.o Core/global.o Core/intro_state.o Core/menu_state.o Core/play_state.o Core/level.o
 UTILOBJ = Util/fps_counter.o Util/image_func.o Util/tools.o Util/button.o
 OBJECTOBJ = Objects/creature.o Objects/wall.o
 MAINOBJ = main.o
@@ -14,7 +14,7 @@ MKDIR = mkdir -p
 BUILDDEST = build
 
 
-rebuild: game clean
+rebuild: clean game
 
 Core/%.o: Core/%.cpp folders
 	$(CC) -c -o build/$@ $< $(CFLAGS) $(LSDL)
