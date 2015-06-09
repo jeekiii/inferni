@@ -14,12 +14,16 @@ cObject->cMovableObject->cCreature
 class cCreature:public cObject
 {
 	private:
-		SDL_Texture* image
-		; 
+		SDL_Texture* image;
     public:
         cCreature();
         ~cCreature();
-        void Draw();
+        void OnInit();
+        void OnRender();
+        void OnMove();
+        void Reaction(cObject *object);
+        coord GetPosition();
+
 };
 
 #endif

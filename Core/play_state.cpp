@@ -7,24 +7,18 @@
 
 int cPlayState::OnInit()
 {
-    m_tex_bg=NULL;
-    m_tex_bg=ImageFunc::LoadSprites("Images/Map1.bmp");
 
     mp_fps=new cFPSCounter(25);
     mp_fps->StartCount();
-    positionBg.x = 0;
-    positionBg.y = 0;
-    SDL_QueryTexture(m_tex_bg, NULL, NULL, &positionBg.w, &positionBg.h);
+    level.OnInit();
     return 0;
 }
 
 
 int cPlayState::OnCleanUp()
 {
-
-    objects.clear();
+    level.OnCleanUp();
     delete mp_fps;
-    SDL_DestroyTexture(m_tex_bg);
     return 0;
 }
 
@@ -62,7 +56,7 @@ void cPlayState::OnEvent()
 void cPlayState::OnRender()
 {
     SDL_RenderClear(Global::renderer);
-    ImageFunc::RenderTexture(m_tex_bg,Global::renderer, false, positionBg, positionBg);        
+    level.OnRender();
     SDL_RenderPresent(Global::renderer);
 }
 
@@ -71,5 +65,5 @@ void cPlayState::OnUpdate()
 {
     mp_fps->CheckFPS();
     mp_fps->GetNewTick();
-return;
+    return;
 }

@@ -10,7 +10,7 @@ Unless otherwise required, normally you will never modify this file
 
 int main ( int argc, char** argv )
 {
-cGame theGame;
-theGame.Run();
-return 0;
+	cGame theGame;
+	theGame.Run();
+	return 0;
 }
