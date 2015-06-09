@@ -1,44 +1,32 @@
-CC = g++
-CFLAGS = -Wall -Werror
-LDFLAGS = -Wall -Werror -MD
-LSDL = -lSDL2
+EXEC    = InferniGame
+CC      = g++
+LD      = ld
+CFLAGS  = -Wall -Werror
+LDFLAGS = -llibstd++ -MD -lSDL2
+MODULES = Core \
+          Util \
+          Objects
 
-COREOBJ = Core/display_manager.o Core/game.o Core/game_state.o Core/global.o Core/intro_state.o Core/menu_state.o Core/play_state.o Core/level.o
-UTILOBJ = Util/fps_counter.o Util/image_func.o Util/tools.o Util/button.o
-OBJECTOBJ = Objects/creature.o Objects/wall.o
-MAINOBJ = main.o
-OBJ = $(COREOBJ) $(MAINOBJ) $(UTILOBJ) $(OBJECTOBJ)
-EXEC = InferniGame
+SRC := $(foreach ssrc,$(MODULES),$(wildcard $(ssrc)/*.cpp)) main.cpp
+OBJ := $(SRC:.cpp=.o)
 
-MKDIR = mkdir -p
-BUILDDEST = build
+.PHONY: rebuild clean directories game
 
+$(EXEC): directories $(OBJ)
+	$(LD) $(LFLAGS) -o $@ $(addprefix build/,$(OBJ))
 
-rebuild: clean game
+all: $(EXEC)
 
-Core/%.o: Core/%.cpp folders
-	$(CC) -c -o build/$@ $< $(CFLAGS) $(LSDL)
+%.o: %.cpp %.hpp
+	$(CC) $(CFLAGS) -c -o build/$@ $<
 
-Util/%.o: Util/%.cpp folders
-	$(CC) -c -o build/$@ $< $(CFLAGS) $(LSDL)
-
-Objects/%.o: Objects/%.cpp folders
-	$(CC) -c -o build/$@ $< $(CFLAGS) $(LSDL)
-
-%.o: %.cpp
-	$(CC) -c -o build/$@ $< $(CFLAGS) $(LSDL)
-
-
-game: $(OBJ) folders
-	$(CC) $(ARG) $(addprefix build/,$(OBJ)) -o $(EXEC) $(LSDL)
-
-folders:
-	$(MKDIR) build
-	$(MKDIR) build/Core
-	$(MKDIR) build/Util
-	$(MKDIR) build/Objects
+directories:
+	mkdir -p build
+	mkdir -p build/Core
+	mkdir -p build/Util
+	mkdir -p build/Objects
 
 clean:
-	rm -rf $(BUILDDEST) $(EXEC)
+	rm -rf build/
 
-.PHONY: rebuild clean folders game
+rebuild: clean game
