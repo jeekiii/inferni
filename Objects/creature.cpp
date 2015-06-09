@@ -6,7 +6,7 @@
 
 cCreature::cCreature()
 {
-    img=ImageFunc::LoadSprites("Images/HeroDown.bmp",true,255,0,0);
+
 }
 
 cCreature::~cCreature()
@@ -15,7 +15,29 @@ cCreature::~cCreature()
 }
 
 
-void cCreature::Draw()
+void cCreature::OnRender()
 {
-     //ImageFunc::RenderTexture(3*XSCALE,15*YSCALE,img,Global::renderer);
+	ImageFunc::RenderTexture(img, Global::renderer, false, position, position);
+}
+
+void cCreature::OnMove()
+{
+
+}
+void cCreature::Reaction(cObject *object)
+{
+	
+}
+
+void cCreature::OnInit()
+{
+	img=ImageFunc::LoadSprites("Images/HeroDown.bmp",true,255,0,0);
+	position.x = 0;
+	position.y = 0;
+	SDL_QueryTexture(img, NULL, NULL, &position.w, &position.h);
+
+}
+coord cCreature::GetPosition()
+{
+	return position;
 }

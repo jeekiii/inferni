@@ -16,6 +16,7 @@ cGameState->cPlayState
 
 #include "../Objects/object.hpp"
 #include "global.hpp"
+#include "../Core/level.hpp"
 
 class cCreature;
 class cGameState;
@@ -23,18 +24,9 @@ class cWall;
 
 class cPlayState:public cGameState
 {
-    //core members
+
     private:
-        SDL_Texture* m_tex_bg;
-
-    //other members
-    private:
-        std::vector<cObject> objects;
-        coord positionBg;
-
-    public:
-      //  cPlayState();
-
+        cLevel level;
     public:
          int OnInit();
          int OnCleanUp();

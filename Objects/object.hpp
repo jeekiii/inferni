@@ -14,9 +14,11 @@ class cObject
         SDL_Texture *img;
         coord position;
     public:
-        void OnRender();
-        void OnMove();
-        void Reaction(cObject object);
+        virtual void OnRender()=0;
+        virtual void OnMove()=0;
+        virtual void Reaction(cObject *object)=0;
+        virtual void OnInit()=0;
+        virtual coord GetPosition()=0;// to know if it's above or under another element when rendering.
 };
 
 #endif
