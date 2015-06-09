@@ -1,8 +1,7 @@
 EXEC    = InferniGame
 CC      = g++
-LD      = ld
 CFLAGS  = -Wall -Werror
-LDFLAGS = -llibstd++ -MD -lSDL2
+LDFLAGS = -MD -lSDL2
 MODULES = Core \
           Util \
           Objects
@@ -13,7 +12,7 @@ OBJ := $(SRC:.cpp=.o)
 .PHONY: rebuild clean directories game
 
 $(EXEC): directories $(OBJ)
-	$(LD) $(LFLAGS) -o $@ $(addprefix build/,$(OBJ))
+	$(CC) $(LFLAGS) -o $@ $(addprefix build/,$(OBJ))
 
 all: $(EXEC)
 
@@ -29,4 +28,4 @@ directories:
 clean:
 	rm -rf build/
 
-rebuild: clean game
+rebuild: clean all
