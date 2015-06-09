@@ -9,10 +9,10 @@ MODULES = Core \
 SRC := $(foreach ssrc,$(MODULES),$(wildcard $(ssrc)/*.cpp)) main.cpp
 OBJ := $(SRC:.cpp=.o)
 
-.PHONY: rebuild clean directories game
+.PHONY: rebuild clean directories
 
 $(EXEC): directories $(OBJ)
-	$(CC) $(LFLAGS) -o $@ $(addprefix build/,$(OBJ))
+	$(CC) $(LDFLAGS) -o $@ $(addprefix build/,$(OBJ))
 
 all: $(EXEC)
 
