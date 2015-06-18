@@ -63,6 +63,7 @@ void cPlayState::OnRender()
 
 void cPlayState::OnUpdate()
 {
+    level.OnUpdate();
     mp_fps->CheckFPS();
     mp_fps->GetNewTick();
     return;

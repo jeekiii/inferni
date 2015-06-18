@@ -12,7 +12,7 @@ OBJ := $(SRC:.cpp=.o)
 .PHONY: rebuild clean directories
 
 $(EXEC): directories $(OBJ)
-	$(CC) $(LDFLAGS) -o $@ $(addprefix build/,$(OBJ))
+	$(CC) -o $@ $(addprefix build/,$(OBJ)) $(LDFLAGS) 
 
 all: $(EXEC)
 
