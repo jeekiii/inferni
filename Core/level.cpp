@@ -6,11 +6,13 @@
 
 int cLevel::OnInit()
 {
-
+	cCreature *creature3=new cCreature;
 	cCreature *creature2=new cCreature;
 	cCreature *creature=new cCreature;
     objects.push_back(creature);
     objects.push_back(creature2);
+    objects.push_back(creature3);
+    
     map=NULL;
     map=ImageFunc::LoadSprites("Images/Map1.bmp");
     positionMap.x = 0;
@@ -32,8 +34,9 @@ int cLevel::OnCleanUp()
 
 void cLevel::OnRender()
 {
+
 	ImageFunc::RenderTexture(map,Global::renderer, false, positionMap, positionMap);
-	std::sort(objects.begin(), objects.end());
+	std::sort(objects.begin(), objects.end(), compareObjects);
 	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
 	{
 		objects[i]->OnRender();

@@ -18,8 +18,9 @@ class cObject
         virtual void OnMove()=0;
         virtual void Reaction(cObject *object)=0;
         virtual void OnInit()=0;
-        coord GetPosition();// to know if it's above or under another element when rendering.
-        bool operator<(cObject *obj2);
+        coord GetPosition();
 };
+
+bool compareObjects(cObject *obj1, cObject *obj2);
 
 #endif
