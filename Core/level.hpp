@@ -4,6 +4,7 @@
 #include <vector>
 #include "../Objects/object.hpp"
 #include "../Util/tools.hpp"
+#include "../Util/command.hpp"
 class cLevel
 {
 	private:
@@ -16,6 +17,7 @@ class cLevel
         int OnCleanUp();
         void OnRender();
         void OnUpdate();
+        void OnEvent(std::vector<int> keys);
 };
 
 

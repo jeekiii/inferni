@@ -11,13 +11,13 @@ cCreature::cCreature()
 
 cCreature::~cCreature()
 {
-    SDL_DestroyTexture(img);
+    SDL_DestroyTexture(image);
 }
 
 
 void cCreature::OnRender()
 {
-	ImageFunc::RenderTexture(img, Global::renderer, false, position, position);
+	ImageFunc::RenderTexture(image, Global::renderer, false, position, position);
 }
 
 void cCreature::OnMove()
@@ -31,13 +31,27 @@ void cCreature::Reaction(cObject *object)
 
 void cCreature::OnInit()
 {
-	img=ImageFunc::LoadSprites("Images/HeroDown.bmp",true,255,0,0);
+	image=ImageFunc::LoadSprites("Images/HeroDown.bmp",true,255,0,0);
 	position.x = rand()%100;
 	position.y = rand()%100;
-	SDL_QueryTexture(img, NULL, NULL, &position.w, &position.h);
+	SDL_QueryTexture(image, NULL, NULL, &position.w, &position.h);
 
 }
-coord cCreature::GetPosition()
+
+void cCreature::OnRIGHT()
 {
-	return position;
+	printf("right");
 }
+void cCreature::OnLEFT()
+{
+	printf("left");
+}
+void cCreature::OnUP()
+{
+	printf("up");
+}
+void cCreature::OnDOWN()
+{
+	printf("down");
+}
+

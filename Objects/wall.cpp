@@ -8,12 +8,12 @@
 
 cWall::cWall()
 {
-    img=ImageFunc::LoadSprites("Images/brick.bmp");
+    image=ImageFunc::LoadSprites("Images/brick.bmp");
 }
 
 cWall::~cWall()
 {
-    SDL_DestroyTexture(img);
+    SDL_DestroyTexture(image);
 }
 
 

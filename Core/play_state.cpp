@@ -23,31 +23,36 @@ int cPlayState::OnCleanUp()
 }
 
 
-void cPlayState::OnEvent()
+void cPlayState::OnEvent()//unappropriate name? It's not a callback!
 {
+        std::vector<int> keys;
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
             switch (event.type)
             {
-            case SDL_QUIT:
-                Global::state.clear();
-                break;
-            case SDL_KEYDOWN:
-                if(event.key.keysym.sym==SDLK_y)
-                {
-                            cMenuState *p_menu=new cMenuState;
-                            p_menu->OnInit();
-                            Global::state.push_back(p_menu);
-                }
+                case SDL_QUIT:
+                    Global::state.clear();
+                    break;
+                case SDL_KEYDOWN:
+                    if(event.key.keysym.sym==SDLK_y)
+                    {
+                                cMenuState *p_menu=new cMenuState;
+                                p_menu->OnInit();
+                                Global::state.push_back(p_menu);
+                    }
 
-                if(event.key.keysym.sym==SDLK_q)
-                {
-                    Global::state.back()->OnCleanUp();
-                    delete Global::state.back();
-                    Global::state.pop_back();
-                }
-                break;
+                    if(event.key.keysym.sym==SDLK_q)
+                    {
+                        Global::state.back()->OnCleanUp();
+                        delete Global::state.back();
+                        Global::state.pop_back();
+                    }
+                    else
+                    {
+                        keys.push_back(event.key.keysym.sym);
+                    }
+                    break;
             }
         }
 }

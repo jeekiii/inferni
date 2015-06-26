@@ -10,11 +10,11 @@ cObject->cMovableObject->cCreature
 #include "../Util/image_func.hpp"
 #include "../Core/global.hpp"
 #include "../Objects/object.hpp"
+#include "../Objects/possessable.hpp"
 
-class cCreature:public cObject
+class cCreature:public cPossessable
 {
 	private:
-		SDL_Texture* image;
     public:
         cCreature();
         ~cCreature();
@@ -22,7 +22,10 @@ class cCreature:public cObject
         void OnRender();
         void OnMove();
         void Reaction(cObject *object);
-        coord GetPosition();
+        void OnUP();
+        void OnDOWN();
+        void OnLEFT();
+        void OnRIGHT();
 
 };
 

@@ -11,7 +11,7 @@ for example, human, wall, flower....
 class cObject
 {
     protected:
-        SDL_Texture *img;
+        SDL_Texture *image;
         coord position;
     public:
         virtual void OnRender()=0;

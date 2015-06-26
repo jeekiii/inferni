@@ -50,3 +50,8 @@ void cLevel::OnUpdate()
 		objects[i]->OnMove();
 	}
 }
+
+void cLevel::OnEvent(std::vector<int> keys)
+{
+	;
+}
