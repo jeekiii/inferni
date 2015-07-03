@@ -5,12 +5,14 @@
 #include "../Objects/object.hpp"
 #include "../Util/tools.hpp"
 #include "../Util/command.hpp"
+#include "../Objects/player.hpp"
 class cLevel
 {
 	private:
 		std::vector<cObject*> objects;
 		SDL_Texture* map;
 		coord positionMap;
+        cPlayer *player;
     public:
 
         int OnInit();

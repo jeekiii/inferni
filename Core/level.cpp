@@ -2,6 +2,7 @@
 #include "../Util/image_func.hpp"
 #include "../Core/global.hpp"
 #include "../Objects/creature.hpp"
+#include "../Objects/player.hpp"
 #include <algorithm>
 
 int cLevel::OnInit()
@@ -9,6 +10,8 @@ int cLevel::OnInit()
 	cCreature *creature3=new cCreature;
 	cCreature *creature2=new cCreature;
 	cCreature *creature=new cCreature;
+	player = new cPlayer;
+	objects.push_back(player);
     objects.push_back(creature);
     objects.push_back(creature2);
     objects.push_back(creature3);
@@ -53,5 +56,8 @@ void cLevel::OnUpdate()
 
 void cLevel::OnEvent(std::vector<int> keys)
 {
-	;
+	for(unsigned int i = 0; i < keys.size(); i++)
+	{
+		player->OnCommand(keys[i]);
+	}
 }

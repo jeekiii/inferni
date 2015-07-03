@@ -1,12 +1,8 @@
 /// *********************16/02/2013***********************///
-/* test creature class,
-you can change the name/images to whatever you want
-cObject->cMovableObject->cCreature
-*/
 
 
 #ifndef POSSESSABLE_HPP_
-    #define POSESSABLE_HPP_
+    #define POSSESSABLE_HPP_
 #include "../Objects/object.hpp"
 
 class cPossessable:public cObject

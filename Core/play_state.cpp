@@ -23,7 +23,7 @@ int cPlayState::OnCleanUp()
 }
 
 
-void cPlayState::OnEvent()//unappropriate name? It's not a callback!
+void cPlayState::OnEvent()//unappropriate name? It's not a callback! <= Nah, probably fine
 {
         std::vector<int> keys;
         SDL_Event event;
@@ -37,12 +37,12 @@ void cPlayState::OnEvent()//unappropriate name? It's not a callback!
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym==SDLK_y)
                     {
-                                cMenuState *p_menu=new cMenuState;
-                                p_menu->OnInit();
-                                Global::state.push_back(p_menu);
+                        cMenuState *p_menu=new cMenuState;
+                        p_menu->OnInit();
+                        Global::state.push_back(p_menu);
                     }
 
-                    if(event.key.keysym.sym==SDLK_q)
+                    if(event.key.keysym.sym==SDLK_ESCAPE)
                     {
                         Global::state.back()->OnCleanUp();
                         delete Global::state.back();
@@ -51,6 +51,7 @@ void cPlayState::OnEvent()//unappropriate name? It's not a callback!
                     else
                     {
                         keys.push_back(event.key.keysym.sym);
+                        level.OnEvent(keys);
                     }
                     break;
             }
