@@ -1,5 +1,5 @@
 #include "command.hpp"
-
+#include <algorithm>
 cCommand::cCommand()
 {
 	up = SDLK_z;
@@ -13,16 +13,16 @@ cCommand::~cCommand()
 
 }
 
-CommandType cCommand::getCommand(SDL_Keycode key)
+CommandType cCommand::getCommand(std::vector<SDL_Keycode> keys)
 {
 	CommandType result;
-	if(key == up)
+	if(std::find(keys.begin(), keys.end(), up)!= keys.end())
 		result = UP;
-	if(key == down)
+	if(std::find(keys.begin(), keys.end(), down)!=keys.end())
 		result = DOWN;
-	if(key == left)
+	if(std::find(keys.begin(), keys.end(), left)!=keys.end())
 		result = LEFT;
-	if(key == right)
+	if(std::find(keys.begin(), keys.end(), right)!=keys.end())
 		result = RIGHT;
 	
 	return result;

@@ -20,12 +20,12 @@ class cCreature:public cPossessable
         ~cCreature();
         void OnInit();
         void OnRender();
-        void OnMove();
-        void Reaction(cObject *object);
-        void OnUP();
-        void OnDOWN();
-        void OnLEFT();
-        void OnRIGHT();
+        void OnMove(std::vector<cObject*> *objects);
+        ReactionType Reaction(cObject *object);
+        void OnUP(std::vector<cObject*> *objects);
+        void OnDOWN(std::vector<cObject*> *objects);
+        void OnLEFT(std::vector<cObject*> *objects);
+        void OnRIGHT(std::vector<cObject*> *objects);
 
 };
 

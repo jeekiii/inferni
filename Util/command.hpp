@@ -1,6 +1,7 @@
 #ifndef _COMMAND_HPP_
 	#define _COMMAND_HPP_
 #include <SDL2/SDL.h>
+#include <vector>
 typedef enum CommandType{
 	UP, DOWN, LEFT, RIGHT
 } CommandType;
@@ -12,7 +13,7 @@ class cCommand
 	public:
 		cCommand();
 		~cCommand();
-		CommandType getCommand(SDL_Keycode key);
+		CommandType getCommand(std::vector<SDL_Keycode> keys);
 };
 
 

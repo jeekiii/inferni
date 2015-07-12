@@ -1,5 +1,6 @@
 #include "player.hpp"
 #include "../Objects/creature.hpp"
+#include <algorithm>
 cPlayer::cPlayer()
 {
 
@@ -16,14 +17,14 @@ void cPlayer::OnRender()
 	possessed->OnRender();
 }
 
-void cPlayer::OnMove()
+void cPlayer::OnMove(std::vector<cObject*> *objects)
 {
 
 }
 
-void cPlayer::Reaction(cObject *object)
+ReactionType cPlayer::Reaction(cObject *object)
 {
-
+	return SOLID;
 }
 
 void cPlayer::OnInit()
@@ -34,15 +35,15 @@ void cPlayer::OnInit()
 	position = possessed->GetPosition();
 }
 
-void cPlayer::OnCommand(SDL_Keycode key)
+void cPlayer::OnCommand(std::vector<SDL_Keycode> keys, std::vector<cObject*> *objects)//should get a vector of keys to react correctly in case multiple keys are pressed
 {
-	CommandType input = cmd->getCommand(key);
+	CommandType input = cmd->getCommand(keys);//should get a vector of keys
 	if(input == UP)
-		possessed->OnUP();
+		possessed->OnUP(objects);
 	else if(input == DOWN)
-		possessed->OnDOWN();
+		possessed->OnDOWN(objects);
 	else if(input == LEFT)
-		possessed->OnLEFT();
+		possessed->OnLEFT(objects);
 	else if(input == RIGHT) 
-		possessed->OnRIGHT();
+		possessed->OnRIGHT(objects);
 }

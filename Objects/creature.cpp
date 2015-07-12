@@ -20,13 +20,15 @@ void cCreature::OnRender()
 	ImageFunc::RenderTexture(image, Global::renderer, false, position, position);
 }
 
-void cCreature::OnMove()
+void cCreature::OnMove(std::vector<cObject*> *objects)
 {
 
 }
-void cCreature::Reaction(cObject *object)
+ReactionType cCreature::Reaction(cObject *object)
 {
-	
+	printf("Reaction working");
+	ReactionType result = SOLID;
+	return result;
 }
 
 void cCreature::OnInit()
@@ -38,20 +40,24 @@ void cCreature::OnInit()
 
 }
 
-void cCreature::OnRIGHT()
+void cCreature::OnRIGHT(std::vector<cObject*> *objects)
 {
+	GetCollision(objects);
 	printf("right");
 }
-void cCreature::OnLEFT()
+void cCreature::OnLEFT(std::vector<cObject*> *objects)
 {
+	GetCollision(objects);
 	printf("left");
 }
-void cCreature::OnUP()
+void cCreature::OnUP(std::vector<cObject*> *objects)
 {
+	GetCollision(objects);
 	printf("up");
 }
-void cCreature::OnDOWN()
+void cCreature::OnDOWN(std::vector<cObject*> *objects)
 {
+	GetCollision(objects);
 	printf("down");
 }
 

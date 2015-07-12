@@ -14,9 +14,9 @@ class cPlayer:public cObject
 		~cPlayer();
 		void OnInit();
 		void OnRender();
-		void OnMove();
-		void Reaction(cObject *object);
-		void OnCommand(SDL_Keycode key);
+		void OnMove(std::vector<cObject*> *objects);
+		ReactionType Reaction(cObject *object);
+		void OnCommand(std::vector<SDL_Keycode> keys, std::vector<cObject*> *objects);
 };
 
 

@@ -8,18 +8,29 @@ for example, human, wall, flower....
     #define _OBJECT_HPP_
 #include <SDL2/SDL.h>
 #include "../Util/tools.hpp"
+#include <vector>
+
+typedef enum ReactionType
+{
+    WATER, SOLID, DAMAGE, EVENT, NONE
+}ReactionType;
+
+
 class cObject
 {
     protected:
         SDL_Texture *image;
         coord position;
+        //separate coord hitbox; would probably be nice.
     public:
         virtual void OnRender()=0;
-        virtual void OnMove()=0;
-        virtual void Reaction(cObject *object)=0;
+        virtual void OnMove(std::vector<cObject*> *objects)=0;
+        virtual ReactionType Reaction(cObject *object)=0;
         virtual void OnInit()=0;
         coord GetPosition();
+        ReactionType GetCollision(std::vector<cObject*> *objects);
 };
+
 
 bool compareObjects(cObject *obj1, cObject *obj2);
 

@@ -4,6 +4,7 @@
 #include "../Objects/creature.hpp"
 #include "../Objects/player.hpp"
 #include <algorithm>
+#include <vector>
 
 int cLevel::OnInit()
 {
@@ -50,14 +51,12 @@ void cLevel::OnUpdate()
 {
 	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
 	{
-		objects[i]->OnMove();
+		objects[i]->OnMove(&objects);
 	}
 }
 
 void cLevel::OnEvent(std::vector<int> keys)
 {
-	for(unsigned int i = 0; i < keys.size(); i++)
-	{
-		player->OnCommand(keys[i]);
-	}
+
+	player->OnCommand(keys, &objects);
 }

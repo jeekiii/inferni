@@ -10,12 +10,12 @@ class cPossessable:public cObject
 	    public:
         virtual void OnInit()=0;
         virtual void OnRender()=0;
-        virtual void OnMove()=0;
-        virtual void Reaction(cObject *object)=0;
-        virtual void OnUP()=0;
-        virtual void OnDOWN()=0;
-        virtual void OnLEFT()=0;
-        virtual void OnRIGHT()=0;
+        virtual void OnMove(std::vector<cObject*> *objects)=0;
+        virtual ReactionType Reaction(cObject *object)=0;
+        virtual void OnUP(std::vector<cObject*> *objects)=0;
+        virtual void OnDOWN(std::vector<cObject*> *objects)=0;
+        virtual void OnLEFT(std::vector<cObject*> *objects)=0;
+        virtual void OnRIGHT(std::vector<cObject*> *objects)=0;
 
 };
 
