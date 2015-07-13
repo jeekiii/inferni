@@ -46,4 +46,5 @@ void cPlayer::OnCommand(std::vector<SDL_Keycode> keys, std::vector<cObject*> *ob
 		possessed->OnLEFT(objects);
 	else if(input == RIGHT) 
 		possessed->OnRIGHT(objects);
+	
 }
