@@ -20,6 +20,8 @@ void cPlayer::OnRender()
 void cPlayer::OnMove(std::vector<cObject*> *objects)
 {
 	possessed->OnMove(objects);
+	position = possessed->GetPosition();//allow for sorting in level->onrender to render things in the right order.
+
 }
 
 ReactionType cPlayer::Reaction(cObject *object)
