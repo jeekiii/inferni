@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <vector>
 typedef enum CommandType{
-	UP, DOWN, LEFT, RIGHT
+	OTHER, UP, DOWN, LEFT, RIGHT
 } CommandType;
 
 class cCommand

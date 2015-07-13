@@ -19,7 +19,7 @@ void cPlayer::OnRender()
 
 void cPlayer::OnMove(std::vector<cObject*> *objects)
 {
-
+	possessed->OnMove(objects);
 }
 
 ReactionType cPlayer::Reaction(cObject *object)

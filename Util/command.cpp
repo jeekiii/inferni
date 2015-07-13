@@ -18,12 +18,13 @@ CommandType cCommand::getCommand(std::vector<SDL_Keycode> keys)
 	CommandType result;
 	if(std::find(keys.begin(), keys.end(), up)!= keys.end())
 		result = UP;
-	if(std::find(keys.begin(), keys.end(), down)!=keys.end())
+	else if(std::find(keys.begin(), keys.end(), down)!=keys.end())
 		result = DOWN;
-	if(std::find(keys.begin(), keys.end(), left)!=keys.end())
+	else if(std::find(keys.begin(), keys.end(), left)!=keys.end())
 		result = LEFT;
-	if(std::find(keys.begin(), keys.end(), right)!=keys.end())
+	else if(std::find(keys.begin(), keys.end(), right)!=keys.end())
 		result = RIGHT;
-	
+	else
+		result = OTHER;
 	return result;
 }
