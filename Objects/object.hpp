@@ -21,13 +21,16 @@ class cObject
     protected:
         SDL_Texture *image;
         coord position;
-        //separate coord hitbox; would probably be nice.
+        coord relativeGroundHitbox;
+        coord relativeAboveHitbox;
     public:
         virtual void OnRender(coord positionMap)=0;
         virtual void OnMove(std::vector<cObject*> *objects)=0;
         virtual ReactionType Reaction(cObject *object)=0;
         virtual void OnInit(int positionX, int positionY)=0;
         coord GetPosition();
+        coord GetGroundHitbox();
+        coord GetAboveHitbox();
         std::vector <ReactionType> GetCollision(std::vector<cObject*> *objects);
 };
 

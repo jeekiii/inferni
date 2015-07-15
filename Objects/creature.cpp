@@ -60,6 +60,14 @@ void cCreature::OnInit(int positionX, int positionY)
 	image=ImageFunc::LoadSprites("Images/HeroDown.bmp",true,255,0,0);
 	position.x = positionX;
 	position.y = positionY;
+	relativeGroundHitbox.x = 5;
+	relativeGroundHitbox.w = 37;
+	relativeGroundHitbox.y = 67;
+	relativeGroundHitbox.h = 26;
+	relativeAboveHitbox.x = 5;
+	relativeAboveHitbox.w = 38;
+	relativeAboveHitbox.y = 2;
+	relativeAboveHitbox.h = 65;
 	toMove.x = 0;
 	toMove.y = 0;
 	SDL_QueryTexture(image, NULL, NULL, &position.w, &position.h);

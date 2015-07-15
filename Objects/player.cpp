@@ -37,6 +37,12 @@ void cPlayer::OnInit(int positionX, int positionY)
 	possessed = new cCreature;
 	possessed->OnInit(positionX, positionY);
 	position = possessed->GetPosition();
+	relativeGroundHitbox = possessed->GetGroundHitbox();
+	relativeGroundHitbox.x -= position.x;
+	relativeGroundHitbox.y -= position.y;
+	relativeAboveHitbox = possessed->GetAboveHitbox();
+	relativeAboveHitbox.x -= position.x;
+	relativeAboveHitbox.y -= position.y;
 }
 
 void cPlayer::OnCommand(std::vector<SDL_Keycode> keys, std::vector<cObject*> *objects)//should get a vector of keys to react correctly in case multiple keys are pressed

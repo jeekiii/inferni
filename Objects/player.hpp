@@ -12,6 +12,8 @@ class cPlayer:public cObject
 	public:
 		cPlayer();
 		~cPlayer();
+		coord GetGroundHitbox();
+		coord GetAboveHitbox();
 		void OnInit(int positionX, int positionY);
 		void OnRender(coord positionMap);
 		void OnMove(std::vector<cObject*> *objects);
