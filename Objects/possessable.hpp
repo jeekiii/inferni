@@ -10,8 +10,8 @@ class cPossessable:public cObject
         protected:
             coord toMove;
 	    public:
-            virtual void OnInit()=0;
-            virtual void OnRender()=0;
+            virtual void OnInit(int positionX, int positionY)=0;
+            virtual void OnRender(coord positionMap)=0;
             virtual void OnMove(std::vector<cObject*> *objects)=0;
             virtual ReactionType Reaction(cObject *object)=0;
             virtual void OnUP(std::vector<cObject*> *objects)=0;

@@ -23,12 +23,12 @@ class cObject
         coord position;
         //separate coord hitbox; would probably be nice.
     public:
-        virtual void OnRender()=0;
+        virtual void OnRender(coord positionMap)=0;
         virtual void OnMove(std::vector<cObject*> *objects)=0;
         virtual ReactionType Reaction(cObject *object)=0;
-        virtual void OnInit()=0;
+        virtual void OnInit(int positionX, int positionY)=0;
         coord GetPosition();
-        ReactionType GetCollision(std::vector<cObject*> *objects);
+        std::vector <ReactionType> GetCollision(std::vector<cObject*> *objects);
 };
 
 

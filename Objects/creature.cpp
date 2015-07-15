@@ -2,7 +2,7 @@
 
 
 #include "creature.hpp"
-
+#include <algorithm>
 
 cCreature::cCreature()
 {
@@ -15,31 +15,51 @@ cCreature::~cCreature()
 }
 
 
-void cCreature::OnRender()
+void cCreature::OnRender(coord positionMap)
 {
-	ImageFunc::RenderTexture(image, Global::renderer, false, position, position);
+	coord positionBlit;
+	positionBlit.x = position.x + positionMap.x;
+	positionBlit.y = position.y + positionMap.y;
+	positionBlit.h = position.h;
+	positionBlit.w = position.w;
+	ImageFunc::RenderTexture(image, Global::renderer, false, positionBlit, positionBlit);
 }
 
 void cCreature::OnMove(std::vector<cObject*> *objects)
 {
-	//GetCollision(objects);
+	std::vector <ReactionType> reactions;
+	ReactionType solid = SOLID;
 	position.x += toMove.x;
 	position.y += toMove.y;
+	reactions = GetCollision(objects);
+	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
+	{
+		position.x -= toMove.x;// in case you can still move on the y axis
+	}
+	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
+	{
+		position.x += toMove.x;// in case you can still move on the x axis
+		position.y -= toMove.y;
+	}
+	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
+	{
+		position.x -= toMove.x;// if you can't move on any axis.
+	}
 	toMove.x = 0;
 	toMove.y = 0;
 }
+
 ReactionType cCreature::Reaction(cObject *object)
 {
-	printf("Reaction working");
 	ReactionType result = SOLID;
 	return result;
 }
 
-void cCreature::OnInit()
+void cCreature::OnInit(int positionX, int positionY)
 {
 	image=ImageFunc::LoadSprites("Images/HeroDown.bmp",true,255,0,0);
-	position.x = rand()%100;
-	position.y = rand()%100;
+	position.x = positionX;
+	position.y = positionY;
 	toMove.x = 0;
 	toMove.y = 0;
 	SDL_QueryTexture(image, NULL, NULL, &position.w, &position.h);

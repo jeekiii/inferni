@@ -18,8 +18,8 @@ class cCreature:public cPossessable
     public:
         cCreature();
         ~cCreature();
-        void OnInit();
-        void OnRender();
+        void OnInit(int positionX, int positionY);
+        void OnRender(coord positionMap);
         void OnMove(std::vector<cObject*> *objects);
         ReactionType Reaction(cObject *object);
         void OnUP(std::vector<cObject*> *objects);

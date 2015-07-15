@@ -10,6 +10,8 @@ bool Tools::Collision(coord coord1,coord coord2)
     	return false;
     if (coord1.y > coord2.y+coord1.h)
     	return false;
+   	printf("%d, %d, %d, %d \n", coord1.x, coord2.x, coord1.y, coord2.y);
+
     return true; // boxes overlap
 }
 

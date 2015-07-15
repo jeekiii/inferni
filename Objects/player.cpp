@@ -12,9 +12,9 @@ cPlayer::~cPlayer()
 	free(cmd);
 }
 
-void cPlayer::OnRender()
+void cPlayer::OnRender(coord positionMap)
 {
-	possessed->OnRender();
+	possessed->OnRender(positionMap);
 }
 
 void cPlayer::OnMove(std::vector<cObject*> *objects)
@@ -26,14 +26,16 @@ void cPlayer::OnMove(std::vector<cObject*> *objects)
 
 ReactionType cPlayer::Reaction(cObject *object)
 {
-	return SOLID;
+	if(object == possessed)
+		return NONE;
+	return possessed->Reaction(object);
 }
 
-void cPlayer::OnInit()
+void cPlayer::OnInit(int positionX, int positionY)
 {
 	cmd =  new cCommand;
 	possessed = new cCreature;
-	possessed->OnInit();
+	possessed->OnInit(positionX, positionY);
 	position = possessed->GetPosition();
 }
 

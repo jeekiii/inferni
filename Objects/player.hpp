@@ -12,8 +12,8 @@ class cPlayer:public cObject
 	public:
 		cPlayer();
 		~cPlayer();
-		void OnInit();
-		void OnRender();
+		void OnInit(int positionX, int positionY);
+		void OnRender(coord positionMap);
 		void OnMove(std::vector<cObject*> *objects);
 		ReactionType Reaction(cObject *object);
 		void OnCommand(std::vector<SDL_Keycode> keys, std::vector<cObject*> *objects);
