@@ -15,8 +15,7 @@ cObject->cMovableObject->cCreature
 class cCreature:public cPossessable
 {
 	private:
-        coord groundHitbox;
-        coord aboveHitbox;
+
     public:
         cCreature();
         ~cCreature();
