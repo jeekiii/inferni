@@ -24,6 +24,6 @@ std::vector <ReactionType> cObject::GetCollision(std::vector<cObject*> *objects)
 
 bool compareObjects(cObject *obj1, cObject *obj2)
 {
-	return (obj1->GetPosition().y < obj2->GetPosition().y );
+	return (obj1->GetPosition().y+obj1->GetPosition().h < obj2->GetPosition().y+obj2->GetPosition().h );
 }
 
