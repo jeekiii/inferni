@@ -2,7 +2,7 @@
 
 
 #include "play_state.hpp"
-
+#include <algorithm>
 
 
 int cPlayState::OnInit()
@@ -25,7 +25,6 @@ int cPlayState::OnCleanUp()
 
 void cPlayState::OnEvent()//unappropriate name? It's not a callback! <= Nah, probably fine
 {
-        std::vector<int> keys;
         SDL_Event event;
         while (SDL_PollEvent(&event))
         {
@@ -50,12 +49,18 @@ void cPlayState::OnEvent()//unappropriate name? It's not a callback! <= Nah, pro
                     }
                     else
                     {
-                        keys.push_back(event.key.keysym.sym);
-                        level.OnEvent(keys);
+                        if(std::find(keys.begin(), keys.end(), event.key.keysym.sym) == keys.end())
+                        {
+                            keys.push_back(event.key.keysym.sym);
+                        }
                     }
+                    break;
+                case SDL_KEYUP:
+                    keys.erase(std::find(keys.begin(), keys.end(), event.key.keysym.sym));
                     break;
             }
         }
+        level.OnEvent(keys);
 }
 
 

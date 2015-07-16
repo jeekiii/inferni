@@ -27,6 +27,8 @@ class cPlayState:public cGameState
 
     private:
         cLevel level;
+        std::vector<int> keys;
+
     public:
          int OnInit();
          int OnCleanUp();
