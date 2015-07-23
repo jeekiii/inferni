@@ -12,9 +12,7 @@ int cLevel::OnInit()
 {
 	cCreature *creature3=new cCreature;
 	cCreature *creature2=new cCreature;
-	cDemon *creature=new cDemon;
 	player = new cPlayer;
-    objects.push_back(creature);
     objects.push_back(creature2);
     objects.push_back(creature3);
    	objects.push_back(player);
@@ -68,9 +66,9 @@ void cLevel::OnRender()
 
 void cLevel::OnUpdate(std::vector <CommandType> commands)
 {
+	player->OnCommand(&objects, commands);
 	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
 	{
-		player->OnCommand(&objects, commands);
 		objects[i]->OnMove(&objects);
 	}
 }

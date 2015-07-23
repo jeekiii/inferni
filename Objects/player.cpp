@@ -19,10 +19,10 @@ void cPlayer::OnRender(coord positionMap)
 
 void cPlayer::OnMove(std::vector<cObject*> *objects)
 {
+	if(specialCurrentCD > 0)
+		specialCurrentCD--;
 	if(possessed->IsLeaving())
 	{
-		if(specialCurrentCD > 0)
-			specialCurrentCD--;
 		if(specialCurrentCD == 0)
 		{
 			if(!demonForm)

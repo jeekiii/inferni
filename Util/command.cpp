@@ -42,6 +42,7 @@ void cCommand::AddCommand(SDL_Keycode key)
 		temp = ATTACK;
 	if(key == possess)
 		temp = SPECIAL;
+
 	if(std::find(commands.begin(), commands.end(), temp) == commands.end())
 	{
 		commands.push_back(temp);

@@ -24,7 +24,7 @@ void cDemon::OnRender(coord positionMap)
 
 void cDemon::OnMove(std::vector<cObject*> *objects)
 {
-
+	leaving = false;
 	position.x += toMove.x;
 	position.y += toMove.y;
 	toMove.x = 0;
@@ -62,7 +62,6 @@ void cDemon::OnInit(int positionX, int positionY)
 
 void cDemon::OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands)
 {
-	leaving = false;
 	if(std::find(commands.begin(), commands.end(), RIGHT)!= commands.end())
 		toMove.x = 5;
 	else if(std::find(commands.begin(), commands.end(), LEFT)!= commands.end())
@@ -73,6 +72,7 @@ void cDemon::OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> 
 		toMove.y = -5;
 	else if(std::find(commands.begin(), commands.end(), SPECIAL)!= commands.end())
 	{
+		printf("special demon\n");
 		leaving = true;
 
 	}

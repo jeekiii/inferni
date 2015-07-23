@@ -30,7 +30,7 @@ void cCreature::OnRender(coord positionMap)
 
 void cCreature::OnMove(std::vector<cObject*> *objects)
 {
-
+	leaving = false;
 	std::vector <ReactionType> reactions;
 	std::vector <ReactionObject> collisions;
 	ReactionType solid = SOLID;
@@ -107,7 +107,6 @@ void cCreature::TakeDamage(int amount)
 
 void cCreature::OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands)
 {
-	leaving = false;
 	if(std::find(commands.begin(), commands.end(), RIGHT)!= commands.end())
 		toMove.x = 5;
 	else if(std::find(commands.begin(), commands.end(), LEFT)!= commands.end())
@@ -133,8 +132,8 @@ void cCreature::OnCommand(std::vector<cObject*> *objects, std::vector<CommandTyp
 	}
 	else if(std::find(commands.begin(), commands.end(), SPECIAL)!= commands.end())
 	{
+		printf("special in commands \n");
 		leaving = true;
-
 	}
 
 }

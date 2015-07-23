@@ -20,8 +20,7 @@ class cPossessable:public cObject
             virtual void OnMove(std::vector<cObject*> *objects)=0;
             virtual ReactionType Reaction(cObject *object, bool ground)=0;
             virtual void OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands)=0;
-            bool IsLeaving(){return leaving; leaving = false;}
-            void SetLeaving(bool leaving){this->leaving = leaving;}
+            bool IsLeaving(){return leaving;}
 };
 
 #endif
