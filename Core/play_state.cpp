@@ -49,18 +49,14 @@ void cPlayState::OnEvent()//unappropriate name? It's not a callback! <= Nah, pro
                     }
                     else
                     {
-                        if(std::find(keys.begin(), keys.end(), event.key.keysym.sym) == keys.end())
-                        {
-                            keys.push_back(event.key.keysym.sym);
-                        }
+                        command.AddCommand(event.key.keysym.sym);
                     }
                     break;
                 case SDL_KEYUP:
-                    keys.erase(std::find(keys.begin(), keys.end(), event.key.keysym.sym));
+                    command.RemoveCommand(event.key.keysym.sym);
                     break;
             }
         }
-        level.OnEvent(keys);
 }
 
 
@@ -74,7 +70,7 @@ void cPlayState::OnRender()
 
 void cPlayState::OnUpdate()
 {
-    level.OnUpdate();
+    level.OnUpdate(command.GetCommand());
     mp_fps->CheckFPS();
     mp_fps->GetNewTick();
     return;

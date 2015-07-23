@@ -18,8 +18,7 @@ class cLevel
         int OnInit();
         int OnCleanUp();
         void OnRender();
-        void OnUpdate();
-        void OnEvent(std::vector<int> keys);
+        void OnUpdate(std::vector <CommandType> commands);
 };
 
 

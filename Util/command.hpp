@@ -3,17 +3,22 @@
 #include <SDL2/SDL.h>
 #include <vector>
 typedef enum CommandType{
-	OTHER, UP, DOWN, LEFT, RIGHT
+	OTHER, UP, DOWN, LEFT, RIGHT, ATTACK, SPECIAL
 } CommandType;
 
 class cCommand
 {
 	private:
-		SDL_Keycode up, down, left, right; 
+		SDL_Keycode up, down, left, right, attack, possess;
+		std::vector <CommandType> commands;
+		std::vector<CommandType> toRemove;
 	public:
 		cCommand();
 		~cCommand();
-		CommandType getCommand(std::vector<SDL_Keycode> keys);
+		std::vector<CommandType> GetCommand();
+		void AddCommand(SDL_Keycode key);
+		void RemoveCommand(SDL_Keycode key);
+
 };
 
 

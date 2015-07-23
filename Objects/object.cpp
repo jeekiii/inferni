@@ -23,18 +23,34 @@ coord cObject::GetAboveHitbox()
 	return result;
 }
 
-std::vector <ReactionType> cObject::GetCollision(std::vector<cObject*> *objects)
+std::vector <ReactionObject> cObject::GetCollision(std::vector<cObject*> *objects, bool ground, bool above)
 {
-	std::vector <ReactionType> result;
-	result.push_back(NONE);
+	std::vector <ReactionObject> result;
 	for(unsigned int i = 0; i < objects->size(); i++)
 	{
-
+		ReactionObject temp;
 		if(this != objects->at(i))
 		{
-			printf("x1 %d, x2 %d, r %d \n", this->GetGroundHitbox().x, objects->at(i)->GetGroundHitbox().x, objects->at(i)->Reaction(this));
-			if(Tools::Collision(this->GetGroundHitbox(), objects->at(i)->GetGroundHitbox()))
-				result.push_back(objects->at(i)->Reaction(this));
+			if(ground)
+			{
+				if(Tools::Collision(this->GetGroundHitbox(), objects->at(i)->GetGroundHitbox()))
+				{
+					temp.object = objects->at(i);
+					temp.reaction = objects->at(i)->Reaction(this, true);
+					temp.ground = true;
+					result.push_back(temp);
+				}	
+			}
+			if(above)
+			{
+				if(Tools::Collision(this->GetAboveHitbox(), objects->at(i)->GetAboveHitbox()))
+				{
+					temp.object = objects->at(i);
+					temp.reaction = objects->at(i)->Reaction(this, false);
+					temp.ground = false;
+					result.push_back(temp);
+				}	
+			}
 		}
 	}
 	return result;
@@ -44,4 +60,5 @@ bool compareObjects(cObject *obj1, cObject *obj2)
 {
 	return (obj1->GetPosition().y+obj1->GetPosition().h < obj2->GetPosition().y+obj2->GetPosition().h);
 }
+
 

@@ -1,6 +1,9 @@
 /// *********************16/02/2013***********************///
 
-
+#include "../Util/image_func.hpp"
+#include "../Core/global.hpp"
+#include "../Objects/arrow.hpp"
+#include "../Objects/player.hpp"
 #include "creature.hpp"
 #include <algorithm>
 
@@ -17,7 +20,7 @@ cCreature::~cCreature()
 
 void cCreature::OnRender(coord positionMap)
 {
-	coord positionBlit;
+	coord positionBlit;//this code should be moved somewhere it's copied in arrow.cpp
 	positionBlit.x = position.x + positionMap.x;
 	positionBlit.y = position.y + positionMap.y;
 	positionBlit.h = position.h;
@@ -27,11 +30,21 @@ void cCreature::OnRender(coord positionMap)
 
 void cCreature::OnMove(std::vector<cObject*> *objects)
 {
+
 	std::vector <ReactionType> reactions;
+	std::vector <ReactionObject> collisions;
 	ReactionType solid = SOLID;
 	position.x += toMove.x;
 	position.y += toMove.y;
-	reactions = GetCollision(objects);
+	collisions = GetCollision(objects, true, true);
+	for(unsigned int i = 0; i < collisions.size(); i++)
+	{
+		reactions.push_back(collisions.at(i).reaction);
+	}
+	if(std::find(reactions.begin(), reactions.end(), POSSESS)!= reactions.end())
+	{
+
+	}
 	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
 	{
 		position.x -= toMove.x;// in case you can still move on the y axis
@@ -47,16 +60,28 @@ void cCreature::OnMove(std::vector<cObject*> *objects)
 	}
 	toMove.x = 0;
 	toMove.y = 0;
+
+	if(hp == 0)
+	{
+		objects->erase(std::find(objects->begin(), objects->end(), this));
+		delete this;
+	}
+	
 }
 
-ReactionType cCreature::Reaction(cObject *object)
+ReactionType cCreature::Reaction(cObject *object, bool ground)
 {
-	ReactionType result = SOLID;
-	return result;
+	if(ground)
+		return SOLID;
+	else
+		return NONE;
 }
 
 void cCreature::OnInit(int positionX, int positionY)
 {
+	leaving = false;
+	possessable = true;
+	hp = 10;
 	image=ImageFunc::LoadSprites("Images/HeroDown.bmp",true,255,0,0);
 	position.x = positionX;
 	position.y = positionY;
@@ -74,24 +99,43 @@ void cCreature::OnInit(int positionX, int positionY)
 
 }
 
-void cCreature::OnRIGHT(std::vector<cObject*> *objects)
+void cCreature::TakeDamage(int amount)
 {
-	toMove.x = 10;
-	printf("right");
+	printf("%d: hp left", hp);
+	hp -= amount;
 }
-void cCreature::OnLEFT(std::vector<cObject*> *objects)
+
+void cCreature::OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands)
 {
-	toMove.x = -10;
-	printf("left");
-}
-void cCreature::OnUP(std::vector<cObject*> *objects)
-{
-	toMove.y = -10;
-	printf("up");
-}
-void cCreature::OnDOWN(std::vector<cObject*> *objects)
-{
-	toMove.y = 10;
-	printf("down");
+	leaving = false;
+	if(std::find(commands.begin(), commands.end(), RIGHT)!= commands.end())
+		toMove.x = 5;
+	else if(std::find(commands.begin(), commands.end(), LEFT)!= commands.end())
+		toMove.x = -5;
+	else if(std::find(commands.begin(), commands.end(), DOWN)!= commands.end())
+		toMove.y = 5;
+	else if(std::find(commands.begin(), commands.end(), UP)!= commands.end())
+		toMove.y = -5;
+	else if(std::find(commands.begin(), commands.end(), ATTACK)!= commands.end())
+	{
+		cArrow *arrow = new cArrow;
+		coord direction;
+		coord position;
+		direction.x = 5;
+		direction.y = 0;
+
+		position.x = this->position.x+relativeAboveHitbox.x+relativeAboveHitbox.w;
+		position.y = this->position.y+30;
+		arrow->OnInit(position.x, position.y);
+		arrow->Launch(direction);
+		objects->push_back(arrow);
+
+	}
+	else if(std::find(commands.begin(), commands.end(), SPECIAL)!= commands.end())
+	{
+		leaving = true;
+
+	}
+
 }
 
