@@ -15,6 +15,7 @@ class cArrow:public cObject
 		void OnInit(int positionX, int positionY);
 		void OnRender(coord positionMap);
 		void OnMove(std::vector<cObject*> *objects);
+		void OnUpdate(std::vector<cObject*> *objects);
 		void Launch(coord direction);
 		void TakeDamage(int amount);
 		ReactionType Reaction(cObject *object, bool ground);

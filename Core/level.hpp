@@ -6,6 +6,8 @@
 #include "../Util/tools.hpp"
 #include "../Util/command.hpp"
 #include "../Objects/player.hpp"
+#include "../Util/hud.hpp"
+
 class cLevel
 {
 	private:
@@ -13,6 +15,8 @@ class cLevel
 		SDL_Texture* map;
 		coord positionMap;
         cPlayer *player;
+        cHud hud;
+
     public:
 
         int OnInit();

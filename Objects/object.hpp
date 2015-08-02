@@ -34,6 +34,7 @@ class cObject
         virtual void OnMove(std::vector<cObject*> *objects)=0;
         virtual ReactionType Reaction(cObject *object, bool ground)=0;
         virtual void OnInit(int positionX, int positionY)=0;
+        virtual void OnUpdate(std::vector<cObject*> *objects)=0;
         virtual void TakeDamage(int amount)=0;//maybe damageType in the future.
         coord GetPosition();
         coord GetGroundHitbox();

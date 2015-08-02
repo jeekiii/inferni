@@ -18,6 +18,7 @@ class cDemon:public cPossessable
 		void TakeDamage(int amount){;}
 		ReactionType Reaction(cObject *object, bool ground);
 		void OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands);
+		void OnUpdate(std::vector<cObject*> *objects);
 		void SetPosition(coord position);
 		cPossessable* GetTarget();
 };

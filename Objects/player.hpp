@@ -24,9 +24,13 @@ class cPlayer:public cObject
 		void OnMove(std::vector<cObject*> *objects);
 		ReactionType Reaction(cObject *object, bool ground);
 		void OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> keys);
+        void OnUpdate(std::vector<cObject*> *objects);
+
 		void TakeDamage(int amount);
 		void Possess(cPossessable *target);
 		void LeaveBody();
+        int GetHp();
+
 };
 
 

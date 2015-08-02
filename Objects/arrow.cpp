@@ -27,11 +27,16 @@ void cArrow::OnMove(std::vector<cObject*> *objects)
 	position.x+=toMove.x;
 	position.y+=toMove.y;
 }
+
+void cArrow::OnUpdate(std::vector<cObject*> *objects)
+{
+	;
+}
 ReactionType cArrow::Reaction(cObject *object, bool ground)
 {
 	if(!ground)
 	{
-		object->TakeDamage(10);
+		object->TakeDamage(10);//move this to OnUpdate in the future?
 		return DAMAGE;
 	}
 	else

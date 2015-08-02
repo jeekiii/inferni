@@ -24,12 +24,16 @@ void cDemon::OnRender(coord positionMap)
 
 void cDemon::OnMove(std::vector<cObject*> *objects)
 {
-	leaving = false;
 	position.x += toMove.x;
 	position.y += toMove.y;
 	toMove.x = 0;
 	toMove.y = 0;
 
+
+}
+void cDemon::OnUpdate(std::vector<cObject*> *objects)
+{
+	leaving = false;
 
 }
 
@@ -41,6 +45,7 @@ ReactionType cDemon::Reaction(cObject *object, bool ground)
 
 void cDemon::OnInit(int positionX, int positionY)
 {
+	hp = 100;
 	leaving = false;
 	possessable = true;
 	image=ImageFunc::LoadSprites("Images/HeroUp.bmp",true,255,0,0);
@@ -72,7 +77,6 @@ void cDemon::OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> 
 		toMove.y = -5;
 	else if(std::find(commands.begin(), commands.end(), SPECIAL)!= commands.end())
 	{
-		printf("special demon\n");
 		leaving = true;
 
 	}

@@ -19,6 +19,13 @@ void cPlayer::OnRender(coord positionMap)
 
 void cPlayer::OnMove(std::vector<cObject*> *objects)
 {
+	possessed->OnMove(objects);
+	position = possessed->GetPosition();//allow for sorting in level->onrender to render things in the right order.
+
+}
+void cPlayer::OnUpdate(std::vector<cObject*> *objects)
+{
+
 	if(specialCurrentCD > 0)
 		specialCurrentCD--;
 	if(possessed->IsLeaving())
@@ -27,6 +34,7 @@ void cPlayer::OnMove(std::vector<cObject*> *objects)
 		{
 			if(!demonForm)
 			{
+				possessed->setPossessed(false);
 				objects->push_back(possessed);
 				LeaveBody();
 			}
@@ -48,11 +56,7 @@ void cPlayer::OnMove(std::vector<cObject*> *objects)
 			specialCurrentCD = specialCD;
 		}
 	}
-		
-
-	possessed->OnMove(objects);
-	position = possessed->GetPosition();//allow for sorting in level->onrender to render things in the right order.
-
+	possessed->OnUpdate(objects);
 }
 
 ReactionType cPlayer::Reaction(cObject *object, bool ground)
@@ -71,6 +75,7 @@ void cPlayer::OnInit(int positionX, int positionY)
 	cmd =  new cCommand;
 	possessed = new cCreature;
 	possessed->OnInit(positionX, positionY);
+	possessed->setPossessed(true);
 	demon = new cDemon;
 	demon->OnInit(positionX, positionY);
 	position = possessed->GetPosition();
@@ -95,6 +100,7 @@ void cPlayer::Possess(cPossessable *target)
 {
 	demonForm = false;
 	possessed = target;
+	target->setPossessed(true);
 }
 
 void cPlayer::LeaveBody()
@@ -102,4 +108,9 @@ void cPlayer::LeaveBody()
 	possessed = demon;
 	demonForm = true;
 	demon->SetPosition(position);
+}
+
+int cPlayer::GetHp()
+{
+	return possessed->GetHp();
 }

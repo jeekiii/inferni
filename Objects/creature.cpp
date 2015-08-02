@@ -5,6 +5,7 @@
 #include "../Objects/arrow.hpp"
 #include "../Objects/player.hpp"
 #include "creature.hpp"
+#include "../Objects/ai_tuto.hpp"
 #include <algorithm>
 
 cCreature::cCreature()
@@ -30,7 +31,7 @@ void cCreature::OnRender(coord positionMap)
 
 void cCreature::OnMove(std::vector<cObject*> *objects)
 {
-	leaving = false;
+	
 	std::vector <ReactionType> reactions;
 	std::vector <ReactionObject> collisions;
 	ReactionType solid = SOLID;
@@ -61,13 +62,36 @@ void cCreature::OnMove(std::vector<cObject*> *objects)
 	toMove.x = 0;
 	toMove.y = 0;
 
-	if(hp == 0)
-	{
-		objects->erase(std::find(objects->begin(), objects->end(), this));
-		delete this;
-	}
-	
+		
 }
+
+
+void cCreature::OnUpdate(std::vector<cObject*> *objects)
+{
+	leaving = false;
+	if(attackCurrentCD >0)
+		attackCurrentCD--;
+	if(!possessed)
+	{
+		OnCommand(objects, AI->GiveCommands());
+	}
+	if(hp <= 0)
+	{
+		if(possessed)
+		{
+			leaving = true;
+			printf("game over?");//change this whole if-else...
+		}
+		else
+		{
+			objects->erase(std::find(objects->begin(), objects->end(), this));
+			delete this;//keep at the end of the loop till we delete it. "delete this" ain't good like that.
+		}
+	}
+
+
+}
+
 
 ReactionType cCreature::Reaction(cObject *object, bool ground)
 {
@@ -79,6 +103,9 @@ ReactionType cCreature::Reaction(cObject *object, bool ground)
 
 void cCreature::OnInit(int positionX, int positionY)
 {
+	possessed = false;
+	attackCD = 200;
+	attackCurrentCD = 200;
 	leaving = false;
 	possessable = true;
 	hp = 10;
@@ -96,12 +123,12 @@ void cCreature::OnInit(int positionX, int positionY)
 	toMove.x = 0;
 	toMove.y = 0;
 	SDL_QueryTexture(image, NULL, NULL, &position.w, &position.h);
+	AI = new cAITuto;
 
 }
 
 void cCreature::TakeDamage(int amount)
 {
-	printf("%d: hp left", hp);
 	hp -= amount;
 }
 
@@ -117,22 +144,25 @@ void cCreature::OnCommand(std::vector<cObject*> *objects, std::vector<CommandTyp
 		toMove.y = -5;
 	else if(std::find(commands.begin(), commands.end(), ATTACK)!= commands.end())
 	{
-		cArrow *arrow = new cArrow;
-		coord direction;
-		coord position;
-		direction.x = 5;
-		direction.y = 0;
+		if(attackCurrentCD ==0)
+		{
+			cArrow *arrow = new cArrow;
+			coord direction;
+			coord position;
+			direction.x = 5;
+			direction.y = 0;
 
-		position.x = this->position.x+relativeAboveHitbox.x+relativeAboveHitbox.w;
-		position.y = this->position.y+30;
-		arrow->OnInit(position.x, position.y);
-		arrow->Launch(direction);
-		objects->push_back(arrow);
+			position.x = this->position.x+relativeAboveHitbox.x+relativeAboveHitbox.w;
+			position.y = this->position.y+30;
+			arrow->OnInit(position.x, position.y);
+			arrow->Launch(direction);
+			objects->push_back(arrow);
+			attackCurrentCD = attackCD;
+		}
 
 	}
 	else if(std::find(commands.begin(), commands.end(), SPECIAL)!= commands.end())
 	{
-		printf("special in commands \n");
 		leaving = true;
 	}
 

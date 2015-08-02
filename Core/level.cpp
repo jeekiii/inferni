@@ -10,22 +10,24 @@
 
 int cLevel::OnInit()
 {
-	cCreature *creature3=new cCreature;
-	cCreature *creature2=new cCreature;
+	cCreature *creature=new cCreature;
 	player = new cPlayer;
-    objects.push_back(creature2);
-    objects.push_back(creature3);
-   	objects.push_back(player);
+
+	hud.OnInit(player);
+	objects.push_back(player);
+    objects.push_back(creature);
 
     map=NULL;
     map=ImageFunc::LoadSprites("Images/Map1.bmp");
     positionMap.x = 0;
     positionMap.y = 0;
+
     for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
 	{
-		objects[i]->OnInit(i*200, i*200);
+		objects[i]->OnInit(200+(i*400), 400);
 	}
     SDL_QueryTexture(map, NULL, NULL, &positionMap.w, &positionMap.h);
+    
     return 0;
 }
 
@@ -62,6 +64,7 @@ void cLevel::OnRender()
 	{
 		objects[i]->OnRender(positionMap);
 	}
+	hud.OnRender();
 }
 
 void cLevel::OnUpdate(std::vector <CommandType> commands)
@@ -69,7 +72,14 @@ void cLevel::OnUpdate(std::vector <CommandType> commands)
 	player->OnCommand(&objects, commands);
 	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
 	{
+		objects[i]->OnUpdate(&objects);
+
+	}//separate loops in case one of those deletes the object.
+	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
+	{
 		objects[i]->OnMove(&objects);
+
 	}
+
 }
 
