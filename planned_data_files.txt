@@ -1,0 +1,14 @@
+
+map
+1: maps terrain(1 par map)
+2: maps objets fixes/uniques(par map)
+3: maps personnages/objets mobiles/passages avec état, destination
+
+saves:
+4: (remplace 3) personnages/objets mobiles morts, vivants, autre place
+5: personnage principal: exp, actuallement possédé, obj etc...
+6: scenario actuel, interactions déjà faites du scénario
+
+scénario
+7: interaction/personnages, etc...
+
