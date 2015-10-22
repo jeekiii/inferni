@@ -2,7 +2,8 @@
 	#define _COMMAND_HPP_
 #include <SDL2/SDL.h>
 #include <vector>
-typedef enum CommandType{
+typedef enum CommandType
+{
 	OTHER, UP, DOWN, LEFT, RIGHT, ATTACK, SPECIAL
 } CommandType;
 

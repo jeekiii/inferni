@@ -11,15 +11,15 @@ included into other cpp files
 #include <SDL2/SDL.h>
 namespace Global
 {
-extern SDL_Window *screen;
-extern SDL_Renderer *renderer;
+	extern SDL_Window *screen;
+	extern SDL_Renderer *renderer;
 
-extern int screen_width;
-extern int screen_height;
+	extern int screen_width;
+	extern int screen_height;
 
 
 
-extern std::vector<cGameState*> state;
+	extern std::vector<cGameState*> state;
 
 }
 

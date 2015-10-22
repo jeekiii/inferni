@@ -17,16 +17,15 @@ int cLevel::OnInit()
 	objects.push_back(player);
     objects.push_back(creature);
 
-    map=NULL;
-    map=ImageFunc::LoadSprites("Images/Map1.bmp");
-    positionMap.x = 0;
-    positionMap.y = 0;
+    
+    map.OnInit(1);// the 1 is just the id number of the map.
+
+    positionMap = map.GetPosInit();
 
     for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
 	{
 		objects[i]->OnInit(200+(i*400), 400);
 	}
-    SDL_QueryTexture(map, NULL, NULL, &positionMap.w, &positionMap.h);
     
     return 0;
 }
@@ -34,7 +33,6 @@ int cLevel::OnInit()
 int cLevel::OnCleanUp()
 {
     objects.clear();
-    SDL_DestroyTexture(map);
     return 0;
 }
 
@@ -58,7 +56,8 @@ void cLevel::OnRender()
 	{
 		positionMap.y = Global::screen_height-positionMap.h;
 	}
-	ImageFunc::RenderTexture(map,Global::renderer, false, positionMap, positionMap);
+	//ImageFunc::RenderTexture(map,Global::renderer, false, positionMap, positionMap);
+	map.OnRender(positionMap);
 	std::sort(objects.begin(), objects.end(), compareObjects);
 	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
 	{

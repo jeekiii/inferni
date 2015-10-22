@@ -7,12 +7,13 @@
 #include "../Util/command.hpp"
 #include "../Objects/player.hpp"
 #include "../Util/hud.hpp"
+#include "../Core/map.hpp"
 
 class cLevel
 {
 	private:
 		std::vector<cObject*> objects;
-		SDL_Texture* map;
+        cMap map;
 		coord positionMap;
         cPlayer *player;
         cHud hud;
