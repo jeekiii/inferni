@@ -1,0 +1,18 @@
+{"objects":
+	[
+	
+		{
+			"name": "house_1",
+			"position": [100, 40, 50, 50],
+			"image": "../Images/maison1.png",
+			"type": "solid"
+		},
+	
+		{
+			"name": "tree_1",
+			"position": [100, 40, 50, 50],
+			"image": "../Images/tree1.png",
+			"type": "solid" 
+		}
+	]
+}
