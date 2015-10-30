@@ -7,24 +7,23 @@ must be inherited
 #ifndef _GAMESTATE_HPP_
     #define _GAMESTATE_HPP_
 
-class cFPSCounter;
+class FpsCounter;
 
-class cGameState
+class GameState
 {
     protected:
-       cFPSCounter *mp_fps;
+       FpsCounter *fps_;
 
     public:
-        virtual int OnInit()=0;
-        virtual int OnCleanUp()=0;
+        
 
-        virtual void OnEvent()=0;
-        virtual void OnRender()=0;
-        virtual void OnUpdate()=0;
+        virtual void onEvent()=0;
+        virtual void onRender()=0;
+        virtual void onUpdate()=0;
 
     public:
-         cGameState();
-         virtual ~cGameState();
+         GameState();
+         virtual ~GameState();
 };
 
 #endif

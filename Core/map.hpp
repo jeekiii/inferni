@@ -1,20 +1,20 @@
-#ifndef _MAP_HPP_
-	#define _MAP_HPP_
+#ifndef MAP_HPP
+	#define MAP_HPP
 
 #include "tile.hpp"
 #include "../Util/tools.hpp"
-class cMap
+class Map
 {
 	private:
-		cTile **tiles;
-		coord mapSize;
-		coord posInit;
+		Tile **tiles_;
+		Coord mapSize_;
+		Coord startingPosition_;
 	public:
-		cMap();
-		~cMap();
-		void OnInit(int mapNumber);
-		void OnRender(coord positionMap);
-		coord GetPosInit();
+		Map();
+		Map(int mapNumber);
+		~Map();
+		void onRender(Coord positionMap);
+		Coord getStartingPosition();
 };
 
 #endif

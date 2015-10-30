@@ -1,15 +1,15 @@
-#ifndef _HUD_HPP_
-	#define _HUD_HPP_
+#ifndef HUD_HPP
+	#define HUD_HPP
 #include "../Objects/player.hpp"
-class cHud
+class Hud
 {
 	private:
-		cPlayer *player;
+		Player *player_;
 	public:
-		cHud();
-		~cHud();
-		void OnInit(cPlayer *player);
-		void OnRender();
+		Hud(Player *player);
+		Hud();
+		~Hud();
+		void onRender();
 		
 };
 

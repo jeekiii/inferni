@@ -1,40 +1,31 @@
 /// *********************16/02/2013***********************///
 /* the state class when player enters the game
-cGameState->cPlayState
+GameState->PlayState
 */
 
 
-#ifndef _PLAYSTATE_HPP_
-    #define _PLAYSTATE_HPP_
-#include "menu_state.hpp"
-#include "../Util/image_func.hpp"
-#include "../Util/fps_counter.hpp"
-#include "../Util/tools.hpp"
+#ifndef PLAYSTATE_HPP
+    #define PLAYSTATE_HPP
 
-#include "../Objects/wall.hpp"
-#include "../Objects/creature.hpp"
-
-#include "../Objects/object.hpp"
-#include "global.hpp"
 #include "../Core/level.hpp"
+#include "../Util/command.hpp"
+#include "../Core/game_state.hpp"
 
-class cCreature;
-class cGameState;
-class cWall;
+class Creature;
+class Wall;
 
-class cPlayState:public cGameState
+class PlayState:public GameState
 {
 
     private:
-        cLevel level;
-        cCommand command;
+        Level level_;
+        Command command_;
     public:
-         int OnInit();
-         int OnCleanUp();
-
-         void OnEvent();
-         void OnRender();
-         void OnUpdate();
+         PlayState();
+         ~PlayState();
+         void onEvent();
+         void onRender();
+         void onUpdate();
 
 };
 

@@ -1,29 +1,31 @@
 #include "../Objects/object.hpp"
 
-coord cObject::GetPosition()
+Coord Object::getPosition()
 {
-	return position;
+	return position_;
 }
-coord cObject::GetGroundHitbox()
+Coord Object::getGroundHitbox()
 {
-	coord result;
-	result.x = position.x+relativeGroundHitbox.x;
-	result.y = position.y+relativeGroundHitbox.y;
-	result.w = relativeGroundHitbox.w;
-	result.h = relativeGroundHitbox.h;
+	Coord result;
+	result.x = position_.x+relativeGroundHitbox_.x;
+	result.y = position_.y+relativeGroundHitbox_.y;
+	result.w = relativeGroundHitbox_.w;
+	result.h = relativeGroundHitbox_.h;
 	return result;
 }
-coord cObject::GetAboveHitbox()
+Coord Object::getAboveHitbox()
 {
-	coord result;
-	result.x = position.x+relativeAboveHitbox.x;
-	result.y = position.y+relativeAboveHitbox.y;
-	result.w = relativeAboveHitbox.w;
-	result.h = relativeAboveHitbox.h;
+	Coord result;
+	result.x = position_.x+relativeAboveHitbox_.x;
+	result.y = position_.y+relativeAboveHitbox_.y;
+	result.w = relativeAboveHitbox_.w;
+	result.h = relativeAboveHitbox_.h;
 	return result;
 }
 
-std::vector <ReactionObject> cObject::GetCollision(std::vector<cObject*> *objects, bool ground, bool above)
+
+
+std::vector <ReactionObject> Object::getCollision(std::vector<Object*> *objects, bool ground, bool above)
 {
 	std::vector <ReactionObject> result;
 	for(unsigned int i = 0; i < objects->size(); i++)
@@ -33,20 +35,20 @@ std::vector <ReactionObject> cObject::GetCollision(std::vector<cObject*> *object
 		{
 			if(ground)
 			{
-				if(Tools::Collision(this->GetGroundHitbox(), objects->at(i)->GetGroundHitbox()))
+				if(Tools::collision(this->getGroundHitbox(), objects->at(i)->getGroundHitbox()))
 				{
 					temp.object = objects->at(i);
-					temp.reaction = objects->at(i)->Reaction(this, true);
+					temp.reaction = objects->at(i)->reaction(this, true);
 					temp.ground = true;
 					result.push_back(temp);
 				}	
 			}
 			if(above)
 			{
-				if(Tools::Collision(this->GetAboveHitbox(), objects->at(i)->GetAboveHitbox()))
+				if(Tools::collision(this->getAboveHitbox(), objects->at(i)->getAboveHitbox()))
 				{
 					temp.object = objects->at(i);
-					temp.reaction = objects->at(i)->Reaction(this, false);
+					temp.reaction = objects->at(i)->reaction(this, false);
 					temp.ground = false;
 					result.push_back(temp);
 				}	
@@ -56,9 +58,9 @@ std::vector <ReactionObject> cObject::GetCollision(std::vector<cObject*> *object
 	return result;
 }
 
-bool compareObjects(cObject *obj1, cObject *obj2)
+bool compareObjects(Object *obj1, Object *obj2)
 {
-	return (obj1->GetPosition().y+obj1->GetPosition().h < obj2->GetPosition().y+obj2->GetPosition().h);
+	return (obj1->getPosition().y+obj1->getPosition().h < obj2->getPosition().y+obj2->getPosition().h);
 }
 
 

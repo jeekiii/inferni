@@ -1,16 +1,21 @@
 // is it really worth a class?
 
 #include "display_manager.hpp"
+#include <SDL2/SDL.h>
+#include <vector>
+#include "global.hpp"
+#include "game_state.hpp"
+#include "intro_state.hpp"
 
-cDisplayManager::cDisplayManager()
+DisplayManager::DisplayManager()
 {
-    Global::screen= SDL_CreateWindow("Our Game",100,100,Global::screen_width, Global::screen_height,0);
+    Global::screen= SDL_CreateWindow("Our Game",100,100,Global::screenWidth, Global::screenHeight,0);
     Global::renderer=SDL_CreateRenderer(Global::screen,-1,0);
 
 }
 
 
-cDisplayManager::~cDisplayManager()
+DisplayManager::~DisplayManager()
 {
     SDL_DestroyWindow(Global::screen);
     SDL_DestroyRenderer(Global::renderer);

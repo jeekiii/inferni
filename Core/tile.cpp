@@ -1,13 +1,14 @@
 #include "tile.hpp"
+#include "../Util/image_func.hpp"
 
-void cTile::OnInit(TileType type)
+Tile::Tile(TileType type)
 {
-	if(type == W)
+	if(type == WATER_TILE)
 	{
-		texture = ImageFunc::LoadSprites("Images/Tiles/Water.bmp",true,255,0,0);
+		texture_ = ImageFunc::loadSprites("Images/Tiles/Water.bmp",true,255,0,0);
 	}
 }
-void cTile::OnRender(coord position)
+void Tile::onRender(Coord position)
 {
-		ImageFunc::RenderTexture(texture, Global::renderer, false, position, position);
+		ImageFunc::renderTexture(texture_, Global::renderer, false, position, position);
 }

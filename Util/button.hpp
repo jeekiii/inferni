@@ -3,25 +3,24 @@
 */
 
 
-#ifndef _BUTTON_HPP_
-    #define _BUTTON_HPP_
-#include "../Core/global.hpp"
+#ifndef BUTTON_HPP
+    #define BUTTON_HPP
 #include "../Util/image_func.hpp"
 #include "../Util/tools.hpp"
-#include "../Util/fps_counter.hpp"
-#include <string>
 #include <SDL2/SDL.h>
+#include <string>
+
 using namespace std;
-class cButton
+class Button
 {
     private:
-		coord position;
-		SDL_Texture *image;
+		Coord position_;
+		SDL_Texture* image_;
     public:
-    	~cButton();
-    	cButton(){;}
-    	void Init(coord position, string imagePath);
-    	bool IsClicked(coord position);
-    	void OnRender();
+    	~Button();
+    	Button();
+    	Button(Coord position, string path);
+    	bool isClicked(Coord position);
+    	void onRender();
 };
 #endif

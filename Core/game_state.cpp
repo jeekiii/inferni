@@ -3,13 +3,13 @@
 
 #include "game_state.hpp"
 
-cGameState::cGameState()
+GameState::GameState()
 {
 
 }
 
 
-cGameState::~cGameState()
+GameState::~GameState()
 {
 
 }

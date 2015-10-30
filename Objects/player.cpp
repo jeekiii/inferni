@@ -1,116 +1,112 @@
 #include "player.hpp"
 #include "../Objects/creature.hpp"
 #include <algorithm>
-cPlayer::cPlayer()
+Player::Player(int positionX, int positionY)
 {
+	position_.x = positionX;
+	position_.y = positionY;
+	specialCurrentCD_=0;
+	specialCD_ = 10;
+	demonForm_ = false;
+	possessable_ = false;
+	possessed_ = new Creature(positionX, positionY);
+	possessed_->setPossessed(true);
 
+	demon_ = new Demon(positionX, positionY);
+	position_ = possessed_->getPosition();
+	relativeGroundHitbox_ = possessed_->getGroundHitbox();
+	relativeGroundHitbox_.x -= position_.x;
+	relativeGroundHitbox_.y -= position_.y;
+	relativeAboveHitbox_ = possessed_->getAboveHitbox();
+	relativeAboveHitbox_.x -= position_.x;
+	relativeAboveHitbox_.y -= position_.y;
 }
 
-cPlayer::~cPlayer()
+Player::~Player()
 {
-	free(possessed);//damn, that's one sweet-ass piece of code!
-	free(cmd);
+	free(possessed_);//damn, that's one sweet-ass piece of code!
 }
 
-void cPlayer::OnRender(coord positionMap)
+void Player::onRender(Coord positionMap)
 {
-	possessed->OnRender(positionMap);
+	possessed_->onRender(positionMap);
 }
 
-void cPlayer::OnMove(std::vector<cObject*> *objects)
+void Player::onMove(std::vector<Object*> *objects)
 {
-	possessed->OnMove(objects);
-	position = possessed->GetPosition();//allow for sorting in level->onrender to render things in the right order.
+	possessed_->onMove(objects);
+	position_ = possessed_->getPosition();//allow for sorting in level->onrender to render things in the right order.
 
 }
-void cPlayer::OnUpdate(std::vector<cObject*> *objects)
+void Player::onUpdate(std::vector<Object*> *objects)
 {
 
-	if(specialCurrentCD > 0)
-		specialCurrentCD--;
-	if(possessed->IsLeaving())
+	if(specialCurrentCD_ > 0)
+		specialCurrentCD_--;
+	if(possessed_->isLeaving())
 	{
-		if(specialCurrentCD == 0)
+		if(specialCurrentCD_ == 0)
 		{
-			if(!demonForm)
+			if(!demonForm_)
 			{
-				possessed->setPossessed(false);
-				objects->push_back(possessed);
-				LeaveBody();
+				possessed_->setPossessed(false);
+				objects->push_back(possessed_);
+				leaveBody();
 			}
 			else
 			{
 				std::vector<ReactionObject> collisions;
-				collisions = GetCollision(objects, true, true);
+				collisions = getCollision(objects, true, true);
 				bool found = false;
+
 				for(unsigned int i = 0; i < collisions.size() && !found; i++)
 				{
-					if(collisions.at(i).object->IsPossessable())
+					if(collisions.at(i).object->isPossessable())
 					{
 						objects->erase(std::find(objects->begin(), objects->end(), collisions.at(i).object));
-						Possess(static_cast<cPossessable*>(collisions.at(i).object));
+						possess(static_cast<Possessable*>(collisions.at(i).object));
 						found = true;
 					}
 				}
 			}
-			specialCurrentCD = specialCD;
+			specialCurrentCD_ = specialCD_;
 		}
 	}
-	possessed->OnUpdate(objects);
+	possessed_->onUpdate(objects);
 }
 
-ReactionType cPlayer::Reaction(cObject *object, bool ground)
+ReactionType Player::reaction(Object *object, bool ground)
 {
-	if(object == possessed)
-		return NONE;
-	return possessed->Reaction(object, ground);
+	if(object == possessed_)
+		return NONE_REACTION;
+	return possessed_->reaction(object, ground);
 }
 
-void cPlayer::OnInit(int positionX, int positionY)
+
+void Player::onCommand(std::vector<Object*> *objects, std::vector<CommandType> commands)//should get a vector of keys to react correctly in case multiple keys are pressed
 {
-	specialCurrentCD =0;
-	specialCD = 10;
-	demonForm = false;
-	possessable = false;
-	cmd =  new cCommand;
-	possessed = new cCreature;
-	possessed->OnInit(positionX, positionY);
-	possessed->setPossessed(true);
-	demon = new cDemon;
-	demon->OnInit(positionX, positionY);
-	position = possessed->GetPosition();
-	relativeGroundHitbox = possessed->GetGroundHitbox();
-	relativeGroundHitbox.x -= position.x;
-	relativeGroundHitbox.y -= position.y;
-	relativeAboveHitbox = possessed->GetAboveHitbox();
-	relativeAboveHitbox.x -= position.x;
-	relativeAboveHitbox.y -= position.y;
+	possessed_->onCommand(objects, commands);
+}
+void Player::takeDamage(int amount)
+{
+	possessed_->takeDamage(amount);
 }
 
-void cPlayer::OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands)//should get a vector of keys to react correctly in case multiple keys are pressed
+void Player::possess(Possessable *target)
 {
-	possessed->OnCommand(objects, commands);
-}
-void cPlayer::TakeDamage(int amount)
-{
-	possessed->TakeDamage(amount);
-}
-
-void cPlayer::Possess(cPossessable *target)
-{
-	demonForm = false;
-	possessed = target;
+	demonForm_ = false;
+	possessed_ = target;
 	target->setPossessed(true);
 }
 
-void cPlayer::LeaveBody()
+void Player::leaveBody()
 {
-	possessed = demon;
-	demonForm = true;
-	demon->SetPosition(position);
+	possessed_ = demon_;
+	demonForm_ = true;
+	demon_->setPosition(position_);
 }
 
-int cPlayer::GetHp()
+int Player::getHp()
 {
-	return possessed->GetHp();
+	return possessed_->getHp();
 }

@@ -1,20 +1,19 @@
 #include "hud.hpp"
 
-cHud::~cHud()
+Hud::~Hud()
 {
 	;
 }
 
-cHud::cHud()
+Hud::Hud()
 {
 	;
 }
-
-void cHud::OnInit(cPlayer *player)
+Hud::Hud(Player *player)
 {
-	this->player = player;
+	player_ = player;
 }
-void cHud::OnRender()
+void Hud::onRender()
 {
-	printf("hud hp: %d \n",player->GetHp());
+	//printf("hud hp: %d \n",player->getHp());
 }

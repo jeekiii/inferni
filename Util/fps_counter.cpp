@@ -3,23 +3,23 @@
 #include <SDL2/SDL.h>
 
 
-void cFPSCounter::StartCount()
+void FpsCounter::startCount()
 {
-m_init_time=SDL_GetTicks();
+	initTime=SDL_GetTicks();
 }
 
 
-void cFPSCounter::CheckFPS()
+void FpsCounter::checkFPS()
 {
-	m_time_flag=SDL_GetTicks();
-	int difference=m_time_flag-m_init_time;
+	timeFlag=SDL_GetTicks();
+	int difference=timeFlag-initTime;
 
-	if(difference<m_time_per_frame)
-	    SDL_Delay(m_time_per_frame-difference);
+	if(difference<timePerFrame)
+	    SDL_Delay(timePerFrame-difference);
 
 }
 
-void cFPSCounter::GetNewTick()
+void FpsCounter::getNewTick()
 {
-    m_init_time=SDL_GetTicks();
+    initTime=SDL_GetTicks();
 }

@@ -1,30 +1,26 @@
 /// *********************16/02/2013***********************///
 /* the state class when player enters the menu (like press ESC)
-cGameState->cMenuState
+GameState->MenuState
 */
 
 
-#ifndef _MENUSTATE_HPP_
-    #define _MENUSTATE_HPP_
+#ifndef MENUSTATE_HPP
+    #define MENUSTATE_HPP
 
 #include "game_state.hpp"
 #include <SDL2/SDL.h>
 
-class cMenuState:public cGameState
+class MenuState:public GameState
 {
     private:
-        SDL_Texture* m_tex_bg;
+        SDL_Texture* tex_;
 
     public:
-        cMenuState(){m_tex_bg=NULL;}
-
-    public:
-         int OnInit();
-         int OnCleanUp();
-
-         void OnEvent();
-         void OnRender();
-         void OnUpdate();
+		MenuState();
+		~MenuState();
+        void onEvent();
+        void onRender();
+        void onUpdate();
 
 };
 

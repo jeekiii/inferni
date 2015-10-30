@@ -1,50 +1,50 @@
 #include "map.hpp"
 #include "../Core/global.hpp"
 
-void cMap::OnInit(int mapNumber)
+Map::Map(int mapNumber)
 {
 	//this is all temporary, should load the map instead.
 	//this is where the whole mapSize x or y becomes complicated careful not to mess up...
 
-	mapSize.x = 30;
-	mapSize.y = 30;
+	mapSize_.x = 30;
+	mapSize_.y = 30;
 
-	posInit.x = 0;
-	posInit.y = 0;
-	posInit.w = mapSize.x*50;
-	posInit.h = mapSize.y*50;
-	tiles = new cTile*[mapSize.x];
-	for(int i = 0; i < mapSize.x; i++)
+	startingPosition_.x = 0;
+	startingPosition_.y = 0;
+	startingPosition_.w = mapSize_.x*50;
+	startingPosition_.h = mapSize_.y*50;
+	tiles_ = new Tile*[mapSize_.x];
+	for(int i = 0; i < mapSize_.x; i++)
 	{
-		tiles[i] = new cTile[mapSize.y];
+		tiles_[i] = new Tile[mapSize_.y];
 	}
 
-	for(int i = 0; i < mapSize.x; i++)
+	for(int i = 0; i < mapSize_.x; i++)
 	{
-		for(int j = 0; j < mapSize.y; j++)
+		for(int j = 0; j < mapSize_.y; j++)
 		{
-			(tiles[i][j]).OnInit(W);
+			(tiles_[i][j]) = Tile(WATER_TILE);
 		}
 	}
 
 
 }
-void cMap::OnRender(coord positionMap)
+void Map::onRender(Coord positionMap)
 {
-	coord positionTile;
+	Coord positionTile;
 	positionTile.x = positionMap.x;
 	positionTile.y = positionMap.y;
 	positionTile.w = 50;
 	positionTile.h = 50;
-	for(int i = 0; i < mapSize.x; i++)
+	for(int i = 0; i < mapSize_.x; i++)
 	{
-		for(int j = 0; j < mapSize.y; j++)
+		for(int j = 0; j < mapSize_.y; j++)
 		{
-			if(positionTile.x > -50 && positionTile.x  < Global::screen_width)//check if it's on the screen
+			if(positionTile.x > -50 && positionTile.x  < Global::screenWidth)//check if it's on the screen
 			{
-				if(positionTile.y> -50 && positionTile.y < Global::screen_height)
+				if(positionTile.y> -50 && positionTile.y < Global::screenHeight)
 				{
-					tiles[i][j].OnRender(positionTile);
+					tiles_[i][j].onRender(positionTile);
 				}
 			}
 			positionTile.y+=50;
@@ -54,23 +54,23 @@ void cMap::OnRender(coord positionMap)
 	}
 }
 
-coord cMap::GetPosInit()
+Coord Map::getStartingPosition()
 {
-	return posInit;
+	return startingPosition_;
 }
 
-cMap::~cMap()
+Map::~Map()
 {
 
 	//care with your frees, don't mess up between mapSize.x and y;
-	for(int i = 0; i < mapSize.x; i++)
+	for(int i = 0; i < mapSize_.x; i++)
 	{
-		delete[] tiles[i];
+		delete[] tiles_[i];
 	}
-	delete tiles;
+	delete tiles_;
 }
 
-cMap::cMap()
+Map::Map()
 {
 	;
 }

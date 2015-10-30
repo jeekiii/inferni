@@ -1,24 +1,24 @@
-#ifndef _COMMAND_HPP_
-	#define _COMMAND_HPP_
+#ifndef COMMAND_HPP
+	#define COMMAND_HPP
 #include <SDL2/SDL.h>
 #include <vector>
 typedef enum CommandType
 {
-	OTHER, UP, DOWN, LEFT, RIGHT, ATTACK, SPECIAL
+	OTHER_COMMAND, UP_COMMAND, DOWN_COMMAND, LEFT_COMMAND, RIGHT_COMMAND, ATTACK_COMMAND, SPECIAL_COMMAND
 } CommandType;
 
-class cCommand
+class Command
 {
 	private:
-		SDL_Keycode up, down, left, right, attack, possess;
-		std::vector <CommandType> commands;
-		std::vector<CommandType> toRemove;
+		SDL_Keycode up_, down_, left_, right_, attack_, possess_;
+		std::vector <CommandType> commands_;
+		std::vector<CommandType> toRemove_;
 	public:
-		cCommand();
-		~cCommand();
-		std::vector<CommandType> GetCommand();
-		void AddCommand(SDL_Keycode key);
-		void RemoveCommand(SDL_Keycode key);
+		Command();
+		~Command();
+		std::vector<CommandType> getCommand();
+		void addCommand(SDL_Keycode key);
+		void removeCommand(SDL_Keycode key);
 
 };
 

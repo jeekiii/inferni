@@ -3,8 +3,8 @@
 included into other cpp files
 */
 
-#ifndef _GLOBAL_HPP_
-    #define _GLOBAL_HPP_
+#ifndef GLOBAL_HPP
+    #define GLOBAL_HPP
 
 #include "game_state.hpp"
 #include <vector>
@@ -13,13 +13,12 @@ namespace Global
 {
 	extern SDL_Window *screen;
 	extern SDL_Renderer *renderer;
-
-	extern int screen_width;
-	extern int screen_height;
-
+	extern int screenWidth;
+	extern int screenHeight;
 
 
-	extern std::vector<cGameState*> state;
+
+	extern std::vector<GameState*> state;
 
 }
 

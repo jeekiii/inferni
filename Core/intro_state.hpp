@@ -1,37 +1,32 @@
 /// *********************16/02/2013***********************///
 /* the state class when player first enters the game(welcome page)
-cGameState->cIntroState
+GameState->IntroState
 */
 
-#ifndef _INTRO_HPP_
-    #define _INTRO_HPP_
+#ifndef INTRO_HPP
+    #define INTRO_HPP
 
 #include <SDL2/SDL.h>
-#include "global.hpp"
-#include "../Util/image_func.hpp"
-#include "../Util/fps_counter.hpp"
+
+
 #include "../Util/button.hpp"
 #include "../Util/tools.hpp"
-#include "play_state.hpp"
-#include "game_state.hpp"
 
-class cIntroState:public cGameState
+
+class IntroState:public GameState
 {
     private:
-        SDL_Texture* m_tex_bg;      //abbrev: member-surface-background
-        cButton buttonPlay;
-        coord positionBg;
+        SDL_Texture* tex_;      //abbrev: member-surface-background
+        Button *buttonPlay_;
+        Coord positionBg_;
     public:
-        cIntroState(){;}
-        ~cIntroState(){;};
+        IntroState();
+        ~IntroState();
 
     public:
-         int OnInit();
-         int OnCleanUp();
-
-         void OnEvent();
-         void OnRender();
-         void OnUpdate();
+         void onEvent();
+         void onRender();
+         void onUpdate();
 };
 
 #endif

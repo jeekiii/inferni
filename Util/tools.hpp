@@ -1,20 +1,20 @@
-#ifndef _TOOLS_HPP_
-	#define _TOOLS_HPP_
+#ifndef TOOLS_HPP
+	#define TOOLS_HPP
 
 #include <SDL2/SDL.h>
-typedef struct coord
+typedef struct Coord
 {
 	int x;
 	int y;
 	int h;
 	int w;
-}coord;
+}Coord;
 
 namespace Tools
 {
-	bool Collision(coord coord1,coord coord2);
-	SDL_Rect CoordToRect(coord c);
-	coord RectToCoord(SDL_Rect c);
+	bool collision(Coord position1,Coord position2);
+	SDL_Rect coordToRect(Coord c);
+	Coord rectToCoord(SDL_Rect c);
 }
 
 

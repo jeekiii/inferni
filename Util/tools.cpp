@@ -1,22 +1,22 @@
 #include "tools.hpp"
 
-bool Tools::Collision(coord coord1,coord coord2)
+bool Tools::collision(Coord position1,Coord position2)
 {
-	if (coord1.x+coord1.w < coord2.x)
+	if (position1.x+position1.w < position2.x)
 		return false;
-    if (coord1.x > coord2.x+coord2.w)
+    if (position1.x > position2.x+position2.w)
     	return false;
-    if (coord1.y+coord1.h < coord2.y)
+    if (position1.y+position1.h < position2.y)
     	return false;
-    if (coord1.y > coord2.y+coord1.h)
+    if (position1.y > position2.y+position1.h)
     	return false;
 
     return true; // boxes overlap
 }
 
-coord Tools::RectToCoord(SDL_Rect c)
+Coord Tools::rectToCoord(SDL_Rect c)
 {
-	coord result; 
+	Coord result; 
 	result.x = c.x;
 	result.y = c.y;
 	result.w = c.w;
@@ -24,7 +24,7 @@ coord Tools::RectToCoord(SDL_Rect c)
 	return result;
 }
 
-SDL_Rect Tools::CoordToRect(coord c)
+SDL_Rect Tools::coordToRect(Coord c)
 {
 	SDL_Rect result;
 	result.x = c.x;

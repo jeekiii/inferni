@@ -1,29 +1,38 @@
 /// *********************16/02/2013***********************///
 
-
 #include "play_state.hpp"
+
+#include "../Core/menu_state.hpp"
+
+
+#include "../Objects/wall.hpp"
+#include "../Objects/creature.hpp"
+#include "../Objects/object.hpp"
+
+#include "global.hpp"
+#include "../Util/tools.hpp"
+#include "../Util/image_func.hpp"
+#include "../Util/fps_counter.hpp"
+
 #include <algorithm>
 
 
-int cPlayState::OnInit()
+PlayState::PlayState()
 {
 
-    mp_fps=new cFPSCounter(25);
-    mp_fps->StartCount();
-    level.OnInit();
-    return 0;
+    fps_=new FpsCounter(25);
+    fps_->startCount();
+    
 }
 
 
-int cPlayState::OnCleanUp()
+PlayState::~PlayState()
 {
-    level.OnCleanUp();
-    delete mp_fps;
-    return 0;
+    delete fps_;
 }
 
 
-void cPlayState::OnEvent()//unappropriate name? It's not a callback! <= Nah, probably fine
+void PlayState::onEvent()//unappropriate name? It's not a callback! <= Nah, probably fine
 {
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -36,42 +45,39 @@ void cPlayState::OnEvent()//unappropriate name? It's not a callback! <= Nah, pro
                 case SDL_KEYDOWN:
                     if(event.key.keysym.sym==SDLK_y)
                     {
-                        cMenuState *p_menu=new cMenuState;
-                        p_menu->OnInit();
+                        MenuState *p_menu=new MenuState;
                         Global::state.push_back(p_menu);
                     }
 
                     if(event.key.keysym.sym==SDLK_ESCAPE)
                     {
-                        Global::state.back()->OnCleanUp();
-                        delete Global::state.back();
                         Global::state.pop_back();
                     }
                     else
                     {
-                        command.AddCommand(event.key.keysym.sym);
+                        command_.addCommand(event.key.keysym.sym);
                     }
                     break;
                 case SDL_KEYUP:
-                    command.RemoveCommand(event.key.keysym.sym);
+                    command_.removeCommand(event.key.keysym.sym);
                     break;
             }
         }
 }
 
 
-void cPlayState::OnRender()
+void PlayState::onRender()
 {
     SDL_RenderClear(Global::renderer);
-    level.OnRender();
+    level_.onRender();
     SDL_RenderPresent(Global::renderer);
 }
 
 
-void cPlayState::OnUpdate()
+void PlayState::onUpdate()
 {
-    level.OnUpdate(command.GetCommand());
-    mp_fps->CheckFPS();
-    mp_fps->GetNewTick();
+    level_.onUpdate(command_.getCommand());
+    fps_->checkFPS();
+    fps_->getNewTick();
     return;
 }

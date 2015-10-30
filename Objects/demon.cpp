@@ -3,86 +3,87 @@
 #include <algorithm>
 #include <vector>
 #include "../Util/image_func.hpp"
-cDemon::cDemon()
+Demon::Demon()
 {
 
 }
-cDemon::~cDemon()
+Demon::~Demon()
 {
-	SDL_DestroyTexture(image);
+	SDL_DestroyTexture(image_);
 }
 
-void cDemon::OnRender(coord positionMap)
+Demon::Demon(int positionX, int positionY)
 {
-	coord positionBlit;//this code should be moved somewhere it's copied in arrow.cpp
-	positionBlit.x = position.x + positionMap.x;
-	positionBlit.y = position.y + positionMap.y;
-	positionBlit.h = position.h;
-	positionBlit.w = position.w;
-	ImageFunc::RenderTexture(image, Global::renderer, false, positionBlit, positionBlit);
+	hp_ = 100;
+	leaving_ = false;
+	possessable_ = true;
+	image_=ImageFunc::loadSprites("Images/HeroUp.bmp",true,255,0,0);
+	position_.x = positionX;
+	position_.y = positionY;
+	SDL_QueryTexture(image_, NULL, NULL, &position_.w, &position_.h);
+	relativeGroundHitbox_.x = 5;
+	relativeGroundHitbox_.w = 37;
+	relativeGroundHitbox_.y = 67;
+	relativeGroundHitbox_.h = 26;
+	relativeAboveHitbox_.x = 5;
+	relativeAboveHitbox_.w = 38;
+	relativeAboveHitbox_.y = 2;
+	relativeAboveHitbox_.h = 65;
+	toMove_.x = 0;
+	toMove_.y = 0;
 }
 
-void cDemon::OnMove(std::vector<cObject*> *objects)
+void Demon::onRender(Coord positionMap)
 {
-	position.x += toMove.x;
-	position.y += toMove.y;
-	toMove.x = 0;
-	toMove.y = 0;
+	Coord positionBlit;//this code should be moved somewhere it's copied in arrow.cpp
+	positionBlit.x = position_.x + positionMap.x;
+	positionBlit.y = position_.y + positionMap.y;
+	positionBlit.h = position_.h;
+	positionBlit.w = position_.w;
+	ImageFunc::renderTexture(image_, Global::renderer, false, positionBlit, positionBlit);
+}
+
+void Demon::onMove(std::vector<Object*> *objects)
+{
+	position_.x += toMove_.x;
+	position_.y += toMove_.y;
+	toMove_.x = 0;
+	toMove_.y = 0;
 
 
 }
-void cDemon::OnUpdate(std::vector<cObject*> *objects)
+void Demon::onUpdate(std::vector<Object*> *objects)
 {
-	leaving = false;
+	leaving_ = false;
 
 }
 
-ReactionType cDemon::Reaction(cObject *object, bool ground)
+ReactionType Demon::reaction(Object *object, bool ground)
 {
 
-	return NONE;
-}
-
-void cDemon::OnInit(int positionX, int positionY)
-{
-	hp = 100;
-	leaving = false;
-	possessable = true;
-	image=ImageFunc::LoadSprites("Images/HeroUp.bmp",true,255,0,0);
-	position.x = positionX;
-	position.y = positionY;
-	SDL_QueryTexture(image, NULL, NULL, &position.w, &position.h);
-	relativeGroundHitbox.x = 5;
-	relativeGroundHitbox.w = 37;
-	relativeGroundHitbox.y = 67;
-	relativeGroundHitbox.h = 26;
-	relativeAboveHitbox.x = 5;
-	relativeAboveHitbox.w = 38;
-	relativeAboveHitbox.y = 2;
-	relativeAboveHitbox.h = 65;
-	toMove.x = 0;
-	toMove.y = 0;
+	return NONE_REACTION;
 }
 
 
-void cDemon::OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands)
+
+void Demon::onCommand(std::vector<Object*> *objects, std::vector<CommandType> commands)
 {
-	if(std::find(commands.begin(), commands.end(), RIGHT)!= commands.end())
-		toMove.x = 5;
-	else if(std::find(commands.begin(), commands.end(), LEFT)!= commands.end())
-		toMove.x = -5;
-	else if(std::find(commands.begin(), commands.end(), DOWN)!= commands.end())
-		toMove.y = 5;
-	else if(std::find(commands.begin(), commands.end(), UP)!= commands.end())
-		toMove.y = -5;
-	else if(std::find(commands.begin(), commands.end(), SPECIAL)!= commands.end())
+	if(std::find(commands.begin(), commands.end(), RIGHT_COMMAND)!= commands.end())
+		toMove_.x = 5;
+	else if(std::find(commands.begin(), commands.end(), LEFT_COMMAND)!= commands.end())
+		toMove_.x = -5;
+	else if(std::find(commands.begin(), commands.end(), DOWN_COMMAND)!= commands.end())
+		toMove_.y = 5;
+	else if(std::find(commands.begin(), commands.end(), UP_COMMAND)!= commands.end())
+		toMove_.y = -5;
+	else if(std::find(commands.begin(), commands.end(), SPECIAL_COMMAND)!= commands.end())
 	{
-		leaving = true;
+		leaving_ = true;
 
 	}
 }
 
-void cDemon::SetPosition(coord position)
+void Demon::setPosition(Coord position)
 {
-	this->position = position;
+	position_ = position;
 }

@@ -1,21 +1,21 @@
 /// *********************16/02/2013***********************///
 /* wall class, used to block player
-cObject->cCollisionObject->cWall
+Object->cCollisionObject->Wall
 */
 
 
-#ifndef _WALL_HPP_
-    #define _WALL_HPP_
+#ifndef WALL_HPP
+    #define WALL_HPP
 #include "../Objects/object.hpp"
 #include "../Util/tools.hpp"
-class cWall: public cObject
+class Wall: public Object
 {
     public:
-        cWall();
-        ~cWall();
+        Wall();
+        ~Wall();
 
     public:
-        void Draw();
+        void draw();
 };
 
 #endif

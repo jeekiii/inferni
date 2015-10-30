@@ -1,67 +1,67 @@
 #include "command.hpp"
 #include <algorithm>
-cCommand::cCommand()
+Command::Command()
 {
-	up = SDLK_z;
-	down = SDLK_s;
-	left = SDLK_q;
-	right = SDLK_d;
-	attack = SDLK_e;
-	possess = SDLK_SPACE;
+	up_ = SDLK_z;
+	down_ = SDLK_s;
+	left_ = SDLK_q;
+	right_ = SDLK_d;
+	attack_ = SDLK_e;
+	possess_ = SDLK_SPACE;
 }
 
-cCommand::~cCommand()
+Command::~Command()
 {
 
 }
 
-std::vector<CommandType> cCommand::GetCommand()
+std::vector<CommandType> Command::getCommand()
 {
-	std::vector<CommandType> result = commands;
-	for(unsigned int i = 0; i < toRemove.size(); i++)
+	std::vector<CommandType> result = commands_;
+	for(unsigned int i = 0; i < toRemove_.size(); i++)
 	{
-		if(std::find(commands.begin(), commands.end(), toRemove.at(i)) != commands.end())
-			commands.erase(std::find(commands.begin(), commands.end(), toRemove.at(i)));
+		if(std::find(commands_.begin(), commands_.end(), toRemove_.at(i)) != commands_.end())
+			commands_.erase(std::find(commands_.begin(), commands_.end(), toRemove_.at(i)));
 	}
-	toRemove.clear();
+	toRemove_.clear();
 	return result;
 }
 
-void cCommand::AddCommand(SDL_Keycode key)
+void Command::addCommand(SDL_Keycode key)
 {    
 	CommandType temp;       
-	if(key == up)
-		temp = UP;
-	if(key == down)
-		temp = DOWN;
-	if(key == left)
-		temp = LEFT;
-	if(key == right)
-		temp = RIGHT;
-	if(key == attack)
-		temp = ATTACK;
-	if(key == possess)
-		temp = SPECIAL;
+	if(key == up_)
+		temp = UP_COMMAND;
+	if(key == down_)
+		temp = DOWN_COMMAND;
+	if(key == left_)
+		temp = LEFT_COMMAND;
+	if(key == right_)
+		temp = RIGHT_COMMAND;
+	if(key == attack_)
+		temp = ATTACK_COMMAND;
+	if(key == possess_)
+		temp = SPECIAL_COMMAND;
 
-	if(std::find(commands.begin(), commands.end(), temp) == commands.end())
+	if(std::find(commands_.begin(), commands_.end(), temp) == commands_.end())
 	{
-		commands.push_back(temp);
+		commands_.push_back(temp);
 	}
 
 }
 
-void cCommand::RemoveCommand(SDL_Keycode key)
+void Command::removeCommand(SDL_Keycode key)
 {
-	if(key == up)
-		toRemove.push_back(UP);
-	if(key == down)
-		toRemove.push_back(DOWN);
-	if(key == left)
-		toRemove.push_back(LEFT);
-	if(key == right)
-		toRemove.push_back(RIGHT);
-	if(key == attack)
-		toRemove.push_back(ATTACK);
-	if(key == possess)
-		toRemove.push_back(SPECIAL);
+	if(key == up_)
+		toRemove_.push_back(UP_COMMAND);
+	if(key == down_)
+		toRemove_.push_back(DOWN_COMMAND);
+	if(key == left_)
+		toRemove_.push_back(LEFT_COMMAND);
+	if(key == right_)
+		toRemove_.push_back(RIGHT_COMMAND);
+	if(key == attack_)
+		toRemove_.push_back(ATTACK_COMMAND);
+	if(key == possess_)
+		toRemove_.push_back(SPECIAL_COMMAND);
 }

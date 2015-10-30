@@ -1,35 +1,33 @@
-#ifndef _PLAYER_HPP_
-	#define _PLAYER_HPP_
+#ifndef PLAYER_HPP
+	#define PLAYER_HPP
 #include "../Util/command.hpp"
 #include "../Objects/possessable.hpp"
-#include <SDL2/SDL.h>
 #include "../Objects/demon.hpp"
 
-class cPossessable;//solves mutual inclusion
+class Possessable;//solves mutual inclusion
 
-class cPlayer:public cObject
+class Player:public Object
 {
 	private:
-		cPossessable *possessed;
-		cDemon *demon;
-		cCommand *cmd;
-		bool demonForm;
-		int specialCD;
-		int specialCurrentCD;
+		Possessable *possessed_;
+		Demon *demon_;
+		bool demonForm_;
+		int specialCD_;
+		int specialCurrentCD_;
 	public:
-		cPlayer();
-		~cPlayer();
-		void OnInit(int positionX, int positionY);
-		void OnRender(coord positionMap);
-		void OnMove(std::vector<cObject*> *objects);
-		ReactionType Reaction(cObject *object, bool ground);
-		void OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> keys);
-        void OnUpdate(std::vector<cObject*> *objects);
+		Player();
+		Player(int positionX, int positionY);
+		~Player();
+		void onRender(Coord positionMap);
+		void onMove(std::vector<Object*> *objects);
+		ReactionType reaction(Object *object, bool ground);
+		void onCommand(std::vector<Object*> *objects, std::vector<CommandType> keys);
+        void onUpdate(std::vector<Object*> *objects);
 
-		void TakeDamage(int amount);
-		void Possess(cPossessable *target);
-		void LeaveBody();
-        int GetHp();
+		void takeDamage(int amount);
+		void possess(Possessable *target);
+		void leaveBody();
+        int getHp();
 
 };
 

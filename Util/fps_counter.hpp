@@ -3,22 +3,22 @@
 */
 
 
-#ifndef _FPSCOUNTER_HPP_
-    #define _FPSCOUNTER_HPP_
+#ifndef FPSCOUNTER_HPP
+    #define FPSCOUNTER_HPP
 
-class cFPSCounter
+class FpsCounter
 {
     private:
-        int m_init_time;
-        int m_time_flag;
-        int m_time_per_frame;
+        int initTime;
+        int timeFlag;
+        int timePerFrame;
 
     public:
-         cFPSCounter(int fps=50){m_time_per_frame=1000/fps;}
+         FpsCounter(int fps=50){timePerFrame=1000/fps;}
 
-         void StartCount();
-         void CheckFPS();
-         void GetNewTick();
+         void startCount();
+         void checkFPS();
+         void getNewTick();
 
 };
 

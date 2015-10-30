@@ -1,29 +1,29 @@
 
-#ifndef _LEVEL_HPP_
-    #define _LEVEL_HPP_
+#ifndef LEVEL_HPP
+    #define LEVEL_HPP
 #include <vector>
 #include "../Objects/object.hpp"
-#include "../Util/tools.hpp"
 #include "../Util/command.hpp"
 #include "../Objects/player.hpp"
 #include "../Util/hud.hpp"
 #include "../Core/map.hpp"
+#include "../Util/tools.hpp"
 
-class cLevel
+class Level
 {
 	private:
-		std::vector<cObject*> objects;
-        cMap map;
-		coord positionMap;
-        cPlayer *player;
-        cHud hud;
+		std::vector<Object*> objects_;
+        Map map_;
+		Coord positionMap_;
+        Player *player_;
+        Hud hud_;
 
     public:
 
-        int OnInit();
-        int OnCleanUp();
-        void OnRender();
-        void OnUpdate(std::vector <CommandType> commands);
+        Level();
+        ~Level();
+        void onRender();
+        void onUpdate(std::vector <CommandType> commands);
 };
 
 

@@ -2,32 +2,34 @@
 
 
 #include "intro_state.hpp"
+#include "global.hpp"
+#include "../Util/image_func.hpp"
+#include "../Util/fps_counter.hpp"
+#include "play_state.hpp"
+#include "game_state.hpp"
 
-
-int cIntroState::OnInit()
+IntroState::IntroState()
 {
-    coord positionPlay = {100, 100, 0, 0}; //position.h and w are automatically calculated!
-    m_tex_bg=ImageFunc::LoadSprites("Images/IntroPage.bmp");
-    mp_fps=new cFPSCounter(25);
-    mp_fps->StartCount();
-    buttonPlay.Init(positionPlay, "Images/ButtonPlay.bmp");//must free memory
-    positionBg.x = 0;
-    positionBg.y = 0;
-    SDL_QueryTexture(m_tex_bg, NULL, NULL, &positionBg.w, &positionBg.h);
-
-    return 0;
+    Coord positionPlay = {100, 100, 0, 0}; //position.h and w are automatically calculated!
+    tex_=ImageFunc::loadSprites("Images/IntroPage.bmp");
+    fps_=new FpsCounter(25);
+    fps_->startCount();
+    buttonPlay_ = new Button(positionPlay, "Images/ButtonPlay.bmp");
+    positionBg_.x = 0;
+    positionBg_.y = 0;
+    SDL_QueryTexture(tex_, NULL, NULL, &positionBg_.w, &positionBg_.h);
 }
 
 
-int cIntroState::OnCleanUp()
+IntroState::~IntroState()
 {
-    delete mp_fps;
-    SDL_DestroyTexture(m_tex_bg);
-    return 0;
+    delete fps_;
+    delete buttonPlay_;
+    SDL_DestroyTexture(tex_);
 }
 
 
-void cIntroState::OnEvent()
+void IntroState::onEvent()
 {
         SDL_Event event;
         if (SDL_PollEvent(&event))
@@ -35,36 +37,34 @@ void cIntroState::OnEvent()
             switch (event.type)
             {
                 case SDL_QUIT:
-                    Global::state.back()->OnCleanUp();
-                    Global::state.clear();   /// need cleanup !!!
+                    delete Global::state.back(); //does this work?
+                    Global::state.clear();   /// need cleanup !!! //not anymoree.
                 break;
                 case SDL_KEYDOWN:
                 {
                     if(event.key.keysym.sym==SDLK_y)
                     {
-                        cPlayState *p_play=new cPlayState;
-                        p_play->OnInit();
+                        PlayState *p_play=new PlayState;
+                        //p_play->OnInit();
                         Global::state.push_back(p_play);
                     }
 
                    if(event.key.keysym.sym==SDLK_q)
                     {
-                            Global::state.back()->OnCleanUp();
                             Global::state.clear();
                     }
                 }
                 break;
                 case SDL_MOUSEBUTTONDOWN:
                 {
-                    coord mousePosition;
+                    Coord mousePosition;
                     mousePosition.h = 1;
                     mousePosition.w = 1;
                     mousePosition.x = event.motion.x;
                     mousePosition.y = event.motion.y;
-                    if(buttonPlay.IsClicked(mousePosition))
+                    if(buttonPlay_->isClicked(mousePosition))
                     {
-                        cPlayState *p_play=new cPlayState;
-                        p_play->OnInit();
+                        PlayState *p_play=new PlayState;
                         Global::state.push_back(p_play);
                     }
                 }   
@@ -77,19 +77,18 @@ void cIntroState::OnEvent()
 }
 
 
-void cIntroState::OnRender()
+void IntroState::onRender()
 {
     SDL_RenderClear(Global::renderer);
-    ImageFunc::RenderTexture(m_tex_bg,Global::renderer, false, positionBg, positionBg);
-    buttonPlay.OnRender();
+    ImageFunc::renderTexture(tex_, Global::renderer, false, positionBg_, positionBg_);
+    buttonPlay_->onRender();
     SDL_RenderPresent(Global::renderer);
 }
 
 
-void cIntroState::OnUpdate()
+void IntroState::onUpdate()
 {
-    mp_fps->CheckFPS();
+    fps_->checkFPS();
 
-    mp_fps->GetNewTick();
-return;
+    fps_->getNewTick();
 }

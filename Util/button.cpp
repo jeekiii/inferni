@@ -1,24 +1,32 @@
 #include "button.hpp"
 
-void cButton::Init(coord position, string imagePath)
+Button::Button(Coord position, string imagePath)
 {
-	this->position = position;
-	this->image = ImageFunc::LoadSprites(imagePath.c_str());
-	SDL_QueryTexture(image, NULL, NULL, &(this->position.w), &(this->position.h));
+	position_ = position;
+	image_ = ImageFunc::loadSprites(imagePath.c_str());
+	SDL_QueryTexture(image_, NULL, NULL, &position_.w, &position_.h);
+	printf("%d, %d, %d, %d \n", position_.x, position_.y, position_.h, position_.w);
 }
 
-bool cButton::IsClicked(coord position)
+Button::Button()
 {
-	if(Tools::Collision(this->position, position))
+	;
+}
+bool Button::isClicked(Coord position)
+{
+	if(Tools::collision(position_, position))
 		return true;
 	return false;
 }
-void cButton::OnRender()
-{
-    ImageFunc::RenderTexture(image, Global::renderer, false, position, position);
+void Button::onRender()
+{	
+    ImageFunc::renderTexture(image_, Global::renderer, false, position_, position_);
 }
 
-cButton::~cButton()
+Button::~Button()
 {
-	SDL_DestroyTexture(image);
+	if(image_ != NULL)
+	{
+		SDL_DestroyTexture(image_);
+	}
 }

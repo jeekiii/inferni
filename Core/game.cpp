@@ -1,43 +1,43 @@
 /// *********************16/02/2013***********************///
 
 #include "game.hpp"
-#include "display_manager.hpp"
+#include <SDL2/SDL.h>
+#include <vector>
+#include "global.hpp"
+#include "game_state.hpp"
+#include "intro_state.hpp"
 
-cGame::cGame()
+
+Game::Game()
 {
-    OnInit();
+    SDL_Init( SDL_INIT_VIDEO );
+    displayManager_ = new DisplayManager;
 }
 
-cGame::~cGame()
+Game::~Game()
 {
-    delete displayManager;
+    delete displayManager_;
     SDL_Quit();
     SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "GOOD", "EXIT CLEARLY", NULL);
 }
 
 
-void cGame::OnInit()
-{
-    SDL_Init( SDL_INIT_VIDEO );
-    displayManager = new cDisplayManager;
-
-}
 
 
-int cGame::Run()
+int Game::run()
 {
 
-    cIntroState *p_intro=new cIntroState;
-    p_intro->OnInit();
+    IntroState *p_intro=new IntroState;
+    //p_intro->OnInit();
     Global::state.push_back(p_intro);
 	
     while (!Global::state.empty())
     {
-            Global::state.back()->OnEvent();
+            Global::state.back()->onEvent();
         if (!Global::state.empty())
-            Global::state.back()->OnRender();
+            Global::state.back()->onRender();
         if (!Global::state.empty())
-            Global::state.back()->OnUpdate();
+            Global::state.back()->onUpdate();
     }
 
 

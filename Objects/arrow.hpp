@@ -1,24 +1,25 @@
 
-#ifndef _ARROW_HPP_
-	#define _ARROW_HPP_
+#ifndef ARROW_HPP
+	#define ARROW_HPP
 #include "../Objects/object.hpp"
-#include "../Objects/player.hpp"
 
 
-class cArrow:public cObject
+
+class Arrow:public Object
 {
 	private:
-		coord toMove;
+		Coord toMove_;
 	public:
-		cArrow();
-		~cArrow();
-		void OnInit(int positionX, int positionY);
-		void OnRender(coord positionMap);
-		void OnMove(std::vector<cObject*> *objects);
-		void OnUpdate(std::vector<cObject*> *objects);
-		void Launch(coord direction);
-		void TakeDamage(int amount);
-		ReactionType Reaction(cObject *object, bool ground);
+		Arrow();
+		Arrow(int positionX, int positionY);
+		~Arrow();
+
+		void onRender(Coord positionMap);
+		void onMove(std::vector<Object*> *objects);
+		void onUpdate(std::vector<Object*> *objects);
+		void launch(Coord direction);
+		void takeDamage(int amount);
+		ReactionType reaction(Object *object, bool ground);
 };
 
 

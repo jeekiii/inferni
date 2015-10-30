@@ -1,30 +1,29 @@
 /// *********************16/02/2013***********************///
 
 
-#ifndef POSSESSABLE_HPP_
-    #define POSSESSABLE_HPP_
+#ifndef POSSESSABLE_HPP
+    #define POSSESSABLE_HPP
 #include "../Objects/object.hpp"
 #include "../Util/tools.hpp"
 #include "../Util/command.hpp"
 
 
-class cPossessable:public cObject
+class Possessable:public Object
 {
         protected:
-            int hp;
-            coord toMove;
-            bool leaving;//signals that the demon is leaving!
-            bool possessed;
+            int hp_;
+            Coord toMove_;
+            bool leaving_;//signals that the demon is leaving!
+            bool possessed_;
 	    public:
-            virtual ~cPossessable(){}
-            virtual void OnInit(int positionX, int positionY)=0;
-            virtual void OnRender(coord positionMap)=0;
-            virtual void OnMove(std::vector<cObject*> *objects)=0;
-            virtual ReactionType Reaction(cObject *object, bool ground)=0;
-            virtual void OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands)=0;
-            void setPossessed(bool value){possessed = value;}
-            bool IsLeaving(){return leaving;}
-            int GetHp(){return hp;}
+            virtual ~Possessable(){}
+            virtual void onRender(Coord positionMap)=0;
+            virtual void onMove(std::vector<Object*> *objects)=0;
+            virtual ReactionType reaction(Object *object, bool ground)=0;
+            virtual void onCommand(std::vector<Object*> *objects, std::vector<CommandType> commands)=0;
+            void setPossessed(bool value){possessed_ = value;}
+            bool isLeaving(){return leaving_;}
+            int getHp(){return hp_;}
 };
 
 #endif

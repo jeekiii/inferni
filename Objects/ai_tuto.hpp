@@ -1,9 +1,9 @@
-#ifndef _AITUTO_HPP_
-	#define _AITUTO_HPP_
+#ifndef AITUTO_HPP
+	#define AITUTO_HPP
 #include "../Objects/ai.hpp"
 #include "../Util/command.hpp"
 
-class cAITuto: public cAI
+class AiTuto: public Ai
 {
 	private:
 	public:

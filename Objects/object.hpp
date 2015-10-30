@@ -4,52 +4,51 @@ for example, human, wall, flower....
 */
 
 
-#ifndef _OBJECT_HPP_
-    #define _OBJECT_HPP_
+#ifndef OBJECT_HPP
+    #define OBJECT_HPP
 #include <SDL2/SDL.h>
 #include "../Util/tools.hpp"
 #include <vector>
 
-class cPlayer;
+class Player;
 
 typedef enum ReactionType
 {
-    WATER, SOLID, DAMAGE, EVENT, NONE, POSSESS
+    WATER_REACTION, SOLID_REACTION, DAMAGE_REACTION, EVENT_REACTION, NONE_REACTION, POSSESS_REACTION
 }ReactionType;
 
 struct ReactionObject;
 
 
-class cObject
+class Object
 {
     protected:
-        SDL_Texture *image;
-        coord position;
-        coord relativeGroundHitbox;
-        coord relativeAboveHitbox;
-        bool possessable;
+        SDL_Texture *image_;
+        Coord position_;
+        Coord relativeGroundHitbox_;
+        Coord relativeAboveHitbox_;
+        bool possessable_;
     public:
-        virtual ~cObject(){}
-        virtual void OnRender(coord positionMap)=0;
-        virtual void OnMove(std::vector<cObject*> *objects)=0;
-        virtual ReactionType Reaction(cObject *object, bool ground)=0;
-        virtual void OnInit(int positionX, int positionY)=0;
-        virtual void OnUpdate(std::vector<cObject*> *objects)=0;
-        virtual void TakeDamage(int amount)=0;//maybe damageType in the future.
-        coord GetPosition();
-        coord GetGroundHitbox();
-        coord GetAboveHitbox();
-        std::vector <ReactionObject> GetCollision(std::vector<cObject*> *objects, bool ground, bool above);
-        bool IsPossessable(){return possessable;}
+        virtual ~Object(){}
+        virtual void onRender(Coord positionMap)=0;
+        virtual void onMove(std::vector<Object*> *objects)=0;
+        virtual ReactionType reaction(Object *object, bool ground)=0;
+        virtual void onUpdate(std::vector<Object*> *objects)=0;
+        virtual void takeDamage(int amount)=0;//maybe damageType in the future.
+        Coord getPosition();
+        Coord getGroundHitbox();
+        Coord getAboveHitbox();
+        std::vector <ReactionObject> getCollision(std::vector<Object*> *objects, bool ground, bool above);
+        bool isPossessable(){return possessable_;}
 };
 
 typedef struct ReactionObject
 {
-    cObject *object;
+    Object *object;
     ReactionType reaction;
     bool ground;
 }ReactionObject;
 
-bool compareObjects(cObject *obj1, cObject *obj2);
+bool compareObjects(Object *obj1, Object *obj2);
 
 #endif

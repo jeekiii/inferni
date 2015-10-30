@@ -1,27 +1,28 @@
 
-#ifndef _TILE_HPP_
-    #define _TILE_HPP_
+#ifndef TILE_HPP
+    #define TILE_HPP
 #include <SDL2/SDL.h>
 #include "../Util/tools.hpp"
-#include "../Util/image_func.hpp"
+
 
 
 //need to declare all our enum behind namespaces because of shitty enum scope...
 typedef enum TileType
 {
 	//get more of those. or allow user-created ones? if they specify the path?
-	W, G, D
+	WATER_TILE, GROUND_TILE, STONE_TILE
 }TileType;
 
-class cTile
+class Tile
 {
 	private:
-		SDL_Texture *texture;
+		SDL_Texture *texture_;
 		//bool water;
 		//bool slow;//for terrain that limits movements
 	public:
-		void OnInit(TileType type);
-		void OnRender(coord position);
+		Tile(){;}
+		Tile(TileType type);
+		void onRender(Coord position);
 		//bool isSlow();
 		//bool isWater();
 };

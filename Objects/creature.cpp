@@ -8,78 +8,99 @@
 #include "../Objects/ai_tuto.hpp"
 #include <algorithm>
 
-cCreature::cCreature()
+Creature::Creature(int positionX, int positionY)
 {
+	position_.x = positionX;
+	position_.y = positionY;
+	possessed_ = false;
+	attackCD_ = 200;
+	attackCurrentCD_ = 200;
+	leaving_ = false;
+	possessable_ = true;
+	hp_ = 10;
+	image_=ImageFunc::loadSprites("Images/HeroDown.bmp",true,255,0,0);
 
+	relativeGroundHitbox_.x = 5;
+	relativeGroundHitbox_.w = 37;
+	relativeGroundHitbox_.y = 67;
+	relativeGroundHitbox_.h = 26;
+	relativeAboveHitbox_.x = 5;
+	relativeAboveHitbox_.w = 38;
+	relativeAboveHitbox_.y = 2;
+	relativeAboveHitbox_.h = 65;
+	toMove_.x = 0;
+	toMove_.y = 0;
+	SDL_QueryTexture(image_, NULL, NULL, &position_.w, &position_.h);
+	ai_ = new AiTuto;
 }
 
-cCreature::~cCreature()
+Creature::~Creature()
 {
-    SDL_DestroyTexture(image);
+    SDL_DestroyTexture(image_);
 }
 
 
-void cCreature::OnRender(coord positionMap)
+void Creature::onRender(Coord positionMap)
 {
-	coord positionBlit;//this code should be moved somewhere it's copied in arrow.cpp
-	positionBlit.x = position.x + positionMap.x;
-	positionBlit.y = position.y + positionMap.y;
-	positionBlit.h = position.h;
-	positionBlit.w = position.w;
-	ImageFunc::RenderTexture(image, Global::renderer, false, positionBlit, positionBlit);
+	Coord positionBlit;//this code should be moved somewhere it's copied in arrow.cpp
+	positionBlit.x = position_.x + positionMap.x;
+	positionBlit.y = position_.y + positionMap.y;
+	positionBlit.h = position_.h;
+	positionBlit.w = position_.w;
+	ImageFunc::renderTexture(image_, Global::renderer, false, positionBlit, positionBlit);
 }
 
-void cCreature::OnMove(std::vector<cObject*> *objects)
+void Creature::onMove(std::vector<Object*> *objects)
 {
 	
 	std::vector <ReactionType> reactions;
 	std::vector <ReactionObject> collisions;
-	ReactionType solid = SOLID;
-	position.x += toMove.x;
-	position.y += toMove.y;
-	collisions = GetCollision(objects, true, true);
+	ReactionType solid = SOLID_REACTION;
+	position_.x += toMove_.x;
+	position_.y += toMove_.y;
+	collisions = getCollision(objects, true, true);
 	for(unsigned int i = 0; i < collisions.size(); i++)
 	{
 		reactions.push_back(collisions.at(i).reaction);
 	}
-	if(std::find(reactions.begin(), reactions.end(), POSSESS)!= reactions.end())
+	if(std::find(reactions.begin(), reactions.end(), POSSESS_REACTION)!= reactions.end())
 	{
 
 	}
 	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
 	{
-		position.x -= toMove.x;// in case you can still move on the y axis
+		position_.x -= toMove_.x;// in case you can still move on the y axis
 	}
 	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
 	{
-		position.x += toMove.x;// in case you can still move on the x axis
-		position.y -= toMove.y;
+		position_.x += toMove_.x;// in case you can still move on the x axis
+		position_.y -= toMove_.y;
 	}
 	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
 	{
-		position.x -= toMove.x;// if you can't move on any axis.
+		position_.x -= toMove_.x;// if you can't move on any axis.
 	}
-	toMove.x = 0;
-	toMove.y = 0;
+	toMove_.x = 0;
+	toMove_.y = 0;
 
 		
 }
 
 
-void cCreature::OnUpdate(std::vector<cObject*> *objects)
+void Creature::onUpdate(std::vector<Object*> *objects)
 {
-	leaving = false;
-	if(attackCurrentCD >0)
-		attackCurrentCD--;
-	if(!possessed)
+	leaving_ = false;
+	if(attackCurrentCD_ >0)
+		attackCurrentCD_--;
+	if(!possessed_)
 	{
-		OnCommand(objects, AI->GiveCommands());
+		onCommand(objects, ai_->GiveCommands());
 	}
-	if(hp <= 0)
+	if(hp_ <= 0)
 	{
-		if(possessed)
+		if(possessed_)
 		{
-			leaving = true;
+			leaving_ = true;
 			printf("game over?");//change this whole if-else...
 		}
 		else
@@ -93,77 +114,52 @@ void cCreature::OnUpdate(std::vector<cObject*> *objects)
 }
 
 
-ReactionType cCreature::Reaction(cObject *object, bool ground)
+ReactionType Creature::reaction(Object *object, bool ground)
 {
 	if(ground)
-		return SOLID;
+		return SOLID_REACTION;
 	else
-		return NONE;
+		return NONE_REACTION;
 }
 
-void cCreature::OnInit(int positionX, int positionY)
-{
-	possessed = false;
-	attackCD = 200;
-	attackCurrentCD = 200;
-	leaving = false;
-	possessable = true;
-	hp = 10;
-	image=ImageFunc::LoadSprites("Images/HeroDown.bmp",true,255,0,0);
-	position.x = positionX;
-	position.y = positionY;
-	relativeGroundHitbox.x = 5;
-	relativeGroundHitbox.w = 37;
-	relativeGroundHitbox.y = 67;
-	relativeGroundHitbox.h = 26;
-	relativeAboveHitbox.x = 5;
-	relativeAboveHitbox.w = 38;
-	relativeAboveHitbox.y = 2;
-	relativeAboveHitbox.h = 65;
-	toMove.x = 0;
-	toMove.y = 0;
-	SDL_QueryTexture(image, NULL, NULL, &position.w, &position.h);
-	AI = new cAITuto;
 
+void Creature::takeDamage(int amount)
+{
+	hp_ -= amount;
 }
 
-void cCreature::TakeDamage(int amount)
+void Creature::onCommand(std::vector<Object*> *objects, std::vector<CommandType> commands)
 {
-	hp -= amount;
-}
-
-void cCreature::OnCommand(std::vector<cObject*> *objects, std::vector<CommandType> commands)
-{
-	if(std::find(commands.begin(), commands.end(), RIGHT)!= commands.end())
-		toMove.x = 5;
-	else if(std::find(commands.begin(), commands.end(), LEFT)!= commands.end())
-		toMove.x = -5;
-	else if(std::find(commands.begin(), commands.end(), DOWN)!= commands.end())
-		toMove.y = 5;
-	else if(std::find(commands.begin(), commands.end(), UP)!= commands.end())
-		toMove.y = -5;
-	else if(std::find(commands.begin(), commands.end(), ATTACK)!= commands.end())
+	if(std::find(commands.begin(), commands.end(), RIGHT_COMMAND)!= commands.end())
+		toMove_.x = 5;
+	else if(std::find(commands.begin(), commands.end(), LEFT_COMMAND)!= commands.end())
+		toMove_.x = -5;
+	else if(std::find(commands.begin(), commands.end(), DOWN_COMMAND)!= commands.end())
+		toMove_.y = 5;
+	else if(std::find(commands.begin(), commands.end(), UP_COMMAND)!= commands.end())
+		toMove_.y = -5;
+	else if(std::find(commands.begin(), commands.end(), ATTACK_COMMAND)!= commands.end())
 	{
-		if(attackCurrentCD ==0)
+		if(attackCurrentCD_ ==0)
 		{
-			cArrow *arrow = new cArrow;
-			coord direction;
-			coord position;
+			Coord direction;
+			Coord position;
 			direction.x = 5;
 			direction.y = 0;
 
-			position.x = this->position.x+relativeAboveHitbox.x+relativeAboveHitbox.w;
-			position.y = this->position.y+30;
-			arrow->OnInit(position.x, position.y);
-			arrow->Launch(direction);
+			position.x = position_.x+relativeAboveHitbox_.x+relativeAboveHitbox_.w;
+			position.y = position_.y+30;
+			
+			Arrow *arrow = new Arrow(position.x, position.y);
+			arrow->launch(direction);
 			objects->push_back(arrow);
-			attackCurrentCD = attackCD;
+			attackCurrentCD_ = attackCD_;
 		}
 
 	}
-	else if(std::find(commands.begin(), commands.end(), SPECIAL)!= commands.end())
+	else if(std::find(commands.begin(), commands.end(), SPECIAL_COMMAND)!= commands.end())
 	{
-		leaving = true;
+		leaving_ = true;
 	}
 
 }

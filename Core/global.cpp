@@ -1,7 +1,6 @@
 /// *********************16/02/2013***********************///
 
 
-#include  <SDL2/SDL.h>
 #include "global.hpp"
 
 namespace Global
@@ -9,9 +8,9 @@ namespace Global
 	SDL_Window *screen=NULL;
 	SDL_Renderer *renderer=NULL;
 
-	int screen_width=1000;
-	int screen_height=700;
+	int screenWidth=1000;
+	int screenHeight=700;
 
-	std::vector<cGameState*> state;
+	std::vector<GameState*> state;
 
 }

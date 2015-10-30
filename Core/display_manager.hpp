@@ -3,23 +3,18 @@
 */
 
 
-#ifndef _DISPLAY_MANAGER_HPP_
-    #define _DISPLAY_MANAGER_HPP_
-
-#include <SDL2/SDL.h>
-#include <vector>
-#include "global.hpp"
-#include "game_state.hpp"
-#include "intro_state.hpp"
+#ifndef DISPLAY_MANAGER_HPP
+    #define DISPLAY_MANAGER_HPP
 
 
-class cDisplayManager
+
+class DisplayManager
 {
     private:
 
     public:
-        cDisplayManager();
-        ~cDisplayManager();
+        DisplayManager();
+        ~DisplayManager();
 };
 
 

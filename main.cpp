@@ -1,5 +1,5 @@
 /// *********************16/02/2013***********************///
-/* Enters the game main loop, into function cGame::Run
+/* Enters the game main loop, into function Game::Run
 Unless otherwise required, normally you will never modify this file
 */
 
@@ -10,7 +10,7 @@ Unless otherwise required, normally you will never modify this file
 
 int main ( int argc, char** argv )
 {
-	cGame theGame;
-	theGame.Run();
+	Game theGame;
+	theGame.run();
 	return 0;
 }

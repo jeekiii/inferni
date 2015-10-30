@@ -1,13 +1,13 @@
-#ifndef _AI_HPP_
-	#define _AI_HPP_
+#ifndef AI_HPP
+	#define AI_HPP
 #include "../Objects/object.hpp"
 #include "../Util/command.hpp"
-class cAI
+class Ai
 {
 	protected:
-		cObject *target;
+		Object *target_;
 	public:
-		void GetTarget(cObject *target){this->target = target;}
+		void GetTarget(Object *target){target_ = target;}
 		virtual std::vector<CommandType> GiveCommands()=0;
 
 };

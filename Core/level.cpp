@@ -2,81 +2,74 @@
 #include "../Util/image_func.hpp"
 #include "../Core/global.hpp"
 #include "../Objects/creature.hpp"
-#include "../Objects/player.hpp"
 #include "../Objects/demon.hpp"
+
 #include <algorithm>
 #include <vector>
 #include "global.hpp"
 
-int cLevel::OnInit()
+Level::Level():map_(1), hud_(player_)
 {
-	cCreature *creature=new cCreature;
-	player = new cPlayer;
+	Creature *creature=new Creature(200, 100);
+	player_ = new Player(100, 100);
 
-	hud.OnInit(player);
-	objects.push_back(player);
-    objects.push_back(creature);
+	objects_.push_back(player_);
+    objects_.push_back(creature);
+
+
+    positionMap_ = map_.getStartingPosition();
+
 
     
-    map.OnInit(1);// the 1 is just the id number of the map.
-
-    positionMap = map.GetPosInit();
-
-    for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
-	{
-		objects[i]->OnInit(200+(i*400), 400);
-	}
-    
-    return 0;
 }
 
-int cLevel::OnCleanUp()
+Level::~Level()
 {
-    objects.clear();
-    return 0;
+    objects_.clear();
+    map_.~Map();
 }
 
-void cLevel::OnRender()
+void Level::onRender()
 {
-	positionMap.x = (Global::screen_width/2) - (player->GetPosition().x + player->GetPosition().w/2);
-	positionMap.y = (Global::screen_height/2) - (player->GetPosition().y + player->GetPosition().w/2);
-	if(positionMap.x > 0)
+	positionMap_.x = (Global::screenWidth/2) - (player_->getPosition().x + player_->getPosition().w/2);
+	positionMap_.y = (Global::screenHeight/2) - (player_->getPosition().y + player_->getPosition().w/2);
+	if(positionMap_.x > 0)
 	{
-		positionMap.x = 0;
+		positionMap_.x = 0;
 	}
-	if(positionMap.x + positionMap.w < Global::screen_width)
+	if(positionMap_.x + positionMap_.w < Global::screenWidth)
 	{
-		positionMap.x = Global::screen_width-positionMap.w;
+		positionMap_.x = Global::screenWidth-positionMap_.w;
 	}
-	if(positionMap.y > 0)
+	if(positionMap_.y > 0)
 	{
-		positionMap.y = 0;
+		positionMap_.y = 0;
 	}
-	if(positionMap.y +positionMap.h < Global::screen_height)
+	if(positionMap_.y +positionMap_.h < Global::screenHeight)
 	{
-		positionMap.y = Global::screen_height-positionMap.h;
+		positionMap_.y = Global::screenHeight-positionMap_.h;
 	}
-	//ImageFunc::RenderTexture(map,Global::renderer, false, positionMap, positionMap);
-	map.OnRender(positionMap);
-	std::sort(objects.begin(), objects.end(), compareObjects);
-	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
+	//ImageFunc::renderTexture(map,Global::renderer, false, positionMap, positionMap);
+	map_.onRender(positionMap_);
+	std::sort(objects_.begin(), objects_.end(), compareObjects);
+	for(unsigned int i = 0; i < objects_.size(); i++)// not optimal? maybe use an iterator
 	{
-		objects[i]->OnRender(positionMap);
+		objects_[i]->onRender(positionMap_);
 	}
-	hud.OnRender();
+	hud_.onRender();
 }
 
-void cLevel::OnUpdate(std::vector <CommandType> commands)
+void Level::onUpdate(std::vector <CommandType> commands)
 {
-	player->OnCommand(&objects, commands);
-	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
+	player_->onCommand(&objects_, commands);
+	for(unsigned int i = 0; i < objects_.size(); i++)// not optimal? maybe use an iterator
 	{
-		objects[i]->OnUpdate(&objects);
+		objects_[i]->onUpdate(&objects_);
 
 	}//separate loops in case one of those deletes the object.
-	for(unsigned int i = 0; i < objects.size(); i++)// not optimal? maybe use an iterator
+	for(unsigned int i = 0; i < objects_.size(); i++)// not optimal? maybe use an iterator
 	{
-		objects[i]->OnMove(&objects);
+		objects_[i]->onMove(&objects_);
 
 	}
 

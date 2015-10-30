@@ -9,26 +9,24 @@
 
 
 
-int cMenuState::OnInit()
+MenuState::MenuState()
 {
-m_tex_bg=NULL;
-m_tex_bg=ImageFunc::LoadSprites("Images/Menu.bmp");
-    mp_fps=new cFPSCounter(25);
-    mp_fps->StartCount();
-return 0;
+    tex_=NULL;
+    tex_=ImageFunc::loadSprites("Images/Menu.bmp");
+    fps_=new FpsCounter(25);
+    fps_->startCount();
+
 }
 
 
-int cMenuState::OnCleanUp()
+MenuState::~MenuState()
 {
-        delete mp_fps;
-    SDL_DestroyTexture(m_tex_bg);
-
-return 0;
+    delete fps_;
+    SDL_DestroyTexture(tex_);
 }
 
 
-void cMenuState::OnEvent()
+void MenuState::onEvent()
 {
         SDL_Event event;
         while (SDL_PollEvent(&event))
@@ -41,8 +39,6 @@ void cMenuState::OnEvent()
             case SDL_KEYDOWN:
                 if(event.key.keysym.sym==SDLK_q)
                 {
-                    Global::state.back()->OnCleanUp();
-                    delete Global::state.back();
                     Global::state.pop_back();
                 }
                 break;
@@ -51,18 +47,18 @@ void cMenuState::OnEvent()
 }
 
 
-void cMenuState::OnRender()
+void MenuState::onRender()
 {
     //SDL_RenderClear(Global::renderer);
-    //    ImageFunc::RenderTexture(0,0,m_tex_bg,Global::renderer);
+    //    ImageFunc::renderTexture(0,0,m_tex_bg,Global::renderer);
     //SDL_RenderPresent(Global::renderer);
 }
 
 
-void cMenuState::OnUpdate()
+void MenuState::onUpdate()
 {
-    mp_fps->CheckFPS();
+    fps_->checkFPS();
 
-    mp_fps->GetNewTick();
-return;
+    fps_->getNewTick();
+    return;
 }
