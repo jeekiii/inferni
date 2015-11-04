@@ -23,7 +23,16 @@ Coord Object::getAboveHitbox()
 	return result;
 }
 
-
+void Object::getReaction(std::vector<Object*> *objects, std::vector<ReactionType> *reactions)
+{
+	reactions->clear();
+	std::vector<ReactionObject> collisions;
+	collisions = getCollision(objects, true, true);
+	for(unsigned int i = 0; i < collisions.size(); i++)
+	{
+		reactions->push_back(collisions.at(i).reaction);
+	}
+}
 
 std::vector <ReactionObject> Object::getCollision(std::vector<Object*> *objects, bool ground, bool above)
 {

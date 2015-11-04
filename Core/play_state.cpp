@@ -20,7 +20,7 @@
 PlayState::PlayState()
 {
 
-    fps_=new FpsCounter(25);
+    fps_=new FpsCounter(100);
     fps_->startCount();
     
 }

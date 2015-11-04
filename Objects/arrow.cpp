@@ -62,6 +62,10 @@ ReactionType Arrow::reaction(Object *object, bool ground)
 
 void Arrow::launch(Coord direction)
 {
-	toMove_ = direction;
+	toMove_.y = 0;
+	if(direction.x < 0)
+		toMove_.x = -7;
+	else
+		toMove_.x = 7;
 }
 void Arrow::takeDamage(int amount){;}

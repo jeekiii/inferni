@@ -31,7 +31,7 @@ Creature::Creature(int positionX, int positionY)
 	toMove_.x = 0;
 	toMove_.y = 0;
 	SDL_QueryTexture(image_, NULL, NULL, &position_.w, &position_.h);
-	ai_ = new AiTuto;
+	ai_ = new AiTuto(this);
 }
 
 Creature::~Creature()
@@ -49,7 +49,7 @@ void Creature::onRender(Coord positionMap)
 	positionBlit.w = position_.w;
 	ImageFunc::renderTexture(image_, Global::renderer, false, positionBlit, positionBlit);
 }
-
+//it doesn't work properly here.
 void Creature::onMove(std::vector<Object*> *objects)
 {
 	
@@ -58,33 +58,38 @@ void Creature::onMove(std::vector<Object*> *objects)
 	ReactionType solid = SOLID_REACTION;
 	position_.x += toMove_.x;
 	position_.y += toMove_.y;
-	collisions = getCollision(objects, true, true);
-	for(unsigned int i = 0; i < collisions.size(); i++)
+	
+
+	getReaction(objects, &reactions);
+	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
 	{
-		reactions.push_back(collisions.at(i).reaction);
+		position_.x -= toMove_.x;// in case you can still move on the y axis
+	}
+
+	getReaction(objects, &reactions);
+	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
+	{
+		position_.x += toMove_.x;
+		position_.y -= toMove_.y;
+	}
+
+	getReaction(objects, &reactions);
+	if(std::find(reactions.begin(), reactions.end(), solid) != reactions.end())
+	{
+		position_.x -= toMove_.x;
 	}
 	if(std::find(reactions.begin(), reactions.end(), POSSESS_REACTION)!= reactions.end())
 	{
 
 	}
-	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
-	{
-		position_.x -= toMove_.x;// in case you can still move on the y axis
-	}
-	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
-	{
-		position_.x += toMove_.x;// in case you can still move on the x axis
-		position_.y -= toMove_.y;
-	}
-	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
-	{
-		position_.x -= toMove_.x;// if you can't move on any axis.
-	}
+
+
 	toMove_.x = 0;
 	toMove_.y = 0;
 
 		
 }
+
 
 
 void Creature::onUpdate(std::vector<Object*> *objects)
@@ -101,7 +106,7 @@ void Creature::onUpdate(std::vector<Object*> *objects)
 		if(possessed_)
 		{
 			leaving_ = true;
-			printf("game over?");//change this whole if-else...
+			printf("game over?\n");//change this whole if-else...
 		}
 		else
 		{
@@ -130,25 +135,68 @@ void Creature::takeDamage(int amount)
 
 void Creature::onCommand(std::vector<Object*> *objects, std::vector<CommandType> commands)
 {
-	if(std::find(commands.begin(), commands.end(), RIGHT_COMMAND)!= commands.end())
-		toMove_.x = 5;
-	else if(std::find(commands.begin(), commands.end(), LEFT_COMMAND)!= commands.end())
-		toMove_.x = -5;
-	else if(std::find(commands.begin(), commands.end(), DOWN_COMMAND)!= commands.end())
-		toMove_.y = 5;
-	else if(std::find(commands.begin(), commands.end(), UP_COMMAND)!= commands.end())
-		toMove_.y = -5;
-	else if(std::find(commands.begin(), commands.end(), ATTACK_COMMAND)!= commands.end())
+	//printf("command size: %d\n", (int) commands.size());
+	bool moved = false;
+
+	if(std::find(commands.begin(), commands.end(), MOVE_RIGHT_COMMAND)!= commands.end())
+	{
+		moved = true;
+		right_ = true;
+		left_ = false;
+		up_ = false;
+		down_ = false;
+	}
+	else if(std::find(commands.begin(), commands.end(), MOVE_LEFT_COMMAND)!= commands.end())
+	{
+		moved = true;
+		left_ = true;
+		right_ = false;
+		up_ = false;
+		down_ = false;
+	}
+	if(std::find(commands.begin(), commands.end(), MOVE_DOWN_COMMAND)!= commands.end())
+	{
+		down_ = true;
+		up_ = false;
+		if(!moved)
+		{
+			left_ = false;
+			right_ = false;
+		}
+		moved = true;
+
+	}
+	else if(std::find(commands.begin(), commands.end(), MOVE_UP_COMMAND)!= commands.end())
+	{
+		up_ = true;
+		down_ = false;
+		if(!moved)
+		{
+			left_ = false;
+			right_ = false;
+		}
+		moved = true;
+	}
+	if(std::find(commands.begin(), commands.end(), ATTACK_COMMAND)!= commands.end())
 	{
 		if(attackCurrentCD_ ==0)
 		{
 			Coord direction;
 			Coord position;
-			direction.x = 5;
-			direction.y = 0;
-
-			position.x = position_.x+relativeAboveHitbox_.x+relativeAboveHitbox_.w;
-			position.y = position_.y+30;
+			if(right_)
+			{
+				position.x = position_.x+relativeAboveHitbox_.x+relativeAboveHitbox_.w+10;
+				position.y = position_.y+30;
+				direction.x = 5;
+				direction.y = 0;
+			}
+			else
+			{
+				position.x = position_.x+relativeAboveHitbox_.x-75;//dunnno how to get an absolute value for this, it's the arrow's direction.
+				position.y = position_.y+30;
+				direction.x = -5;
+				direction.y = 0;
+			}
 			
 			Arrow *arrow = new Arrow(position.x, position.y);
 			arrow->launch(direction);
@@ -161,6 +209,43 @@ void Creature::onCommand(std::vector<Object*> *objects, std::vector<CommandType>
 	{
 		leaving_ = true;
 	}
+
+	if(right_ && moved)
+	{
+		if(!left_ && !up_ && !down_)
+			toMove_.x+=5;
+		else
+			toMove_.x+=3;//moving diagonally
+	}
+	if(left_ && moved)
+	{
+		if(!right_ && !up_ && !down_)
+			toMove_.x-=5;
+		else
+			toMove_.x-=3;
+	}
+	if(up_ && moved)
+	{
+		if(!left_ && !right_ && !down_)
+			toMove_.y-=5;
+		else
+			toMove_.y-=3;
+	}
+	if(down_ && moved)
+	{
+		if(!left_ && !up_ && !right_)
+			toMove_.y+=5;
+		else
+			toMove_.y+=3;
+	}
+	if(std::find(commands.begin(), commands.end(), TURN_RIGHT_COMMAND)!= commands.end())
+		right_ = true;
+	if(std::find(commands.begin(), commands.end(), TURN_LEFT_COMMAND)!= commands.end())
+		left_ = true;
+	if(std::find(commands.begin(), commands.end(), TURN_UP_COMMAND)!= commands.end())
+		up_ = true;
+	if(std::find(commands.begin(), commands.end(), TURN_DOWN_COMMAND)!= commands.end())
+		down_ = true;
 
 }
 

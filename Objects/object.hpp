@@ -39,6 +39,7 @@ class Object
         Coord getGroundHitbox();
         Coord getAboveHitbox();
         std::vector <ReactionObject> getCollision(std::vector<Object*> *objects, bool ground, bool above);
+        void getReaction(std::vector<Object*> *objects, std::vector<ReactionType> *reaction);
         bool isPossessable(){return possessable_;}
 };
 

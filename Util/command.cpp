@@ -31,13 +31,13 @@ void Command::addCommand(SDL_Keycode key)
 {    
 	CommandType temp;       
 	if(key == up_)
-		temp = UP_COMMAND;
+		temp = MOVE_UP_COMMAND;
 	if(key == down_)
-		temp = DOWN_COMMAND;
+		temp = MOVE_DOWN_COMMAND;
 	if(key == left_)
-		temp = LEFT_COMMAND;
+		temp = MOVE_LEFT_COMMAND;
 	if(key == right_)
-		temp = RIGHT_COMMAND;
+		temp = MOVE_RIGHT_COMMAND;
 	if(key == attack_)
 		temp = ATTACK_COMMAND;
 	if(key == possess_)
@@ -53,13 +53,13 @@ void Command::addCommand(SDL_Keycode key)
 void Command::removeCommand(SDL_Keycode key)
 {
 	if(key == up_)
-		toRemove_.push_back(UP_COMMAND);
+		toRemove_.push_back(MOVE_UP_COMMAND);
 	if(key == down_)
-		toRemove_.push_back(DOWN_COMMAND);
+		toRemove_.push_back(MOVE_DOWN_COMMAND);
 	if(key == left_)
-		toRemove_.push_back(LEFT_COMMAND);
+		toRemove_.push_back(MOVE_LEFT_COMMAND);
 	if(key == right_)
-		toRemove_.push_back(RIGHT_COMMAND);
+		toRemove_.push_back(MOVE_RIGHT_COMMAND);
 	if(key == attack_)
 		toRemove_.push_back(ATTACK_COMMAND);
 	if(key == possess_)

@@ -6,6 +6,7 @@ class Ai
 {
 	protected:
 		Object *target_;
+		Object *controlled_;
 	public:
 		void GetTarget(Object *target){target_ = target;}
 		virtual std::vector<CommandType> GiveCommands()=0;

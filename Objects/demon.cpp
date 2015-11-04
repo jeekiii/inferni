@@ -68,18 +68,49 @@ ReactionType Demon::reaction(Object *object, bool ground)
 
 void Demon::onCommand(std::vector<Object*> *objects, std::vector<CommandType> commands)
 {
-	if(std::find(commands.begin(), commands.end(), RIGHT_COMMAND)!= commands.end())
-		toMove_.x = 5;
-	else if(std::find(commands.begin(), commands.end(), LEFT_COMMAND)!= commands.end())
-		toMove_.x = -5;
-	else if(std::find(commands.begin(), commands.end(), DOWN_COMMAND)!= commands.end())
-		toMove_.y = 5;
-	else if(std::find(commands.begin(), commands.end(), UP_COMMAND)!= commands.end())
-		toMove_.y = -5;
+	bool right, left, up, down;
+	right = left = up = down = false;
+	if(std::find(commands.begin(), commands.end(), MOVE_RIGHT_COMMAND)!= commands.end())
+		right = true;
+	if(std::find(commands.begin(), commands.end(), MOVE_LEFT_COMMAND)!= commands.end())
+		left = true;
+	if(std::find(commands.begin(), commands.end(), MOVE_DOWN_COMMAND)!= commands.end())
+		down = true;
+	if(std::find(commands.begin(), commands.end(), MOVE_UP_COMMAND)!= commands.end())
+		up = true;
 	else if(std::find(commands.begin(), commands.end(), SPECIAL_COMMAND)!= commands.end())
 	{
 		leaving_ = true;
 
+	}
+	
+	if(right)
+	{
+		if(!left && !up && !down)
+			toMove_.x+=5;
+		else
+			toMove_.x+=3;
+	}
+	if(left)
+	{
+		if(!right && !up && !down)
+			toMove_.x-=5;
+		else
+			toMove_.x-=3;
+	}
+	if(up)
+	{
+		if(!left && !right && !down)
+			toMove_.y-=5;
+		else
+			toMove_.y-=3;
+	}
+	if(down)
+	{
+		if(!left && !up && !right)
+			toMove_.y+=5;
+		else
+			toMove_.y+=3;
 	}
 }
 

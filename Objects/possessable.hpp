@@ -15,6 +15,7 @@ class Possessable:public Object
             Coord toMove_;
             bool leaving_;//signals that the demon is leaving!
             bool possessed_;
+            bool right_, left_, up_, down_;
 	    public:
             virtual ~Possessable(){}
             virtual void onRender(Coord positionMap)=0;

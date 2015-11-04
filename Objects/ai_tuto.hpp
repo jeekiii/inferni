@@ -7,6 +7,7 @@ class AiTuto: public Ai
 {
 	private:
 	public:
+		AiTuto(Object *controlled);
 		std::vector<CommandType> GiveCommands();
 
 };
