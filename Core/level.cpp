@@ -1,4 +1,4 @@
-#include "level.hpp"
+/*#include "level.hpp"
 #include "../Util/image_func.hpp"
 #include "../Core/global.hpp"
 #include "../Objects/creature.hpp"
@@ -56,3 +56,4 @@ void Level::onUpdate(std::vector <CommandType> commands)
 
 }
 
+*/

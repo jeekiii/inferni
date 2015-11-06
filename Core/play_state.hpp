@@ -10,6 +10,10 @@ GameState->PlayState
 #include "../Core/level.hpp"
 #include "../Util/command.hpp"
 #include "../Core/game_state.hpp"
+#include "../Objects/object.hpp"
+#include "../Core/map.hpp"
+#include "../Objects/player.hpp"
+#include "../Util/hud.hpp"
 
 class Creature;
 class Wall;
@@ -18,12 +22,12 @@ class PlayState:public GameState
 {
 
     private:
-        Level level_;
         Command command_;
         std::vector<Object*> objects_;
         Map *map_;
         Player *player_;
         Hud *hud_;
+
     public:
          PlayState();
          ~PlayState();
