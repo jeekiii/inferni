@@ -8,17 +8,15 @@
 #include <vector>
 #include "global.hpp"
 
-Level::Level():map_(1), hud_(player_)
+Level::Level()
 {
+	map_ = new Map(1);
+	hud_ = new Hud();
 	Creature *creature=new Creature(200, 100);
 	player_ = new Player(100, 100);
 
 	objects_.push_back(player_);
     objects_.push_back(creature);
-
-
-    positionMap_ = map_.getStartingPosition();
-
 
     
 }
@@ -26,37 +24,20 @@ Level::Level():map_(1), hud_(player_)
 Level::~Level()
 {
     objects_.clear();
-    map_.~Map();
+    delete map_;
+    delete hud_;
 }
 
 void Level::onRender()
 {
-	positionMap_.x = (Global::screenWidth/2) - (player_->getPosition().x + player_->getPosition().w/2);
-	positionMap_.y = (Global::screenHeight/2) - (player_->getPosition().y + player_->getPosition().w/2);
-	if(positionMap_.x > 0)
-	{
-		positionMap_.x = 0;
-	}
-	if(positionMap_.x + positionMap_.w < Global::screenWidth)
-	{
-		positionMap_.x = Global::screenWidth-positionMap_.w;
-	}
-	if(positionMap_.y > 0)
-	{
-		positionMap_.y = 0;
-	}
-	if(positionMap_.y +positionMap_.h < Global::screenHeight)
-	{
-		positionMap_.y = Global::screenHeight-positionMap_.h;
-	}
-	//ImageFunc::renderTexture(map,Global::renderer, false, positionMap, positionMap);
-	map_.onRender(positionMap_);
+	
+	map_->onRender(player_->getPosition());
 	std::sort(objects_.begin(), objects_.end(), compareObjects);
 	for(unsigned int i = 0; i < objects_.size(); i++)// not optimal? maybe use an iterator
 	{
-		objects_[i]->onRender(positionMap_);
+		objects_[i]->onRender(map_->getPosition());
 	}
-	hud_.onRender();
+	hud_->onRender();
 }
 
 void Level::onUpdate(std::vector <CommandType> commands)

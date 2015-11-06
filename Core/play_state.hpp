@@ -20,6 +20,10 @@ class PlayState:public GameState
     private:
         Level level_;
         Command command_;
+        std::vector<Object*> objects_;
+        Map *map_;
+        Player *player_;
+        Hud *hud_;
     public:
          PlayState();
          ~PlayState();

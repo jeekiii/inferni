@@ -9,10 +9,10 @@ Map::Map(int mapNumber)
 	mapSize_.x = 30;
 	mapSize_.y = 30;
 
-	startingPosition_.x = 0;
-	startingPosition_.y = 0;
-	startingPosition_.w = mapSize_.x*50;
-	startingPosition_.h = mapSize_.y*50;
+	position_.x = 0;
+	position_.y = 0;
+	position_.w = mapSize_.x*50;
+	position_.h = mapSize_.y*50;
 	tiles_ = new Tile*[mapSize_.x];
 	for(int i = 0; i < mapSize_.x; i++)
 	{
@@ -29,11 +29,31 @@ Map::Map(int mapNumber)
 
 
 }
-void Map::onRender(Coord positionMap)
+void Map::onRender(Coord positionPlayer)
 {
+	position_.x = (Global::screenWidth/2) - (positionPlayer.x + positionPlayer.w/2);
+	position_.y = (Global::screenHeight/2) - (positionPlayer.y + positionPlayer.w/2);
+	if(position_.x > 0)
+	{
+		position_.x = 0;
+	}
+	if(position_.x + position_.w < Global::screenWidth)
+	{
+		position_.x = Global::screenWidth-position_.w;
+	}
+	if(position_.y > 0)
+	{
+		position_.y = 0;
+	}
+	if(position_.y +position_.h < Global::screenHeight)
+	{
+		position_.y = Global::screenHeight-position_.h;
+	}
+
+
 	Coord positionTile;
-	positionTile.x = positionMap.x;
-	positionTile.y = positionMap.y;
+	positionTile.x = position_.x;
+	positionTile.y = position_.y;
 	positionTile.w = 50;
 	positionTile.h = 50;
 	for(int i = 0; i < mapSize_.x; i++)
@@ -50,13 +70,13 @@ void Map::onRender(Coord positionMap)
 			positionTile.y+=50;
 		}
 		positionTile.x+=50;
-		positionTile.y = positionMap.y;
+		positionTile.y = position_.y;
 	}
 }
 
-Coord Map::getStartingPosition()
+Coord Map::getPosition()
 {
-	return startingPosition_;
+	return position_;
 }
 
 Map::~Map()

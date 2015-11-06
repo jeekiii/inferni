@@ -8,13 +8,13 @@ class Map
 	private:
 		Tile **tiles_;
 		Coord mapSize_;
-		Coord startingPosition_;
+		Coord position_;
 	public:
 		Map();
 		Map(int mapNumber);
 		~Map();
-		void onRender(Coord positionMap);
-		Coord getStartingPosition();
+		void onRender(Coord positionPlayer);
+		Coord getPosition();
 };
 
 #endif

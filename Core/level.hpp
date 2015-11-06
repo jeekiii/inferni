@@ -13,10 +13,9 @@ class Level
 {
 	private:
 		std::vector<Object*> objects_;
-        Map map_;
-		Coord positionMap_;
+        Map *map_;
         Player *player_;
-        Hud hud_;
+        Hud *hud_;
 
     public:
 
