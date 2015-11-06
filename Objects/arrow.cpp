@@ -1,8 +1,9 @@
 #include "../Objects/arrow.hpp"
 #include "../Core/global.hpp"
 #include "../Util/image_func.hpp"
-Arrow::Arrow(int positionX, int positionY)
+Arrow::Arrow(int positionX, int positionY, int id/* = 0*/)
 {
+	id_ = id;
 	position_.x = positionX;
 	position_.y = positionY;
 	image_=ImageFunc::loadSprites("Images/Arrow.bmp", true, 255,0,0);

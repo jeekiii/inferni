@@ -20,16 +20,14 @@
 PlayState::PlayState()
 {
 
-    fps_=new FpsCounter(100);
+    fps_=new FpsCounter(25);
     fps_->startCount();
-    map_ = new Map(1);
     hud_ = new Hud();
-    Creature *creature=new Creature(200, 100);
     player_ = new Player(100, 100);
-
-    objects_.push_back(player_);
-    objects_.push_back(creature);
-    
+    quest_ = new Quest(1, player_, &objects_);
+    objects_ = *(quest_->getObjects());
+    map_ = quest_->getMap();
+    player_ = quest_->getPlayer();
 }
 
 
@@ -107,6 +105,10 @@ void PlayState::onUpdate()
     {
         objects_[i]->onMove(&objects_);
 
+    }
+    if(quest_->hasWon())
+    {
+        printf("you won\n");
     }
 
     fps_->checkFPS();

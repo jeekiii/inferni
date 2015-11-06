@@ -11,7 +11,7 @@ class Demon:public Possessable
 	public:
 		Demon();
 		~Demon();
-		Demon(int positionX, int positionY);
+		Demon(int positionX, int positionY, int id = 0);
 		void onRender(Coord positionMap);
 		void onMove(std::vector<Object*> *objects);
 		void takeDamage(int amount){;}

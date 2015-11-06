@@ -11,7 +11,7 @@ class Arrow:public Object
 		Coord toMove_;
 	public:
 		Arrow();
-		Arrow(int positionX, int positionY);
+		Arrow(int positionX, int positionY, int id = 0);
 		~Arrow();
 
 		void onRender(Coord positionMap);

@@ -28,6 +28,7 @@ class Object
         Coord relativeGroundHitbox_;
         Coord relativeAboveHitbox_;
         bool possessable_;
+        int id_; // 0 -> ignored, 1-> player
     public:
         virtual ~Object(){}
         virtual void onRender(Coord positionMap)=0;
@@ -41,6 +42,7 @@ class Object
         std::vector <ReactionObject> getCollision(std::vector<Object*> *objects, bool ground, bool above);
         void getReaction(std::vector<Object*> *objects, std::vector<ReactionType> *reaction);
         bool isPossessable(){return possessable_;}
+        int getId(){return id_;}
 };
 
 typedef struct ReactionObject

@@ -12,8 +12,9 @@ Demon::~Demon()
 	SDL_DestroyTexture(image_);
 }
 
-Demon::Demon(int positionX, int positionY)
+Demon::Demon(int positionX, int positionY, int id)
 {
+	id_ = id;
 	hp_ = 100;
 	leaving_ = false;
 	possessable_ = true;

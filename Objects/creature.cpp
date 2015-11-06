@@ -8,8 +8,9 @@
 #include "../Objects/ai_tuto.hpp"
 #include <algorithm>
 
-Creature::Creature(int positionX, int positionY)
+Creature::Creature(int positionX, int positionY, int id)
 {
+	id_ = id;
 	position_.x = positionX;
 	position_.y = positionY;
 	possessed_ = false;

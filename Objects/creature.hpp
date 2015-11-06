@@ -20,7 +20,7 @@ class Creature:public Possessable
         Ai *ai_;
     public:
         Creature();
-        Creature(int positionX, int positionY);
+        Creature(int positionX, int positionY, int id = 0);
         ~Creature();
         
         void onRender(Coord positionMap);

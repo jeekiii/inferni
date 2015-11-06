@@ -3,6 +3,8 @@
 #include <algorithm>
 Player::Player(int positionX, int positionY)
 {
+	id_ = 1;
+	
 	position_.x = positionX;
 	position_.y = positionY;
 	specialCurrentCD_=0;
@@ -109,4 +111,9 @@ void Player::leaveBody()
 int Player::getHp()
 {
 	return possessed_->getHp();
+}
+
+int Player::getPossessedId()
+{
+	return possessed_->getId();
 }

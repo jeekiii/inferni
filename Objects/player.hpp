@@ -23,10 +23,10 @@ class Player:public Object
 		ReactionType reaction(Object *object, bool ground);
 		void onCommand(std::vector<Object*> *objects, std::vector<CommandType> keys);
         void onUpdate(std::vector<Object*> *objects);
-
 		void takeDamage(int amount);
 		void possess(Possessable *target);
 		void leaveBody();
+		int getPossessedId();
         int getHp();
 
 };
