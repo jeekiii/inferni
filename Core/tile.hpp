@@ -22,6 +22,7 @@ class Tile
 	public:
 		Tile(){;}
 		Tile(TileType type);
+        Tile(int id);
 		void onRender(Coord position);
 		//bool isSlow();
 		//bool isWater();
