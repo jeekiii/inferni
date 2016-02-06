@@ -277,8 +277,17 @@ char *extract_tag_node_name(char *node)
     else
         free(second_result);
 
-    strncpy(result, result + 1, strlen(result) - 2);
-    result[strlen(result) - 2] = '\0';
+    char * raw_result = result;
+    result = malloc(strlen(result));
+
+    if (!result) {
+        free(raw_result);
+        return NULL;
+    }
+
+    strncpy(result, raw_result + 1, strlen(raw_result) - 2);
+    result[strlen(raw_result) - 2] = '\0';
+    free(raw_result);
 
     return result;
 }
@@ -304,8 +313,17 @@ char *extract_attribute_node_value(char *node)
     if (!result)
         return NULL;
 
-    strncpy(result, result + 2, strlen(result) - 3);
-    result[strlen(result) - 3] = '\0';
+    char * raw_result = result;
+    result = malloc(strlen(result));
+
+    if (!result) {
+        free(raw_result);
+        return NULL;
+    }
+
+    strncpy(result, raw_result + 2, strlen(raw_result) - 3);
+    result[strlen(raw_result) - 3] = '\0';
+    free(raw_result);
 
     return result;
 }
@@ -326,8 +344,17 @@ char *extract_tag_node_value(char *node)
             return NULL;
         }
 
-    strncpy(result, result + 1, strlen(result) - 2);
-    result[strlen(result) - 2] = '\0';
+    char * raw_result = result;
+    result = malloc(strlen(result));
+
+    if (!result) {
+        free(raw_result);
+        return NULL;
+    }
+
+    strncpy(result, raw_result + 1, strlen(raw_result) - 2);
+    result[strlen(raw_result) - 2] = '\0';
+    free(raw_result);
 
     char *s = result;
 
@@ -619,38 +646,3 @@ document_t *parse_XML_file(char *file)
 
     return result;
 }
-
-/*Example main function*/
-
-/*int main(int argc, char* argv[])
-{
-	if (argc < 2)
-		return EXIT_SUCCESS;
-
-	int i;
-	for (i = 1; i < argc; i++)
-	{
-		char * file = read_XML_file(argv[i]);
-
-		if (file == NULL)
-			printf("%s not found\n", argv[i]);
-		else
-		{
-			document_t * doc = parse_XML_file(file);
-
-			print_document(doc);
-
-			printf("<------------>\n");
-
-			node_list_t * list = extract_nodes_by_name(doc->content, "img");
-			print_node_list(list);
-			free_node_list(list);
-
-			free_document(doc);
-		}
-
-		free(file);
-	}
-
-	return EXIT_SUCCESS;
-}*/
