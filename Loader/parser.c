@@ -427,7 +427,7 @@ char *extract_next_attribute_node(char *file)
         free(value);
     }
 
-    strncpy(result, result + 1, strlen(result) - 2);
+    memmove(result, result + 1, strlen(result) - 2);
     result[strlen(result) - 2] = '\0';
 
     return result;

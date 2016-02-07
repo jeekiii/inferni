@@ -8,6 +8,8 @@ AiTuto::AiTuto(Object *controlled)
 std::vector<CommandType> AiTuto::GiveCommands()
 {
 	std::vector<CommandType> result;
+
+	//CHECK IF THE TARGET IS NULL YOU MORON.
 /*	if(target_->getPosition().x < controlled_->getPosition().x)
 		result.push_back(TURN_RIGHT_COMMAND);
 	else
