@@ -6,6 +6,8 @@ using namespace std;
 
 static node_t *get_node(node_t *node, string name);
 static int load_textures(void);
+static int get_type_as_int(char *type);
+static vector<Objective *> *get_objectives(node_list_t * list);
 static int **read_csv(char *path, int width, int height);
 static void free_array(int **array, int width, int height);
 static void free_array(int **array, int width, int height);
@@ -13,8 +15,33 @@ static void free_array(int **array, int width, int height);
 /*static variables, use close_level() to clean them*/
 
 static document_t *document = 0;
-static vector<SDL_Texture *> *textures = 0;
-static vector<int> *textures_id = 0;
+static vector<texture_t *> *textures;
+
+texture_t *build_texture(int type, int id, SDL_Texture *texture)
+{
+    texture_t *result = (texture_t *)malloc(sizeof(texture_t));
+
+    if (!result)
+        return NULL;
+
+    *result = (texture_t)
+    {
+        .texture = texture,
+        .type = type,
+        .id = id,
+    };
+
+    return result;
+}
+
+void free_texture(texture_t *texture)
+{
+    if (!texture)
+        return;
+
+    SDL_DestroyTexture(texture->texture);
+    free(texture);
+}
 
 /*the following functions are loading and freeing textures and level's file*/
 
@@ -42,15 +69,66 @@ void close_level(void)
 
     if (textures)
         for (size_t i = 0; i < textures->size(); i++)
-            SDL_DestroyTexture(textures->at(i));
+            free_texture(textures->at(i));
 
-    delete textures_id;
     delete textures;
+}
+
+/*the following functions are used to load the quests*/
+
+Quest *get_quest(Player *player, vector<Object *> *objects, int id)
+{
+    node_list_t *list = extract_nodes_by_name(document->content, (char *)"quest");
+    node_list_t *l    = list;
+
+    while (l)
+    {
+        node_t *n = l->head;
+        node_t *id_node = get_node(n, "id");
+
+        if (atoi(id_node->value) == id)
+            return new Quest(atoi(id_node->value), player, objects, get_objectives(extract_nodes_by_name(n, (char *)"objective")), 0);
+
+        l = l->tail;
+    }
+
+    free_node_list(list);
+    return NULL;
+}
+
+static vector<Objective *> *get_objectives(node_list_t * list)
+{
+    vector<Objective*> *objectives = new vector<Objective *>();
+
+    while (list)
+    {
+        node_t *n = list->head;
+        node_t *type = get_node(n, "type");
+        node_t *target_id = get_node(n, "target_id");
+
+        objectives->push_back(new Objective(get_type_as_int(type->value), atoi(target_id->value)));
+
+        list = list->tail;
+    }
+
+    return objectives;
+}
+
+static int get_type_as_int(char *type)
+{
+    if (!strcmp("kill", type))
+        return KILL;
+    if (!strcmp("reach", type))
+        return REACH;
+    if (!strcmp("possess", type))
+        return POSSESS;
+
+    return 0;
 }
 
 /*the following functions are used to load the map and know it's dimensions*/
 
-Tile **get_tiles()
+Tile **get_tiles(void)
 {
     node_list_t *list = extract_nodes_by_name(document->content, (char *)"map");
     node_t *map    = list->head;
@@ -108,14 +186,79 @@ int get_map_height(void)
     return atoi(get_node(map, "height")->value);
 }
 
-/*this function is used to recover a texture based on it's id*/
+SDL_Texture *get_texture(int type, int id)
+{
+    for (size_t i = 0; i < textures->size(); i++)
+        if (textures->at(i)->type == type && textures->at(i)->id == id)
+            return textures->at(i)->texture;
+    return 0;
+}
+
+int get_id_from_class(string object_class)
+{
+    node_list_t *list;
+    list = extract_nodes_by_name(document->content, (char *)"content");
+    node_list_t *l = list->head->children;
+
+    while (l) {
+        //node_t *child = l->head;
+
+        //node_t *id = get_node(child, "id");
+        //node_t *o_class = get_node(child, "class");
+    }
+
+    free_node_list(list);
+
+    return 0;
+}
+
+SDL_Texture *get_texture(int type, string object_class)
+{
+    return NULL;
+}
+
+/*the following functions are used to load the map's content*/
+
+vector<Object *> *get_content(void)
+{
+    vector<Object *> *result = new vector<Object *>();
+
+    node_list_t *list;
+    list = extract_nodes_by_name(document->content, (char *)"content");
+    node_list_t *l = list->head->children;
+
+    while (l) {
+        node_t *child = l->head;
+
+        //node_t *id = get_node(child, "id");
+        node_t *x = get_node(child, "x");
+        node_t *y = get_node(child, "y");
+        node_t *o_class = get_node(child, "class");
+        node_t *id = get_node(child, "id");
+
+        if (!strcmp(o_class->value, "player"))
+            result->push_back(new Player(atoi(x->value) * 50, atoi(y->value) * 50));
+        if (!strcmp(o_class->value, "ghost"))
+            result->push_back(new Creature(atoi(id->value), atoi(x->value) * 50, atoi(y->value) * 50));
+
+        l = l->tail;
+    }
+
+    free_node_list(list);
+
+    return result;
+}
+
+/*kind of private, don't mind that*/
+
+SDL_Texture *get_object_texture(int id)
+{
+    return get_texture(OBJECT, id);
+}
 
 SDL_Texture *get_tile_texture(int id)
 {
-    for (size_t i = 0; i < textures->size(); i++)
-        if (textures_id->at(i) == id)
-            return textures->at(i);
-    return 0;
+    return get_texture(GROUND, id);
 }
 
 /*the following functions are static, looking into them serves no purpose*/
@@ -134,8 +277,7 @@ static int load_textures(void)
     if (!document)
         return 1;
 
-    textures = new vector<SDL_Texture *>();
-    textures_id = new vector<int>();
+    textures = new vector<texture_t *>();
 
     node_list_t *list;
     list = extract_nodes_by_name(document->content, (char *)"grounds");
@@ -145,13 +287,30 @@ static int load_textures(void)
         node_t *child = l->head;
 
         node_t *id = get_node(child, "id");
-        textures_id->push_back(atoi(id->value));
-
         node_t *src = get_node(child, "src");
-        textures->push_back(ImageFunc::loadSprites(src->value, true, 255, 0, 0));
+        texture_t *texture = build_texture(GROUND, atoi(id->value), ImageFunc::loadSprites(src->value, true, 255, 0, 0));
+        textures->push_back(texture);
 
         l = l->tail;
     }
+
+    free_node_list(list);
+
+    list = extract_nodes_by_name(document->content, (char *)"classes");
+    l = list->head->children;
+
+    while (l) {
+        node_t *child = l->head;
+
+        node_t *id = get_node(child, "id");
+        node_t *src = get_node(child, "src");
+        texture_t *texture = build_texture(OBJECT, atoi(id->value), ImageFunc::loadSprites(src->value, true, 255, 0, 0));
+        textures->push_back(texture);
+
+        l = l->tail;
+    }
+
+    free_node_list(list);
 
     return 0;
 }
