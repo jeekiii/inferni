@@ -13,21 +13,51 @@
 #include "../Util/tools.hpp"
 #include "../Util/image_func.hpp"
 #include "../Util/fps_counter.hpp"
+#include "../Loader/loader.hpp"
 
 #include <algorithm>
 
+/*Playstate(int level_path)
+{
+    open_level("Data/level.xml");
+    //open_level(level_path);
+
+    fps_=new FpsCounter(25);
+    fps_->startCount();
+    hud_ = new Hud();
+
+    objects_ = *get_content();
+
+    for (size_t i = 0; i < objects_.size(); i++)
+        if (dynamic_cast<Player *>(objects_.at(i))) {
+            player_ = (Player *)objects_.at(i);
+            objects_.erase(objects_.begin() + i);
+            break;
+        }
+}*/
 
 PlayState::PlayState()
 {
+    open_level("Data/level.xml");
 
     fps_=new FpsCounter(25);
     fps_->startCount();
     hud_ = new Hud();
     player_ = new Player(100, 100);
-    quest_ = new Quest(1, player_, &objects_);
-    objects_ = *(quest_->getObjects());
+    objects_ = *get_content();
+    quest_ = get_quest(player_, &objects_, 1);
+    /*objects_ = *(quest_->getObjects());
     map_ = quest_->getMap();
-    player_ = quest_->getPlayer();
+    player_ = quest_->getPlayer();*/
+
+    for (size_t i = 0; i < objects_.size(); i++)
+        if (dynamic_cast<Player *>(objects_.at(i))) {
+            player_ = (Player *)objects_.at(i);
+            //objects_.erase(objects_.begin() + i);
+            break;
+        }
+
+    map_ = new Map();
 }
 
 
@@ -77,7 +107,6 @@ void PlayState::onEvent()//unappropriate name? It's not a callback! <= Nah, prob
 void PlayState::onRender()
 {
     SDL_RenderClear(Global::renderer);
-    
 
     map_->onRender(player_->getPosition());
     std::sort(objects_.begin(), objects_.end(), compareObjects);
@@ -109,6 +138,10 @@ void PlayState::onUpdate()
     if(quest_->hasWon())
     {
         printf("you won\n");
+    }
+    else if (quest_->hasLost())
+    {
+        printf("you lost\n");
     }
 
     fps_->checkFPS();

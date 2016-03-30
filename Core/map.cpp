@@ -2,12 +2,10 @@
 #include "../Core/global.hpp"
 #include "../Loader/loader.hpp"
 
-Map::Map(int mapNumber)
+Map::Map(void)
 {
 	//this is all temporary, should load the map instead.
 	//this is where the whole mapSize x or y becomes complicated careful not to mess up...
-
-	open_level("Data/level.xml");
 
 	mapSize_.x = get_map_width();
 	mapSize_.y = get_map_height();
@@ -94,9 +92,4 @@ Map::~Map()
 		delete[] tiles_[i];
 	}
 	delete tiles_;
-}
-
-Map::Map()
-{
-	;
 }

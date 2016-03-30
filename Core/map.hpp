@@ -11,7 +11,6 @@ class Map
 		Coord position_;
 	public:
 		Map();
-		Map(int mapNumber);
 		~Map();
 		void onRender(Coord positionPlayer);
 		Coord getPosition();

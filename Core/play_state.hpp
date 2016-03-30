@@ -7,6 +7,8 @@ GameState->PlayState
 #ifndef PLAYSTATE_HPP
     #define PLAYSTATE_HPP
 
+#include <string>
+
 #include "../Util/command.hpp"
 #include "../Core/game_state.hpp"
 #include "../Objects/object.hpp"
