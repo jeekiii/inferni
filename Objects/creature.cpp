@@ -8,7 +8,7 @@
 #include "../Objects/ai_tuto.hpp"
 #include <algorithm>
 
-Creature::Creature(int positionX, int positionY, int id)
+Creature::Creature(int id, int positionX, int positionY)
 {
 	id_ = id;
 	position_.x = positionX;
@@ -19,7 +19,7 @@ Creature::Creature(int positionX, int positionY, int id)
 	leaving_ = false;
 	possessable_ = true;
 	hp_ = 10;
-	image_=ImageFunc::loadSprites("Images/HeroDown.bmp",true,255,0,0);
+	image_ = ImageFunc::loadSprites("Images/GhostDown.bmp",true,255,0,0);
 
 	relativeGroundHitbox_.x = 5;
 	relativeGroundHitbox_.w = 37;
@@ -53,13 +53,13 @@ void Creature::onRender(Coord positionMap)
 //it doesn't work properly here.
 void Creature::onMove(std::vector<Object*> *objects)
 {
-	
+
 	std::vector <ReactionType> reactions;
 	std::vector <ReactionObject> collisions;
 	ReactionType solid = SOLID_REACTION;
 	position_.x += toMove_.x;
 	position_.y += toMove_.y;
-	
+
 
 	getReaction(objects, &reactions);
 	if(std::find(reactions.begin(), reactions.end(), solid)!= reactions.end())
@@ -88,7 +88,7 @@ void Creature::onMove(std::vector<Object*> *objects)
 	toMove_.x = 0;
 	toMove_.y = 0;
 
-		
+
 }
 
 
@@ -198,7 +198,7 @@ void Creature::onCommand(std::vector<Object*> *objects, std::vector<CommandType>
 				direction.x = -5;
 				direction.y = 0;
 			}
-			
+
 			Arrow *arrow = new Arrow(position.x, position.y);
 			arrow->launch(direction);
 			objects->push_back(arrow);
@@ -249,4 +249,3 @@ void Creature::onCommand(std::vector<Object*> *objects, std::vector<CommandType>
 		down_ = true;
 
 }
-

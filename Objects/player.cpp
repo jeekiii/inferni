@@ -4,14 +4,14 @@
 Player::Player(int positionX, int positionY)
 {
 	id_ = 1;
-	
+
 	position_.x = positionX;
 	position_.y = positionY;
 	specialCurrentCD_=0;
 	specialCD_ = 10;
 	demonForm_ = false;
 	possessable_ = false;
-	possessed_ = new Creature(positionX, positionY);
+	possessed_ = new Creature(0, positionX, positionY);
 	possessed_->setPossessed(true);
 
 	demon_ = new Demon(positionX, positionY);

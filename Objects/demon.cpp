@@ -18,7 +18,7 @@ Demon::Demon(int positionX, int positionY, int id)
 	hp_ = 100;
 	leaving_ = false;
 	possessable_ = true;
-	image_=ImageFunc::loadSprites("Images/HeroUp.bmp",true,255,0,0);
+	image_=ImageFunc::loadSprites("Images/HeroDown.bmp",true,255,0,0);
 	position_.x = positionX;
 	position_.y = positionY;
 	SDL_QueryTexture(image_, NULL, NULL, &position_.w, &position_.h);
@@ -84,7 +84,7 @@ void Demon::onCommand(std::vector<Object*> *objects, std::vector<CommandType> co
 		leaving_ = true;
 
 	}
-	
+
 	if(right)
 	{
 		if(!left && !up && !down)

@@ -19,10 +19,9 @@ class Creature:public Possessable
         int attackCurrentCD_;
         Ai *ai_;
     public:
-        Creature();
-        Creature(int positionX, int positionY, int id = 0);
+        Creature(int id, int positionX, int positionY);
         ~Creature();
-        
+
         void onRender(Coord positionMap);
         void onMove(std::vector<Object*> *objects);
         void onUpdate(std::vector<Object*> *objects);
@@ -32,4 +31,3 @@ class Creature:public Possessable
 };
 
 #endif
-
