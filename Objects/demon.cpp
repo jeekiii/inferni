@@ -18,7 +18,6 @@ Demon::Demon(int positionX, int positionY, int id)
 	hp_ = 100;
 	leaving_ = false;
 	possessable_ = true;
-	image_=ImageFunc::loadSprites("Images/HeroDown.bmp",true,255,0,0);
 	position_.x = positionX;
 	position_.y = positionY;
 	SDL_QueryTexture(image_, NULL, NULL, &position_.w, &position_.h);

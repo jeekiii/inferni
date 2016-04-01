@@ -50,7 +50,7 @@ std::vector <ReactionObject> Object::getCollision(std::vector<Object*> *objects,
 					temp.reaction = objects->at(i)->reaction(this, true);
 					temp.ground = true;
 					result.push_back(temp);
-				}	
+				}
 			}
 			if(above)
 			{
@@ -60,16 +60,19 @@ std::vector <ReactionObject> Object::getCollision(std::vector<Object*> *objects,
 					temp.reaction = objects->at(i)->reaction(this, false);
 					temp.ground = false;
 					result.push_back(temp);
-				}	
+				}
 			}
 		}
 	}
 	return result;
 }
 
+void Object::setTexture(SDL_Texture *image)
+{
+	image_ = image;
+}
+
 bool compareObjects(Object *obj1, Object *obj2)
 {
 	return (obj1->getPosition().y+obj1->getPosition().h < obj2->getPosition().y+obj2->getPosition().h);
 }
-
-

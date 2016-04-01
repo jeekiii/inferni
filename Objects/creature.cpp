@@ -19,7 +19,6 @@ Creature::Creature(int id, int positionX, int positionY)
 	leaving_ = false;
 	possessable_ = true;
 	hp_ = 10;
-	image_ = ImageFunc::loadSprites("Images/GhostDown.bmp",true,255,0,0);
 
 	relativeGroundHitbox_.x = 5;
 	relativeGroundHitbox_.w = 37;

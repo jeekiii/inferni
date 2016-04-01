@@ -36,6 +36,7 @@ class Object
         virtual ReactionType reaction(Object *object, bool ground)=0;
         virtual void onUpdate(std::vector<Object*> *objects)=0;
         virtual void takeDamage(int amount)=0;//maybe damageType in the future.
+        virtual void setTexture(SDL_Texture *image);
         Coord getPosition();
         Coord getGroundHitbox();
         Coord getAboveHitbox();
