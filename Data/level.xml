@@ -6,14 +6,14 @@
 
     <content>
         <object id="1" x="0" y="0" class="player"/>
-        <object id="69" x="5" y="5" class="ghost"/>
-        <object id="21" x="5" y="10" class="ghost"/>
+        <object id="69" x="5" y="5" class="creature"/>
+        <object id="21" x="5" y="10" class="creature"/>
         <object id="52" x="7" y="7" class="flag"/>
     </content>
 
     <classes>
         <type id="1" name="player" src="Images/HeroDown.bmp"/>
-        <type id="42" name="ghost" src="Images/GhostDown.bmp"/>
+        <type id="42" name="creature" src="Images/GhostDown.bmp"/>
         <type id="987654" name="arrow" src="Images/Arrow.bmp"/>
     </classes>
 
@@ -28,7 +28,7 @@
     </quest>
 
     <quest id="37" next="0">
-        <objective type="reach" target_id="0"/>
+        <objective type="reach" target_id="52"/>
     </quest>
 
 </level>

@@ -45,6 +45,7 @@ Quest *get_quest(Player *player, std::vector<Object *> *objects, int id);
 
 SDL_Texture *get_texture(int type, int id);
 std::vector<Object *> *get_content(void);
+int get_id_from_class(char *class_name);
 SDL_Texture *get_tile_texture(int id);
 SDL_Texture *get_object_texture(int id);
 

@@ -180,7 +180,7 @@ int get_map_width(void)
 int get_map_height(void)
 {
     node_list_t *list = extract_nodes_by_name(document->content, (char *)"map");
-    node_t *map    = list->head;
+    node_t *map = list->head;
     free_node_list(list);
 
     return atoi(get_node(map, "height")->value);
@@ -191,30 +191,45 @@ SDL_Texture *get_texture(int type, int id)
     for (size_t i = 0; i < textures->size(); i++)
         if (textures->at(i)->type == type && textures->at(i)->id == id)
             return textures->at(i)->texture;
-    return 0;
+    return NULL;
 }
 
-int get_id_from_class(string object_class)
+int get_id_from_class(char *class_name)
 {
     node_list_t *list;
-    list = extract_nodes_by_name(document->content, (char *)"content");
-    node_list_t *l = list->head->children;
+    list = extract_nodes_by_name(get_node(document->content, "classes"), (char *)"type");
+    node_list_t *l = list;
 
-    while (l) {
-        //node_t *child = l->head;
+    while (l)
+    {
+        node_t *child = l->head;
 
-        //node_t *id = get_node(child, "id");
-        //node_t *o_class = get_node(child, "class");
+        node_t *id   = get_node(child, "id");
+        node_t *name = get_node(child, "name");
+
+        if (!strcmp(name->value, class_name))
+        {
+            free_node_list(list);
+            printf("%s %s\n", id->value, class_name);
+            return atoi(id->value);
+        }
+        else
+        {
+            printf("%s %s : %s\n", id->value, name->value, class_name);
+        }
+
+        l = l->tail;
     }
 
     free_node_list(list);
+    printf("%s\n", class_name);
 
     return 0;
 }
 
-SDL_Texture *get_texture(int type, string object_class)
+SDL_Texture *get_texture(int type, char *object_class)
 {
-    return NULL;
+    return get_texture(type, get_id_from_class(object_class));
 }
 
 /*the following functions are used to load the map's content*/
@@ -237,9 +252,18 @@ vector<Object *> *get_content(void)
         node_t *id = get_node(child, "id");
 
         if (!strcmp(o_class->value, "player"))
-            result->push_back(new Player(atoi(x->value) * 50, atoi(y->value) * 50));
-        if (!strcmp(o_class->value, "ghost"))
-            result->push_back(new Creature(atoi(id->value), atoi(x->value) * 50, atoi(y->value) * 50));
+        {
+            Player *p = new Player(atoi(x->value) * 50, atoi(y->value) * 50);
+            p->setTexture(get_object_texture(get_id_from_class(o_class->value)));
+            result->push_back(p);
+        }
+
+        if (!strcmp(o_class->value, "creature"))
+        {
+            Creature *c = new Creature(atoi(id->value), atoi(x->value) * 50, atoi(y->value) * 50);
+            c->setTexture(get_object_texture(get_id_from_class(o_class->value)));
+            result->push_back(c);
+        }
 
         l = l->tail;
     }
